@@ -1,0 +1,122 @@
+hr/>
+    <h3 style="text-align:center; color:#C4607E;">🐍 Rắn Ăn Mồi</h3>
+    <div style="text-align:center; margin: 10px;">
+        <div id="score" style="font-size:18px; margin-bottom:8px;">Điểm: <span id="scoreVal">0</span></div>
+        <canvas id="snakeCanvas" width="400" height="400"
+            style="border: 3px solid #C4607E; background:#F7F0F3; display:block; margin:0 auto;"></canvas>
+        <div style="margin-top:10px;">
+            <button onclick="startGame()" style="padding:8px 20px; background:#C4607E; color:white; border:none; border-radius:5px; cursor:pointer; font-size:15px;">Bắt đầu / Chơi lại</button>
+        </div>
+        <p style="color:#888; font-size:13px; margin-top:8px;">Dùng phím ← → ↑ ↓ hoặc WASD để điều khiển</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('snakeCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreVal = document.getElementById('scoreVal');
+
+        const CELL = 20;
+        const COLS = canvas.width / CELL;
+        const ROWS = canvas.height / CELL;
+
+        let snake, dir, food, score, gameLoop, running;
+
+        function startGame() {
+            snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+            dir = { x: 1, y: 0 };
+            score = 0;
+            scoreVal.textContent = 0;
+            running = true;
+            spawnFood();
+            clearInterval(gameLoop);
+            gameLoop = setInterval(update, 120);
+        }
+
+        function spawnFood() {
+            let pos;
+            do {
+                pos = {
+                    x: Math.floor(Math.random() * COLS),
+                    y: Math.floor(Math.random() * ROWS)
+                };
+            } while (snake.some(s => s.x === pos.x && s.y === pos.y));
+            food = pos;
+        }
+
+        function update() {
+            const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+            if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS ||
+                snake.some(s => s.x === head.x && s.y === head.y)) {
+                clearInterval(gameLoop);
+                running = false;
+                drawGameOver();
+                return;
+            }
+
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreVal.textContent = score;
+                spawnFood();
+            } else {
+                snake.pop();
+            }
+
+            draw();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ mồi
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.arc(food.x * CELL + CELL / 2, food.y * CELL + CELL / 2, CELL / 2 - 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Vẽ rắn
+            snake.forEach((seg, i) => {
+                ctx.fillStyle = i === 0 ? '#27ae60' : '#2ecc71';
+                ctx.fillRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2);
+                ctx.strokeStyle = '#F7F0F3';
+                ctx.strokeRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2);
+            });
+        }
+
+        function drawGameOver() {
+            ctx.fillStyle = 'rgba(0,0,0,0.55)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 32px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 20);
+            ctx.font = '20px Arial';
+            ctx.fillText('Điểm: ' + score, canvas.width / 2, canvas.height / 2 + 20);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (!running) return;
+            const map = {
+                ArrowUp: { x: 0, y: -1 }, w: { x: 0, y: -1 }, W: { x: 0, y: -1 },
+                ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 }, S: { x: 0, y: 1 },
+                ArrowLeft: { x: -1, y: 0 }, a: { x: -1, y: 0 }, A: { x: -1, y: 0 },
+                ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 }, D: { x: 1, y: 0 },
+            };
+            const next = map[e.key];
+            if (next && !(next.x === -dir.x && next.y === -dir.y)) {
+                dir = next;
+                e.preventDefault();
+            }
+        });
+
+        // Vẽ màn hình chờ
+        ctx.fillStyle = '#C4607E';
+        ctx.font = 'bold 22px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nhấn "Bắt đầu" để chơi!', canvas.width / 2, canvas.height / 2);
+    </script>
+</body>
+Trang tin tức => Nội dung của tuổi trẻ
+</html>
