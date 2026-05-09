@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Gargoyle Collection - Middle Age Arts</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 13px;
+            background-color: #ffffff;
+        }
+
+        /* ===== LAYOUT CHÍNH: 2 CỘT ===== */
+        table.main-layout {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* ===== CỘT TRÁI: NAVIGATION ===== */
+        td.left-nav {
+            width: 150px;
+            background-color: #2d6a2d;
+            vertical-align: top;
+            padding: 10px 8px;
+        }
+
+        td.left-nav h3 {
+            color: #ffff00;
+            margin: 0 0 6px 0;
+            font-size: 14px;
+        }
+
+        td.left-nav a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+
+        td.left-nav a:hover {
+            text-decoration: underline;
+        }
+
+        td.left-nav hr {
+            border: none;
+            border-top: 1px solid #aaffaa;
+            margin: 8px 0;
+        }
+
+        td.left-nav p.section-title {
+            color: #ffff00;
+            font-weight: bold;
+            font-size: 13px;
+            margin: 6px 0 3px 0;
+        }
+
+        /* ===== CỘT PHẢI: 2 HÀNG ===== */
+        td.right-content {
+            vertical-align: top;
+            padding: 0;
+        }
+
+        /* Hàng 1: Header ảnh gargoyle */
+        .header-row {
+            width: 100%;
+            position: relative;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .header-row img.marble-bg {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .header-row .title-overlay {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #003300;
+            font-family: 'Times New Roman', serif;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        /* Hàng 2: Nội dung 2 cột con */
+        table.content-row {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Cột con trái: From the President */
+        td.col-president {
+            width: 55%;
+            vertical-align: top;
+            padding: 12px 15px;
+        }
+
+        td.col-president h3 {
+            color: #cc0000;
+            text-align: center;
+            font-size: 15px;
+            margin: 0 0 10px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        td.col-president p {
+            text-align: justify;
+            margin: 0 0 8px 0;
+            line-height: 1.5;
+        }
+
+        td.col-president img {
+            float: right;
+            margin: 0 0 8px 12px;
+            border: 1px solid #999;
+        }
+
+        /* Cột con phải: What can you do + Profile */
+        td.col-right {
+            width: 45%;
+            vertical-align: top;
+            padding: 12px 15px;
+            border-left: 1px solid #cccccc;
+        }
+
+        td.col-right h3.section-green {
+            color: #006600;
+            font-size: 14px;
+            text-align: center;
+            margin: 0 0 8px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        td.col-right ul {
+            margin: 5px 0 10px 20px;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        td.col-right ul li {
+            color: #000000;
+        }
+
+        td.col-right a.catalog-link {
+            display: block;
+            text-align: center;
+            color: #006600;
+            font-size: 12px;
+            margin: 5px 0 10px 0;
+        }
+
+        td.col-right h3.profile-title {
+            color: #cc0000;
+            font-size: 14px;
+            text-align: center;
+            margin: 8px 0 8px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        td.col-right img {
+            float: right;
+            margin: 0 0 8px 10px;
+            border: 1px solid #999;
+        }
+
+        /* Custom background for yellow cell */
+        td.bg-yellow {
+            background-color: yellow;
+        }
+
+        td.col-right p {
+            text-align: justify;
+            margin: 0 0 6px 0;
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        /* GBar divider */
+        .gbar {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== BẢNG CHÍNH: 2 CỘT ===== -->
+<table class="main-layout">
+    <tr>
+
+        <!-- ==================== CỘT TRÁI: NAVIGATION ==================== -->
+        <td class="left-nav">
+            <h3>Middle Age Arts</h3>
+            <a href="#">Home Page</a>
+            <a href="#">View the catalog</a>
+            <a href="#">Place an order</a>
+
+            <hr>
+            <p class="section-title">About Gargoyles</p>
+            <a href="#">Gargoyle Products</a>
+            <a href="#">Gargoyle Products<br>(text version)</a>
+
+            <hr>
+            <p class="section-title">Other Collections</p>
+            <a href="#">The Vatican Collection</a>
+            <a href="#">The Rodin Collection</a>
+            <a href="#">Renaissance Masters</a>
+        </td>
+
+        <!-- ==================== CỘT PHẢI: 2 HÀNG ==================== -->
+        <td class="right-content">
+
+            <!-- ===== HÀNG 1: HEADER ẢNH GARGOYLE ===== -->
+            <div class="header-row">
+                <img class="marble-bg" src="Bai25/hinh/Glogo.jpg" alt="Gargoyle Background">
+
+            </div>
+
+            <!-- Thanh GBar phân cách -->
+            <img class="gbar" src="Bai25/hinh/GBar.jpg" alt="Decorative Bar">
+
+            <!-- ===== HÀNG 2: NỘI DUNG 2 CỘT CON ===== -->
+            <table class="content-row">
+                <tr>
+
+                    <!-- CỘT CON TRÁI: From the President -->
+                    <td class="col-president">
+                        <h3>From the President</h3>
+
+                        <img src="Bai25/hinh/Oneil.jpg" alt="President" width="90" height="110">
+
+                        <p>This month Middle Age Arts introduces the Gargoyle Collection. I'm really excited about this new set of classical figures.</p>
+
+                        <p>The collection contains faithful reproductions of gargoyles from some of the famous cathedrals of Europe, including Notre Dame, Rheims and Warwick Castle. All reproductions are done to exacting and loving detail.</p>
+
+                        <p>The collection also contains original works by noted artists such as Susan Bedford and Antonio Salvan. Our expert artisans have produced some wonderful and whimsical works, perfectly suited for home or garden use.</p>
+
+                        <p>Don't delay, order your gargoyle today.</p>
+                    </td>
+
+                    <!-- CỘT CON PHẢI: What can you do + Profile -->
+                    <td class="col-right">
+                        <table>
+                            <tr>
+                                <td class="bg-yellow">
+                                    <h3 class="section-green" style="color: brown;">What can you do with a gargoyle?</h3>
+
+                                    <p>Don't think you need a gargoyle? Think again. Gargoyles are useful as:</p>
+
+                                    <ul>
+                                        <li>Bird baths</li>
+                                        <li>Bookends</li>
+                                        <li>Paperweights</li>
+                                        <li>Pen holders</li>
+                                        <li>Wind chimes</li>
+                                    </ul>
+
+                                    <a class="catalog-link" href="#">Go to our catalog for more ideas!</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3 class="profile-title">Profile of the Artist</h3>
+
+                                    <img src="Bai25/hinh/Cassini.jpg" alt="Artist" width="80" height="100">
+
+                                    <p>This month's artist is Michael Cassini. Michael has been a professional sculptor for ten years. He has won numerous awards, including the prestigious <em>Reichsman Cup</em> and an Award of Merit at the 1997 Tuscany Arts Competition.</p>
+
+                                    <p>Michael specializes in recreations of gargoyles from European cathedrals. You'll find his work in the Gargoyle Products section of our catalog.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+            </table>
+            <!-- ===== KẾT THÚC HÀNG 2 ===== -->
+
+        </td>
+        <!-- ===== KẾT THÚC CỘT PHẢI ===== -->
+
+    </tr>
+</table>
+
+</body>
+</html>
