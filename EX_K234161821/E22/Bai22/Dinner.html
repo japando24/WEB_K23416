@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelsey's Diner – Dinner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #c8b89a;
+            font-family: Georgia, 'Times New Roman', serif;
+            display: flex;
+            justify-content: center;
+            padding: 30px 10px;
+        }
+
+        .menu-container {
+            width: 520px;
+            border: 2px solid #555;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            background-color: #0a0a0a;
+            padding: 12px 20px;
+            text-align: center;
+        }
+
+        .diner-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: #3cbe3c;
+            letter-spacing: 2px;
+        }
+
+        .nav-bar {
+            display: flex;
+            background-color: #1a1a1a;
+            border-bottom: 2px solid #444;
+        }
+
+        .nav-link {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            text-decoration: none;
+            color: #ddd;
+            font-size: 1.1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+
+        .nav-link:hover { color: #fff; background-color: #2d2d2d; }
+        .nav-link.active { color: #3cbe3c; }
+
+        .content {
+            background-color: #f5ead0;
+            padding: 20px 24px 28px;
+        }
+
+        .menu-title {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 2px;
+        }
+
+        .menu-served {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #111;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        .menu-item { margin-bottom: 10px; }
+
+        .item-name {
+            display: block;
+            font-weight: bold;
+            font-size: 0.93rem;
+            color: #111;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: #333;
+            margin-left: 20px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+
+        <div class="header">
+            <h1 class="diner-name">Kelsey's Diner</h1>
+        </div>
+
+        <nav class="nav-bar">
+            <a href="Breakfst.html" class="nav-link">Breakfast</a>
+            <a href="Lunch.html"    class="nav-link">Lunch</a>
+            <a href="Dinner.html"   class="nav-link active">Dinner</a>
+        </nav>
+
+        <div class="content">
+            <h2 class="menu-title">Dinner Menu</h2>
+            <p class="menu-served">Served 4:00 p.m. – 10:00 p.m.</p>
+
+            <div class="menu-item">
+                <span class="item-name">Grilled Salmon</span>
+                <p class="item-desc">Atlantic salmon fillet grilled to perfection, served with lemon butter sauce, seasonal vegetables &amp; rice pilaf. 15.95</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">New York Strip Steak</span>
+                <p class="item-desc">12 oz USDA choice strip steak grilled to your liking with garlic mashed potatoes &amp; steamed broccoli. 18.50</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Chicken Marsala</span>
+                <p class="item-desc">Pan-seared chicken breast in a rich Marsala wine &amp; mushroom sauce, served over fettuccine. 13.75</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Pork Chops</span>
+                <p class="item-desc">Two bone-in pork chops seasoned &amp; grilled, served with apple chutney, roasted potatoes &amp; green beans. 14.25</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Pasta Primavera</span>
+                <p class="item-desc">Penne tossed with fresh garden vegetables in a light olive oil &amp; garlic sauce, topped with Parmesan. 11.50</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Meatloaf</span>
+                <p class="item-desc">Kelsey's classic homestyle meatloaf with brown gravy, whipped potatoes &amp; roasted carrots. 12.95</p>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Shrimp Scampi</span>
+                <p class="item-desc">Jumbo shrimp sautéed in white wine, garlic &amp; butter, served over angel hair pasta with garlic bread. 16.50</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

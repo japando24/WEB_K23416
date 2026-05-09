@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\DBT\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\DBT\\\\\", \"\"\\) })",
+      "Bash(del \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E22\\\\Bai22\\\\style.css\")",
+      "Bash(del \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E22\\\\Bai22\\\\Breakfst.html\")",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\" -Recurse -Force | Select-Object FullName, @{Name='Type';Expression={if\\($_.PSIsContainer\\){'DIR'}else{$_.Extension}}} | Sort-Object FullName)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\" -Recurse | ForEach-Object { $_.FullName })",
+      "PowerShell(\\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\MAA2.jpg\"\\).Length; \\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\Marble.jpg\"\\).Length)"
+    ]
+  }
+}

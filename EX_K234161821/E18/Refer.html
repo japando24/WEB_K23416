@@ -6,31 +6,21 @@
     <style>
         body {
             background: #F5F0DC;
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 14px;
         }
         .container {
-            width: 700px;
+            max-width: 700px;
+            width: 100%;
             margin: 20px auto;
             border: 2px solid #000;
             padding: 10px;
             background: #fff;
+            font-size: 16px;
         }
         h2 {
             text-align: center;
             margin-bottom: 5px;
-        }
-        .nav-table {
-            width: 100%;
-            border: 2px solid #000;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .nav-table td {
-            padding: 6px 15px;
-            border: 1px solid #000;
-            text-align: center;
-            font-size: 13px;
         }
         .ref-entry {
             margin: 12px 0 12px 20px;
@@ -53,12 +43,12 @@
 <div class="container">
     <h2>References</h2>
 
-    <table class="nav-table">
-        <tr>
-            <td><a href="Resume.html">View My Resume</a></td>
-            <td><a href="Comments.html">Comments</a></td>
-        </tr>
-    </table>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="Resume.html">View My Resume</a> • 
+        <a href="Comments.html">Comments</a>
+    </div>
+
+    <hr/>
 
     <!-- Lawrence Gale -->
     <div class="ref-entry">
@@ -95,7 +85,7 @@
 
     <!-- Robert Ramirez -->
     <div class="ref-entry">
-        <p class="ref-name">Robert Ramirez, Prof. Electrical Engineering</p>
+        <p class="ref-name">Robert Ramirez, Professor of Electrical Engineering</p>
         <p>Colorado State University</p>
         <p>Kleindist Hall</p>
         <p>Fort Collins, CO 80517</p>
