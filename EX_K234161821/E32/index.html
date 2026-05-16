@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Khoa Hệ Thống Thông Tin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4ff;
+      text-align: center;
+      padding: 40px;
+    }
+
+    marquee {
+      font-size: 2em;
+      font-weight: bold;
+      color: #003399;
+      background-color: #cce0ff;
+      padding: 10px 0;
+      border: 2px solid #003399;
+      border-radius: 6px;
+      margin: 30px 0;
+    }
+
+    .music-info {
+      margin-top: 30px;
+      color: #555;
+      font-style: italic;
+      font-size: 1.1em;
+    }
+
+    .audio-widget {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background-color: #003399;
+      border-radius: 10px;
+      padding: 8px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      z-index: 999;
+    }
+
+    .audio-widget span {
+      color: #fff;
+      font-size: 0.7em;
+      white-space: nowrap;
+    }
+
+    .audio-widget audio {
+      width: 200px;
+      height: 32px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Chào mừng đến với</h1>
+
+  <!-- Marquee chạy qua trái rồi qua phải (bounce) -->
+  <marquee behavior="alternate" direction="left" scrollamount="8">
+    Khoa Hệ Thống Thông Tin
+  </marquee>
+
+  <p class="music-info">&#127925; Nhạc nền: Embrace &mdash; Sappheiros</p>
+
+  <!-- Audio widget cố định góc phải dưới -->
+  <div class="audio-widget">
+    <span>&#127925; Embrace &mdash; Sappheiros</span>
+    <audio controls autoplay loop>
+      <source src="Chill Instrumental [Non Copyrighted Music] -Embrace- by @Sappheiros .mp3" type="audio/mpeg">
+      Trình duyệt không hỗ trợ audio.
+    </audio>
+  </div>
+
+</body>
+</html>

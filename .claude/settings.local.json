@@ -9,7 +9,13 @@
       "PowerShell(\\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\MAA2.jpg\"\\).Length; \\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\Marble.jpg\"\\).Length)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(python -c ' *)",
+      "Bash(Get-ChildItem -Path \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\Bai30\" -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "Bash(powershell -Command \"Get-ChildItem -Path 'd:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\Bai30' -Recurse -Force | Select-Object FullName\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path 'd:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E28' -Recurse -Force | Select-Object FullName\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path 'd:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E30\\\\Bai30' -Recurse -Force | Select-Object FullName\")"
     ]
   }
 }

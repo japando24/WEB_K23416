@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Poets</title>
+  <style>
+    body {
+      background-color: blue;
+      color: white;
+      font-family: "Times New Roman", serif;
+      font-size: 14px;
+      margin: 8px;
+    }
+    h4 { margin: 0 0 8px 0; }
+    .author {
+      cursor: pointer;
+      color: white;
+      text-decoration: underline;
+      display: block;
+      margin: 6px 0 2px 0;
+    }
+    .author:hover { color: #ccc; }
+    .sonnets {
+      display: none;
+      padding-left: 20px;
+    }
+    .sonnets a {
+      display: block;
+      color: white;
+      text-decoration: underline;
+      margin: 2px 0;
+    }
+    .sonnets a:hover { color: #ccc; }
+    a:visited { color: white; }
+  </style>
+  <script>
+    function toggle(id) {
+      var el = document.getElementById(id);
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+  </script>
+</head>
+<body>
+  <h4><b>Authors</b></h4>
+
+  <span class="author" onclick="toggle('jd')">John Donne</span>
+  <div id="jd" class="sonnets">
+    <a href="Bai31/SonJD1.html" target="content">Sonnet #1</a>
+    <a href="Bai31/SonJD5.html" target="content">Sonnet #5</a>
+    <a href="Bai31/SonJD10.html" target="content">Sonnet #10</a>
+  </div>
+
+  <span class="author" onclick="toggle('ws')">William Shakespeare</span>
+  <div id="ws" class="sonnets">
+    <a href="Bai31/SonWS12.html" target="content">Sonnet #12</a>
+    <a href="Bai31/SonWS18.html" target="content">Sonnet #18</a>
+    <a href="Bai31/SonWS116.html" target="content">Sonnet #116</a>
+    <a href="Bai31/SonWS130.html" target="content">Sonnet #130</a>
+  </div>
+
+  <span class="author" onclick="toggle('es')">Edmund Spenser</span>
+  <div id="es" class="sonnets">
+    <a href="Bai31/SonES54.html" target="content">Sonnet #54</a>
+    <a href="Bai31/SonES64.html" target="content">Sonnet #64</a>
+    <a href="Bai31/SonES79.html" target="content">Sonnet #79</a>
+  </div>
+</body>
+</html>
