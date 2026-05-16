@@ -6,7 +6,10 @@
       "Bash(del \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E22\\\\Bai22\\\\Breakfst.html\")",
       "PowerShell(Get-ChildItem -Path \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\" -Recurse -Force | Select-Object FullName, @{Name='Type';Expression={if\\($_.PSIsContainer\\){'DIR'}else{$_.Extension}}} | Sort-Object FullName)",
       "PowerShell(Get-ChildItem -Path \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\" -Recurse | ForEach-Object { $_.FullName })",
-      "PowerShell(\\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\MAA2.jpg\"\\).Length; \\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\Marble.jpg\"\\).Length)"
+      "PowerShell(\\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\MAA2.jpg\"\\).Length; \\(Get-Item \"d:\\\\Coding\\\\WEB\\\\WEB_K23416\\\\EX_K234161821\\\\E23\\\\Bai23\\\\hinh\\\\Marble.jpg\"\\).Length)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

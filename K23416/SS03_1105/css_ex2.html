@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS EX 2</title>
+    <style>
+        /*Element*/
+        h3{
+            color: blueviolet;
+        }
+
+        /*ID*/
+        #para_1 {
+            color: red
+
+        }
+
+        /* Class*/
+        .text-color{
+            color: darkgoldenrod;
+        }
+
+        .text-it{
+            font-style: italic;
+            color: darkgoldenrod;
+        }
+        div.text-color{
+            font-style: italic;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h3>Sample Text</h3>
+    <p id="para_1">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. A labore error quidem soluta aspernatur itaque, pariatur maxime numquam corrupti reprehenderit laboriosam vero sint obcaecati quaerat deserunt? Deserunt unde dicta voluptatem?
+    </p>
+    <p class="text-color">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque libero tempora laborum nostrum optio ullam provident veniam voluptatibus. Ad minus ut magni repudiandae quibusdam ullam voluptatem id odio atque repellat.
+    </p>
+    <p class="text-color text-it">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat commodi corporis laboriosam nulla quia dolorum aut vel quod culpa? Suscipit hic corporis nobis beatae eius harum labore omnis facere maiores!
+    </p>
+    <div class="text-color">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, dolores, eos soluta nobis eius eligendi repudiandae recusandae blanditiis debitis dolorum dolore, ipsum ullam harum. Corporis tempore autem explicabo molestias earum!
+    </div>
+
+    <div id="box_1">Test</div>
+    <div id="box_1">Test</div> <!--div#box_1{Test} -->
+    <div id="box_1" class="text-color"></div>
+    <div class="box_1 box_2">Test</div>
+
+    <div class="group">        <!--div.group>div.item{Item $}*4 -->
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+1       
+    </div>
+</body>
+</html>

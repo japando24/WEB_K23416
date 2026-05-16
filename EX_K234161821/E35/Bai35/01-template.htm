@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài TH 01 - XHTML Template Cơ Bản</title>
+    <link rel="stylesheet" href="mainstyle.css">
+</head>
+<body>
+    <h1>Bài TH 01 – XHTML: Basic Tags, Lists, Links</h1>
+    <hr />
+
+    <h2>1. Các thẻ cơ bản trong XHTML</h2>
+    <p>
+        XHTML (eXtensible HyperText Markup Language) là phiên bản nâng cấp của HTML,
+        tuân thủ theo cú pháp XML nghiêm ngặt. Một tài liệu XHTML phải có đầy đủ các
+        thành phần cơ bản: khai báo DOCTYPE, thẻ <strong>&lt;html&gt;</strong>,
+        <strong>&lt;head&gt;</strong> và <strong>&lt;body&gt;</strong>.
+    </p>
+
+    <p>
+        Các thẻ định dạng văn bản thường dùng: <strong>&lt;h1&gt;</strong> đến
+        <strong>&lt;h6&gt;</strong> cho tiêu đề, <strong>&lt;p&gt;</strong> cho đoạn văn,
+        <strong>&lt;br /&gt;</strong> xuống dòng, <strong>&lt;hr /&gt;</strong> kẻ đường ngang,
+        <strong>&lt;strong&gt;</strong> in đậm, <strong>&lt;em&gt;</strong> in nghiêng.
+    </p>
+
+    <h2>2. Danh sách (Lists)</h2>
+    <p>XHTML hỗ trợ ba kiểu danh sách chính:</p>
+
+    <ol>
+        <li>Danh sách có thứ tự (<em>Ordered List</em>)
+            <ol>
+                <li>Sử dụng thẻ <strong>&lt;ol&gt;</strong> và <strong>&lt;li&gt;</strong></li>
+                <li>Có thể tùy chỉnh kiểu đánh số: 1, a, A, i, I</li>
+                <li>Ví dụ ứng dụng: các bước hướng dẫn, quy trình
+                    <ul>
+                        <li>Bước 1: Chuẩn bị tài liệu</li>
+                        <li>Bước 2: Viết mã HTML</li>
+                        <li>Bước 3: Kiểm tra trình duyệt</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>
+        <li>Danh sách không thứ tự (<em>Unordered List</em>)
+            <ol>
+                <li>Sử dụng thẻ <strong>&lt;ul&gt;</strong> và <strong>&lt;li&gt;</strong></li>
+                <li>Kiểu bullet: disc, circle, square
+                    <ul>
+                        <li>disc – hình tròn đặc (mặc định)</li>
+                        <li>circle – hình tròn rỗng</li>
+                        <li>square – hình vuông</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>
+        <li>Danh sách định nghĩa (<em>Definition List</em>)
+            <ol>
+                <li>Sử dụng thẻ <strong>&lt;dl&gt;</strong>, <strong>&lt;dt&gt;</strong>, <strong>&lt;dd&gt;</strong></li>
+                <li>Thích hợp dùng cho thuật ngữ và định nghĩa
+                    <ul>
+                        <li>dt – thuật ngữ cần định nghĩa</li>
+                        <li>dd – nội dung định nghĩa</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>
+    </ol>
+
+    <h2>3. Liên kết (Links)</h2>
+    <p>
+        Thẻ <strong>&lt;a&gt;</strong> dùng để tạo liên kết. Thuộc tính <em>href</em>
+        xác định địa chỉ đích, thuộc tính <em>target</em> xác định cách mở trang.
+    </p>
+
+    <ol>
+        <li>Liên kết nội bộ (cùng website)
+            <ul>
+                <li><a href="Bai35.html">Trang chủ – Nội dung thực hành</a></li>
+                <li><a href="02-Noi Dung Mon Hoc.htm">Nội dung môn học</a></li>
+            </ul>
+        </li>
+        <li>Liên kết ngoài (website khác)
+            <ul>
+                <li><a href="https://www.w3schools.com" target="_blank">W3Schools – Tài liệu HTML</a></li>
+                <li><a href="https://developer.mozilla.org" target="_blank">MDN Web Docs</a></li>
+            </ul>
+        </li>
+        <li>Liên kết neo (Anchor Link)
+            <ul>
+                <li>Dùng thuộc tính <em>id</em> để đặt điểm neo trong trang</li>
+                <li>Sử dụng <em>href="#id"</em> để di chuyển đến điểm neo</li>
+            </ul>
+        </li>
+    </ol>
+
+    <p>Copyright &copy; 2017 – Bài thực hành XHTML cơ bản</p>
+</body>
+</html>
