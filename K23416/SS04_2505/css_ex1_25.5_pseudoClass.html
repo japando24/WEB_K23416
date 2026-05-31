@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS - Pseudo Class</title>
+<style>
+        :root{
+            --mycolor: pink;
+        }
+        a:visited {color: orange;}
+        .intro:hover {color: yellow; background-color: black;}
+        .box1:active {background-color: aqua;}
+        /* first/last phải có khoảng trắng cách ra mới hiện */
+        .list :first-child {color: red;}
+        .list :last-child {font-weight: bold; color: blue;}
+        .list :nth-child(3) {color: brown;}
+        .para1{--test-color:darkgreen; color: var(--test-color);}
+        .para2{color: var(--mycolor); font-size: 30px}
+        h3{color:var(--test-color);}
+    </style>
+</head>
+<body>
+    <h3>CSS - Pseudo Class</h3>
+    <p>Link: <a href="https://tuoitre.com">Tuổi trẻ</a></p>
+    <p class="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias illum commodi officia nemo aut iure nihil voluptatibus pariatur quisquam reprehenderit doloribus hic, autem iusto, amet unde quam maiores eum corrupti!</p>
+    <div class="box1"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, ab quo. Cum voluptatum nam earum, officiis doloribus dolores explicabo quisquam, similique rem ea numquam! Earum temporibus iste optio sequi ipsam.</div>
+    <ul class="list">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudo Element</title>
+    <style>
+        .box1::first-letter{
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .box1::first-line{
+            color:red
+        }
+
+        .box2::selection{
+            color: yellow;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <h3>Pseudo Element</h3>
+    <div class="box1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel dolore eius aliquid cum, excepturi sapiente maxime deserunt magnam quas laudantium quis facilis porro rem delectus aspernatur autem sit laboriosam! Sint.</div>
+    <p class="box2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente, nesciunt ad! Quae esse corrupti vel aspernatur, nesciunt amet dolor odit inventore blanditiis eligendi voluptatum labore omnis beatae earum voluptatibus ratione.</p>
+    
+</body>
+</html>
