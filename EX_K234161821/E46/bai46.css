@@ -1,0 +1,141 @@
+/* Reset CSS cơ bản */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #FFAA66; /* Màu cam nhạt nền ngoài */
+    padding: 10px;
+}
+
+/* Khung bọc toàn trang */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #FFB366; /* Màu cam của phần thân trang */
+    border: 1px solid #ccc;
+}
+
+/* Phần Header */
+header {
+    text-align: center;
+}
+
+.logo {
+    padding: 10px 0;
+}
+
+.weather-box {
+    background-color: #F0E68C; /* Màu vàng nhạt */
+    border: 1px solid #ccc;
+    margin: 0 10px 20px 10px;
+    padding: 10px;
+    line-height: 1.5;
+}
+
+.weather-box a {
+    color: #0000EE;
+    text-transform: uppercase;
+}
+
+/* Layout 2 cột */
+.main-layout {
+    display: flex;
+    padding: 0 10px 10px 10px;
+}
+
+/* Cột trái (Nội dung bài viết) */
+.content-left {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.article-title {
+    color: #9932CC; /* Màu tím */
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.content-left p {
+    line-height: 1.4;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Khối hình ảnh nổi bên phải */
+.image-right {
+    float: right;
+    background-color: white;
+    margin: 0 0 15px 15px;
+    padding-bottom: 3px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.6); /* Đổ bóng đen */
+    text-align: center;
+}
+
+.image-right img {
+    display: block;
+    border: 1px solid #999;
+}
+
+.image-right .caption {
+    font-size: 11px;
+    padding: 3px 0;
+}
+
+/* Khối hình ảnh nổi bên trái */
+.article-mrim {
+    margin-top: 10px;
+}
+
+.image-left {
+    float: left;
+    margin: 5px 15px 10px 0;
+    border: 3px solid black; /* Viền đen đậm */
+}
+
+/* Dùng để clear float */
+.clear {
+    clear: both;
+}
+
+/* Cột phải (Sidebar) */
+.sidebar {
+    width: 220px;
+    background-color: #70FF94; /* Màu xanh lá nhạt */
+    padding: 15px;
+}
+
+.sidebar-title, .sidebar-subtitle {
+    color: #9932CC; /* Màu tím */
+    font-weight: normal;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.sidebar-subtitle {
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+/* Các link bên sidebar */
+.sidebar-links {
+    list-style-type: none; /* Bỏ dấu chấm tròn */
+}
+
+.sidebar-links li {
+    margin-bottom: 3px;
+}
+
+.sidebar-links a {
+    color: #0000EE;
+    text-decoration: underline;
+    font-size: 15px;
+}

@@ -1,0 +1,84 @@
+/* Thiết lập font chữ chung và reset margin/padding */
+body {
+    font-family: "Times New Roman", Times, serif; /* Dùng font có chân cho giống thiết kế */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Khung viền màu xanh bên ngoài */
+.container {
+    width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 3px solid #0033cc; /* Viền xanh dương đậm */
+    padding: 15px 25px;
+    box-sizing: border-box;
+}
+
+/* Căn giữa hình ảnh logo */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Định dạng danh sách nổi bên phải */
+.features-box {
+    float: right; /* Đẩy khối này sang phải */
+    width: 260px;
+    background-color: #a5a54b; /* Màu nền vàng rêu */
+    padding: 15px 10px 15px 35px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.features-box ul {
+    list-style-type: disc;
+    margin: 0;
+    padding: 0;
+}
+
+.features-box li {
+    font-weight: bold;
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+/* Định dạng các đoạn văn bản */
+.main-content {
+    overflow: hidden; /* Xử lý float clearing để không bị tràn layout */
+}
+
+.indent-text {
+    text-align: justify;
+    line-height: 1.5;
+    text-indent: 40px; /* Thụt lề dòng đầu tiên tương đương ký tự &nbsp; */
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* Định dạng Footer */
+footer {
+    clear: both; /* Dọn dẹp float để phần footer luôn nằm dưới cùng */
+    text-align: center;
+    margin-top: 40px;
+}
+
+footer hr {
+    border: 0;
+    border-top: 1px solid #333;
+    margin-bottom: 15px;
+}
+
+footer p {
+    font-style: italic; /* Chữ in nghiêng */
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.4;
+}

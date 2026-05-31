@@ -1,0 +1,115 @@
+/* Reset cài đặt mặc định và thiết lập nền đen toàn trang */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    padding: 40px;
+}
+
+/* Bố cục chia 2 cột bằng Flexbox */
+.container {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* --- PHẦN MENU BÊN TRÁI --- */
+.sidebar {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa các nút */
+    padding-right: 30px;
+}
+
+/* Định dạng các nút danh mục */
+.menu-item {
+    background-color: #ff0000; /* Nền đỏ */
+    color: #ffffff; /* Chữ trắng */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 15px;
+    border: 2px solid #ffff00; /* Viền vàng */
+    display: block;
+}
+
+/* Màu sắc riêng biệt cho các chữ cái đầu theo đúng hình mẫu */
+.first-letter {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 2px;
+}
+
+.text-black { color: #000000; }
+.text-blue { color: #0000eb; }
+.text-yellow { color: #ffff00; }
+.text-green { color: #00ff00; }
+.text-white { color: #ffffff; }
+.text-cyan { color: #00ffff; }
+
+
+/* --- PHẦN NỘI DUNG BÊN PHẢI --- */
+.main-content {
+    width: 65%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+/* Định dạng Logo chữ lớn xếp chồng */
+.logo {
+    font-size: 55px;
+    line-height: 0.9;
+    letter-spacing: 2px;
+    font-weight: 900;
+    margin-bottom: 40px;
+}
+
+/* Các đoạn văn mô tả */
+.description {
+    font-size: 14px;
+    color: #cccccc;
+    max-width: 450px;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.instruction {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+/* --- KHU VỰC HÌNH ẢNH SẢN PHẨM --- */
+.product-gallery {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Khung viền trắng bao quanh mỗi ảnh */
+.image-box {
+    background-color: #ffffff;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
