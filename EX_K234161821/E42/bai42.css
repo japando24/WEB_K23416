@@ -1,0 +1,125 @@
+/* --- CSS Giữ nguyên theo đề bài yêu cầu --- */
+BODY {
+    color: green;
+    background: white url('hinh/Draft.jpg') no-repeat fixed center center; 
+}
+
+H1, H2, H3, H4, H5, H6 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+ADDRESS {
+    font-size: 0.9em;
+    font-style: normal;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+BLOCKQUOTE {
+    background-color: silver;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+UL {
+    list-style: circle url('hinh/Apple.jpg') outside;
+    margin-left: 25px;
+}
+
+UL B {
+    color: rgb(155,0,0);
+}
+
+A {
+    font-size: 0.9em;
+    color: green;
+}
+
+A:hover {
+    color: red;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.Special {
+    color: rgb(153,102,6);
+    font-weight: bold;
+}
+
+/* KHỐI HỘP VÀNG QUYẾT ĐỊNH LAYOUT */
+DIV.Article {
+    padding: 0.5em;
+    border-style: solid;
+    border-width: 2px;
+    background-color: rgb(252,221,163);
+    width: 250px;
+    float: right;       /* Đẩy sang phải */
+    margin-left: 15px;  /* Tạo khoảng cách với phần text bên trái */
+    margin-bottom: 15px;
+}
+
+
+/* --- CSS Bổ trợ cố định khung chuẩn mẫu --- */
+.container {
+    width: 800px; /* Giới hạn chiều rộng trang để giống ảnh mẫu */
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.header-section {
+    text-align: center;
+}
+
+.navigation {
+    margin: 10px 0;
+}
+
+.navigation a {
+    margin: 0 10px;
+    text-decoration: underline;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid green;
+    margin: 10px 0;
+}
+
+.main-title {
+    color: rgb(153,102,6);
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: rgb(153,102,6);
+    font-size: 1.3em;
+    margin: 15px 0 10px 0;
+}
+
+.intro-text {
+    text-align: justify;
+    margin-bottom: 15px;
+}
+
+.product-list li {
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+.article-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+/* Class dọn dẹp float để phần Comments bên dưới không bị lỗi tràn hàng */
+.clear-float {
+    clear: both;
+}
+
+.author {
+    font-size: 0.9em;
+    color: #333;
+}
