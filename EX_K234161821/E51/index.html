@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newborn Registration</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #178080;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 20px auto;
+            background-color: #178080;
+            padding: 14px 18px 18px;
+        }
+
+        /* Header */
+        .header {
+            border-left: 3px solid #fff;
+            padding-left: 10px;
+            margin-bottom: 4px;
+        }
+
+        .header-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffff00;
+            letter-spacing: 1px;
+            text-shadow:
+                -1px -1px 0 #cc0000,
+                 1px -1px 0 #cc0000,
+                -1px  1px 0 #cc0000,
+                 1px  1px 0 #cc0000;
+        }
+
+        .header-underline {
+            border: none;
+            border-top: 2px solid #cc0000;
+            margin: 3px 0 2px;
+        }
+
+        .header-sub {
+            text-align: right;
+            font-weight: bold;
+            font-size: 13px;
+            color: #ffff00;
+            text-shadow:
+                -1px -1px 0 #cc0000,
+                 1px -1px 0 #cc0000,
+                -1px  1px 0 #cc0000,
+                 1px  1px 0 #cc0000;
+        }
+
+        /* Page title */
+        .page-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin: 14px 0 12px;
+        }
+
+        /* Form rows */
+        .form-row {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .form-row label {
+            white-space: nowrap;
+        }
+
+        input[type="text"] {
+            border: 1px solid #aaa;
+            background-color: #fff;
+            font-size: 12px;
+            padding: 1px 3px;
+            height: 18px;
+        }
+
+        .date-row {
+            margin-bottom: 8px;
+        }
+
+        /* Physician row */
+        .physician-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .physician-label {
+            white-space: nowrap;
+            padding-top: 2px;
+        }
+
+        select[multiple] {
+            border: 1px solid #aaa;
+            background-color: #fff;
+            font-size: 12px;
+            width: 180px;
+            height: 72px;
+        }
+
+        /* Buttons */
+        .btn-row {
+            text-align: center;
+            margin-top: 14px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            border: 1px solid #555;
+            background-color: #d4d0c8;
+            padding: 2px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            margin: 0 4px;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #c0bcb4;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">St. Mary's of Northland Pines</div>
+        <hr class="header-underline">
+        <div class="header-sub">Research Hospital and Clinics</div>
+    </div>
+
+    <!-- Page title -->
+    <div class="page-title">Newborn Registration</div>
+
+    <form id="regForm">
+
+        <!-- Date -->
+        <div class="date-row">
+            Date: <input type="text" name="date" placeholder="mm/dd/yy" style="width:72px; color:#888;">
+        </div>
+
+        <!-- 1) Infant name -->
+        <div class="form-row">
+            <label>1) Infant's first name:</label>
+            <input type="text" name="infantFirst" style="width:130px;">
+            <label>&nbsp;Last:</label>
+            <input type="text" name="infantLast" style="width:130px;">
+        </div>
+
+        <!-- 2) Medical Record -->
+        <div class="form-row">
+            <label>2) Medical Record #</label>
+            <input type="text" name="medRecord" style="width:80px;">
+        </div>
+
+        <!-- 3) Date of birth -->
+        <div class="form-row">
+            <label>3) Date of birth:</label>
+            <input type="text" name="dob" placeholder="mm/dd/yy" style="width:72px; color:#888;">
+        </div>
+
+        <!-- 4) Birth weight -->
+        <div class="form-row">
+            <label>4) Birth weight :</label>
+            <input type="text" name="birthWeight" style="width:70px;">
+        </div>
+
+        <!-- 5) APGAR score -->
+        <div class="form-row">
+            <label>5) APGAR score :</label>
+            <input type="text" name="apgar" style="width:45px;">
+        </div>
+
+        <!-- 6) Mother's name -->
+        <div class="form-row">
+            <label>6) Mother's first name:</label>
+            <input type="text" name="motherFirst" style="width:120px;">
+            <label>&nbsp;Last:</label>
+            <input type="text" name="motherLast" style="width:120px;">
+        </div>
+
+        <!-- 7) Father's name -->
+        <div class="form-row">
+            <label>7) Father's first name :</label>
+            <input type="text" name="fatherFirst" style="width:120px;">
+            <label>&nbsp;Last:</label>
+            <input type="text" name="fatherLast" style="width:120px;">
+        </div>
+
+        <!-- 8) Physician -->
+        <div class="physician-row">
+            <div class="physician-label">8) Physician (check<br>all that apply):</div>
+            <select name="physician" multiple size="5">
+                <option value="warren_albert">Dr. Warren Albert</option>
+                <option value="maria_alvarez">Dr. Maria Alvarez</option>
+                <option value="karen_brinkman">Dr. Karen Brinkman</option>
+                <option value="micheal_kerry">Dr. Micheal Kerry</option>
+                <option value="james_miller">Dr. James Miller</option>
+                <option value="susan_nguyen">Dr. Susan Nguyen</option>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+            <input type="submit" value="Register" onclick="handleRegister(event)">
+            <input type="reset" value="Cancel">
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    function handleRegister(event) {
+        event.preventDefault();
+        const first = document.querySelector('[name=infantFirst]').value.trim();
+        const last = document.querySelector('[name=infantLast]').value.trim();
+        const name = (first || last) ? (first + ' ' + last).trim() : 'the newborn';
+        alert('Registration submitted successfully for ' + name + '.');
+    }
+</script>
+</body>
+</html>

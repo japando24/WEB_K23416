@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giải Phương Trình Bậc 2</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #2d0057 0%, #6a0dad 50%, #b44fde 100%);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 16px;
+      padding: 36px 40px;
+      width: 380px;
+      box-shadow: 0 20px 60px rgba(80, 0, 140, 0.4);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #5a0099;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      width: 90px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6a0dad;
+      flex-shrink: 0;
+    }
+
+    .field input {
+      flex: 1;
+      padding: 9px 14px;
+      font-size: 14px;
+      border: 2px solid #d5a8f5;
+      border-radius: 8px;
+      outline: none;
+      color: #2d0057;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fdf6ff;
+    }
+
+    .field input:focus {
+      border-color: #8b2fc9;
+      box-shadow: 0 0 0 3px rgba(139, 47, 201, 0.15);
+      background: #fff;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 0;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s;
+    }
+
+    .btn-giai {
+      background: linear-gradient(135deg, #7b1fa2, #ab47bc);
+      color: white;
+      box-shadow: 0 4px 14px rgba(123, 31, 162, 0.4);
+    }
+
+    .btn-giai:hover {
+      background: linear-gradient(135deg, #6a1691, #9c27b0);
+      box-shadow: 0 6px 18px rgba(123, 31, 162, 0.55);
+      transform: translateY(-1px);
+    }
+
+    .btn-tiep {
+      background: white;
+      color: #7b1fa2;
+      border: 2px solid #ce93d8;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .btn-tiep:hover {
+      background: #f3e5f5;
+      border-color: #ab47bc;
+      transform: translateY(-1px);
+    }
+
+    .result-box {
+      background: linear-gradient(135deg, #f3e5f5, #ede7f6);
+      border: 2px solid #ce93d8;
+      border-radius: 10px;
+      padding: 14px 18px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6a0dad;
+      white-space: nowrap;
+    }
+
+    #ketQua {
+      font-size: 14px;
+      font-weight: 600;
+      color: #3d007a;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Giải Phương Trình Bậc 2</h2>
+
+    <div class="field">
+      <label>Hệ số a:</label>
+      <input type="text" id="inputA" value="1" />
+    </div>
+    <div class="field">
+      <label>Hệ số b:</label>
+      <input type="text" id="inputB" value="-2" />
+    </div>
+    <div class="field">
+      <label>Hệ số c:</label>
+      <input type="text" id="inputC" value="1" />
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-giai" onclick="giai()">Giải</button>
+      <button class="btn-tiep" onclick="tiep()">Tiếp</button>
+    </div>
+
+    <div class="result-box">
+      <span class="result-label">Kết quả:</span>
+      <span id="ketQua"></span>
+    </div>
+  </div>
+
+  <script>
+    function layHeSo() {
+      return {
+        a: document.getElementById('inputA').value.trim(),
+        b: document.getElementById('inputB').value.trim(),
+        c: document.getElementById('inputC').value.trim()
+      };
+    }
+
+    function hienThiKetQua(text) {
+      document.getElementById('ketQua').textContent = text;
+    }
+
+    function laSo(str) {
+      return str !== '' && !isNaN(str);
+    }
+
+    function lamTron(so) {
+      return parseFloat(so.toFixed(4));
+    }
+
+    function giai() {
+      const v = layHeSo();
+
+      if (!laSo(v.a) || !laSo(v.b) || !laSo(v.c)) {
+        alert('Vui lòng nhập đầy đủ các hệ số a, b, c là số hợp lệ!');
+        return;
+      }
+
+      const a = parseFloat(v.a);
+      const b = parseFloat(v.b);
+      const c = parseFloat(v.c);
+
+      if (a === 0) {
+        hienThiKetQua('Không phải phương trình bậc 2 (a ≠ 0)');
+        return;
+      }
+
+      const delta = b * b - 4 * a * c;
+
+      if (delta < 0) {
+        hienThiKetQua('Phương trình vô nghiệm');
+      } else if (delta === 0) {
+        const x = -b / (2 * a);
+        hienThiKetQua('Nghiệm kép x1 = x2 = ' + lamTron(x));
+      } else {
+        const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+        const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+        hienThiKetQua('x1 = ' + lamTron(x1) + ',  x2 = ' + lamTron(x2));
+      }
+    }
+
+    function tiep() {
+      document.getElementById('inputA').value = '';
+      document.getElementById('inputB').value = '';
+      document.getElementById('inputC').value = '';
+      hienThiKetQua('');
+      document.getElementById('inputA').focus();
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') giai();
+    });
+  </script>
+</body>
+</html>

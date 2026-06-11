@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Online Classifieds Search</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .help-container {
+            background-color: #ffffff;
+            border: 2px solid #0000cc;
+            border-radius: 6px;
+            padding: 20px 24px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .help-title {
+            color: #cc2200;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 2px solid #0000cc;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        .help-title span {
+            color: #0000cc;
+        }
+
+        h3 {
+            color: #0000aa;
+            font-size: 14px;
+            margin: 14px 0 4px;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        ul {
+            margin-left: 18px;
+            margin-top: 4px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: px;
+            font-size: 13px;
+        }
+
+        table th {
+            background-color: #0000cc;
+            color: white;
+            padding: 5px 10px;
+            text-align: left;
+        }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            vertical-align: top;
+        }
+
+        table tr:nth-child(even) td {
+            background-color: #eef;
+        }
+
+        .close-btn {
+            display: block;
+            margin: 18px auto 0;
+            padding: 6px 20px;
+            background-color: #0000cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .close-btn:hover {
+            background-color: #3333cc;
+        }
+    </style>
+</head>
+<body>
+<div class="help-container">
+    <div class="help-title">&#63;&nbsp; Help — <span>Online Classifieds Search</span></div>
+
+    <h3>How to use this form</h3>
+    <p>Use this form to search classified ads across multiple publications.</p>
+
+    <h3>1) Sections</h3>
+    <p>Select the category you want to search in:</p>
+    <ul>
+        <li><strong>Employment</strong> — Job listings &amp; career ads</li>
+        <li><strong>Personal</strong> — Personal announcements</li>
+        <li><strong>For Sale</strong> — Items offered for sale</li>
+        <li><strong>Miscellaneous</strong> — Other classified ads</li>
+        <li><strong>Housing</strong> — Rentals &amp; real estate</li>
+        <li><strong>All of the above</strong> — Search every section</li>
+    </ul>
+
+    <h3>2) Publications</h3>
+    <p>Check one or more newspapers/publications to include in the search.</p>
+
+    <h3>3) Date Range</h3>
+    <p>Enter dates in <em>mm/dd/yy</em> format to limit results to a time period.
+    Leave blank to search all dates.</p>
+
+    <h3>4) Keywords</h3>
+    <p>Type one or more words that describe what you are looking for.
+    Separate multiple keywords with spaces.</p>
+
+    <h3>5) Buttons</h3>
+    <table>
+        <tr>
+            <th style="width: 130px;">Button</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>&#10003; Search</td>
+            <td>Runs the search with the selected criteria and displays a results summary.</td>
+        </tr>
+        <tr>
+            <td>&#63; Help</td>
+            <td>Opens this help page.</td>
+        </tr>
+        <tr>
+            <td>&#10007; Cancel</td>
+            <td>Clears all fields and resets the form to its default state.</td>
+        </tr>
+    </table>
+
+    <button class="close-btn" onclick="window.close()">Close Help</button>
+</div>
+</body>
+</html>

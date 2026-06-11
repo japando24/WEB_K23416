@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Xử lý sự kiện Text Change</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      margin: 20px;
+      background: #fff;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 4px 10px;
+      text-align: center;
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    /* Chỉ hiển thị đường kẻ ngang dưới header */
+    thead tr {
+      border-bottom: 2px solid #000;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #ccc;
+    }
+
+    /* Dòng Total cách biệt bằng đường kẻ trên */
+    .row-total {
+      border-top: 2px solid #000;
+    }
+
+    .col-ma    { color: blue; }
+    .col-ten   { color: blue; }
+    .col-gia   { color: blue; }
+
+    input[type="text"] {
+      width: 80px;
+      border: 1px solid #999;
+      padding: 2px 4px;
+      font-size: 13px;
+      font-family: inherit;
+      text-align: right;
+    }
+
+    input[type="text"].error {
+      border-color: red;
+      background: #fff0f0;
+    }
+
+    button {
+      background: #d0e8ff;
+      border: 1px solid #888;
+      padding: 3px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      color: #003399;
+    }
+
+    button:hover {
+      background: #b0d0ff;
+    }
+
+    .lbl-total {
+      text-align: right;
+      padding-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <table id="tblSanPham">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên Sản phẩm</th>
+        <th>Giá</th>
+        <th style="width:140px;">Số lượng</th>
+        <th style="width:160px;">Thành tiền</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-ma">C112</td>
+        <td class="col-ten">Chuột Quang</td>
+        <td class="col-gia" data-price="10">10$</td>
+        <td><input type="text" class="txt-soluong" value="2"></td>
+        <td><input type="text" class="txt-thanhtien" readonly></td>
+      </tr>
+      <tr>
+        <td class="col-ma">B124</td>
+        <td class="col-ten">Bàn Phím</td>
+        <td class="col-gia" data-price="20">20$</td>
+        <td><input type="text" class="txt-soluong" value="3"></td>
+        <td><input type="text" class="txt-thanhtien" readonly></td>
+      </tr>
+      <tr>
+        <td class="col-ma">U125</td>
+        <td class="col-ten">USB KingMax</td>
+        <td class="col-gia" data-price="15">15$</td>
+        <td><input type="text" class="txt-soluong" value="1"></td>
+        <td><input type="text" class="txt-thanhtien" readonly></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="row-total">
+        <td colspan="3"></td>
+        <td class="lbl-total">Total</td>
+        <td><input type="text" id="txtTotal" readonly></td>
+      </tr>
+      <tr>
+        <td colspan="4"></td>
+        <td style="text-align:right;">
+          <button onclick="tinhTongCong()">Tổng Cộng</button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    var rows = document.querySelectorAll('#tblSanPham tbody tr');
+
+    // Tính thành tiền cho từng dòng khi trang tải
+    rows.forEach(function(row) {
+      tinhThanhTien(row);
+      var input = row.querySelector('.txt-soluong');
+      input.addEventListener('input', function() {
+        tinhThanhTien(row);
+      });
+    });
+
+    function tinhThanhTien(row) {
+      var gia = parseFloat(row.querySelector('.col-gia').getAttribute('data-price'));
+      var inputSL = row.querySelector('.txt-soluong');
+      var inputTT = row.querySelector('.txt-thanhtien');
+
+      var sl = inputSL.value.trim();
+
+      // Kiểm tra hợp lệ: không rỗng, là số, là số nguyên dương
+      if (sl === '') {
+        inputSL.classList.add('error');
+        inputTT.value = '';
+        return;
+      }
+
+      var soLuong = Number(sl);
+      if (!Number.isInteger(soLuong) || soLuong < 0 || sl !== String(soLuong)) {
+        inputSL.classList.add('error');
+        inputTT.value = '';
+        return;
+      }
+
+      inputSL.classList.remove('error');
+      inputTT.value = (gia * soLuong) + '$';
+    }
+
+    function tinhTongCong() {
+      var tong = 0;
+      var hopLe = true;
+
+      rows.forEach(function(row) {
+        var inputTT = row.querySelector('.txt-thanhtien');
+        var val = inputTT.value;
+        if (val === '') {
+          hopLe = false;
+        } else {
+          tong += parseFloat(val.replace('$', ''));
+        }
+      });
+
+      if (!hopLe) {
+        alert('Vui lòng nhập số lượng hợp lệ (số nguyên không âm) cho tất cả sản phẩm.');
+        document.getElementById('txtTotal').value = '';
+        return;
+      }
+
+      document.getElementById('txtTotal').value = tong + '$';
+    }
+  </script>
+</body>
+</html>

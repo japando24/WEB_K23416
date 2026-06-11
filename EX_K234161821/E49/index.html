@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Classifieds Search Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px;
+        }
+
+        .form-wrapper {
+            background-color: #c8f0f0;
+            border: 3px solid #0000cc;
+            border-radius: 4px;
+            padding: 20px 24px;
+            width: 500px;
+        }
+
+        .form-title {
+            color: #cc2200;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #0000cc;
+            margin-bottom: 14px;
+        }
+
+        .section-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        section {
+            margin-bottom: 14px;
+        }
+
+        /* Section 1 - Radio buttons in 2 columns */
+        .radio-grid {
+            display: grid;
+            grid-template-columns: 140px 160px;
+            gap: 4px 0;
+            padding-left: 10px;
+        }
+
+        .radio-grid label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        /* Section 2 - Checkboxes in 3 columns */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 150px 130px 160px;
+            gap: 4px 0;
+            padding-left: 10px;
+        }
+
+        .checkbox-grid label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        /* Section 3 - Date fields */
+        .date-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-left: 10px;
+        }
+
+        .date-row input[type="text"] {
+            border: 1px solid #888;
+            padding: 3px 6px;
+            font-size: 13px;
+            width: 100px;
+            background-color: white;
+        }
+
+        /* Section 4 - Keyword textarea */
+        .keyword-box {
+            width: 100%;
+            height: 30px;
+            border: 1px solid #888;
+            padding: 4px 6px;
+            font-size: 13px;
+            background-color: white;
+            resize: none;
+        }
+
+        /* Section 5 - Buttons */
+        .btn-row {
+            display: flex;
+            gap: 20px;
+            padding-left: 10px;
+            margin-top: 6px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 0;
+        }
+
+        .icon-btn .icon {
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .icon-btn .btn-label {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-search .icon  { color: #228B22; }
+        .btn-search .btn-label { color: #228B22; }
+
+        .btn-help .icon    { color: #0000ee; }
+        .btn-help .btn-label { color: #0000ee; }
+
+        .btn-cancel .icon  { color: #cc0000; }
+        .btn-cancel .btn-label { color: #cc0000; }
+
+        .icon-btn:hover {
+            opacity: 0.75;
+        }
+
+        /* Search result overlay */
+        #searchResult {
+            display: none;
+            margin-top: 14px;
+            background-color: #ffffff;
+            border: 1px solid #0000cc;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        #searchResult h4 {
+            color: #cc2200;
+            margin-bottom: 6px;
+        }
+
+        #searchResult ul {
+            margin-left: 16px;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+<div class="form-wrapper">
+    <div class="form-title">Online Classifieds Search Form</div>
+    <hr>
+
+    <form id="classifiedForm" onsubmit="return false;">
+
+        <!-- Section 1 -->
+        <section>
+            <p class="section-label">1) Search for a classified in the following sections:</p>
+            <div class="radio-grid">
+                <label><input type="radio" name="section" value="Employment"> Employment</label>
+                <label><input type="radio" name="section" value="Personal"> Personal</label>
+                <label><input type="radio" name="section" value="ForSale" checked> For Sale</label>
+                <label><input type="radio" name="section" value="Miscellaneous"> Miscellaneous</label>
+                <label><input type="radio" name="section" value="Housing"> Housing</label>
+                <label><input type="radio" name="section" value="All"> All of the above</label>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <p class="section-label">2) Search the following publications:</p>
+            <div class="checkbox-grid">
+                <label><input type="checkbox" name="pub" value="MidwestTimes" checked> Midwest times</label>
+                <label><input type="checkbox" name="pub" value="ModernNews"> Modern News</label>
+                <label><input type="checkbox" name="pub" value="EmploymentToday"> Employment Today</label>
+                <label><input type="checkbox" name="pub" value="GreatLakes" checked> Great Lakes Classifieds</label>
+                <label><input type="checkbox" name="pub" value="MiddletonDaily"> Middleton Daily</label>
+                <label><input type="checkbox" name="pub" value="CashTown"> Cashtown Daily News</label>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <p class="section-label">3) From to</p>
+            <div class="date-row">
+                <input type="text" id="dateFrom" name="dateFrom" placeholder="mm/dd/yy">
+                &nbsp;to&nbsp;
+                <input type="text" id="dateTo" name="dateTo" placeholder="mm/dd/yy">
+                &nbsp;.
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+            <p class="section-label">4) Enter a few keywords to describe the classified.</p>
+            <textarea class="keyword-box" id="keywords" name="keywords"></textarea>
+        </section>
+
+        <!-- Section 5 -->
+        <section>
+            <p class="section-label">5) Click one of the options below:</p>
+            <div class="btn-row">
+                <button type="button" class="icon-btn btn-search" onclick="doSearch()">
+                    <span class="icon">&#10003;</span>
+                    <span class="btn-label">Search</span>
+                </button>
+                <button type="button" class="icon-btn btn-help" onclick="doHelp()">
+                    <span class="icon">&#63;</span>
+                    <span class="btn-label">Help</span>
+                </button>
+                <button type="button" class="icon-btn btn-cancel" onclick="doCancel()">
+                    <span class="icon">&#10007;</span>
+                    <span class="btn-label">Cancel</span>
+                </button>
+            </div>
+        </section>
+
+    </form>
+
+    <!-- Search Result Area -->
+    <div id="searchResult">
+        <h4>Search Results</h4>
+        <ul id="resultList"></ul>
+    </div>
+</div>
+
+<script>
+    function doSearch() {
+        const section = document.querySelector('input[name="section"]:checked');
+        const pubs = [...document.querySelectorAll('input[name="pub"]:checked')];
+        const dateFrom = document.getElementById('dateFrom').value.trim();
+        const dateTo   = document.getElementById('dateTo').value.trim();
+        const keywords = document.getElementById('keywords').value.trim();
+
+        // Build result list
+        const items = [];
+        items.push('Section: ' + (section ? section.value : '(none)'));
+
+        const pubNames = pubs.map(p => p.value);
+        items.push('Publications: ' + (pubNames.length ? pubNames.join(', ') : '(none selected)'));
+
+        if (dateFrom || dateTo)
+            items.push('Date range: ' + (dateFrom || '--') + ' to ' + (dateTo || '--'));
+
+        if (keywords)
+            items.push('Keywords: "' + keywords + '"');
+
+        const list = document.getElementById('resultList');
+        list.innerHTML = items.map(i => '<li>' + i + '</li>').join('');
+
+        document.getElementById('searchResult').style.display = 'block';
+        alert('Searching classifieds...\nSee results summary below the form.');
+    }
+
+    function doHelp() {
+        window.open('help.html', 'HelpWindow',
+            'width=520,height=400,scrollbars=yes,resizable=yes');
+    }
+
+    function doCancel() {
+        document.getElementById('classifiedForm').reset();
+        document.getElementById('searchResult').style.display = 'none';
+        document.getElementById('resultList').innerHTML = '';
+    }
+</script>
+</body>
+</html>

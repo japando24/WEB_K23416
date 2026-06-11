@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hàm Toán Học</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      background: white;
+      padding: 24px;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid #999;
+      padding: 6px 10px;
+    }
+
+    td:first-child {
+      background-color: #e8e8e8;
+      min-width: 120px;
+    }
+
+    input[type="text"] {
+      width: 200px;
+      padding: 4px 6px;
+      font-size: 14px;
+      border: none;
+      outline: none;
+    }
+
+    .btn-row {
+      margin-top: 8px;
+      display: flex;
+      gap: 4px;
+    }
+
+    button {
+      padding: 5px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #999;
+      background-color: #e0e0e0;
+    }
+
+    button:hover {
+      background-color: #c8c8c8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hàm Toán Học</h2>
+    <table>
+      <tr>
+        <td>a:</td>
+        <td><input type="text" id="inputA" value="30" /></td>
+      </tr>
+      <tr>
+        <td>b:</td>
+        <td><input type="text" id="inputB" value="45" /></td>
+      </tr>
+      <tr>
+        <td>c:</td>
+        <td><input type="text" id="inputC" value="90" /></td>
+      </tr>
+      <tr>
+        <td>KẾT QUẢ</td>
+        <td><input type="text" id="ketQua" readonly /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="btn-row">
+            <button onclick="tinhMax()">MAX</button>
+            <button onclick="tinhMin()">MIN</button>
+            <button onclick="tinhSin()">sin(a)</button>
+            <button onclick="tinhCos()">Cos(a)</button>
+            <button onclick="tinhLuyThua()">a^b</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function layGiaTri() {
+      return {
+        a: document.getElementById('inputA').value.trim(),
+        b: document.getElementById('inputB').value.trim(),
+        c: document.getElementById('inputC').value.trim()
+      };
+    }
+
+    function hienThiKetQua(ket) {
+      document.getElementById('ketQua').value = ket;
+    }
+
+    function laSoHopLe(str) {
+      return str !== '' && !isNaN(str);
+    }
+
+    function kiemTraHopLe(keys, vals) {
+      for (const key of keys) {
+        if (!laSoHopLe(vals[key])) {
+          alert('Vui lòng nhập số hợp lệ cho ô "' + key + '"!');
+          document.getElementById('input' + key.toUpperCase()).focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function tinhMax() {
+      const v = layGiaTri();
+      if (!kiemTraHopLe(['a', 'b', 'c'], v)) return;
+      hienThiKetQua(Math.max(+v.a, +v.b, +v.c));
+    }
+
+    function tinhMin() {
+      const v = layGiaTri();
+      if (!kiemTraHopLe(['a', 'b', 'c'], v)) return;
+      hienThiKetQua(Math.min(+v.a, +v.b, +v.c));
+    }
+
+    function tinhSin() {
+      const v = layGiaTri();
+      if (!kiemTraHopLe(['a'], v)) return;
+      hienThiKetQua(Math.sin(+v.a));
+    }
+
+    function tinhCos() {
+      const v = layGiaTri();
+      if (!kiemTraHopLe(['a'], v)) return;
+      hienThiKetQua(Math.cos(+v.a));
+    }
+
+    function tinhLuyThua() {
+      const v = layGiaTri();
+      if (!kiemTraHopLe(['a', 'b'], v)) return;
+      hienThiKetQua(Math.pow(+v.a, +v.b));
+    }
+  </script>
+</body>
+</html>

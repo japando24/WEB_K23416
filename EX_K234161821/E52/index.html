@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 30px 40px;
+            width: 480px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 6px 4px;
+            vertical-align: top;
+        }
+
+        td:first-child {
+            white-space: nowrap;
+            width: 130px;
+            padding-top: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 280px;
+            padding: 3px 5px;
+            border: 1px solid #999;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        select {
+            padding: 3px 5px;
+            border: 1px solid #999;
+            font-size: 14px;
+            width: 130px;
+        }
+
+        textarea {
+            width: 280px;
+            height: 100px;
+            padding: 4px 5px;
+            border: 1px solid #999;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .btn-row {
+            text-align: center;
+            padding-top: 14px;
+        }
+
+        .btn-row input[type="submit"],
+        .btn-row input[type="reset"] {
+            padding: 5px 16px;
+            font-size: 13px;
+            margin: 0 6px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            border: 1px solid #999;
+        }
+
+        .btn-row input[type="submit"]:hover,
+        .btn-row input[type="reset"]:hover {
+            background-color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Liên Hệ</h2>
+        <form action="result.html" method="GET">
+            <table>
+                <tr>
+                    <td>Họ và tên :</td>
+                    <td><input type="text" name="hoten" /></td>
+                </tr>
+                <tr>
+                    <td>Email :</td>
+                    <td><input type="email" name="email" /></td>
+                </tr>
+                <tr>
+                    <td>Giới tính :</td>
+                    <td class="radio-group">
+                        <label><input type="radio" name="gioitinh" value="Nam" /> Nam</label>
+                        <label><input type="radio" name="gioitinh" value="Nữ" checked /> Nữ</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="nghenghiep" value="co" checked />
+                            Tôi đã có nghề nghiệp ổn định
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đến từ :</td>
+                    <td>
+                        <select name="dentư">
+                            <option value="Miền Bắc">Miền Bắc</option>
+                            <option value="Miền Trung">Miền Trung</option>
+                            <option value="Miền Nam">Miền Nam</option>
+                            <option value="Miền Tây">Miền Tây</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nội dung cần<br />liên hệ với chúng tôi :</td>
+                    <td>
+                        <textarea name="noidung" placeholder="Nội dung bạn nhập vào đây"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="btn-row">
+                        <input type="submit" value="Gửi thông điệp" />
+                        <input type="reset" value="Nhập lại tất cả" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

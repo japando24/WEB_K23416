@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css_ex1_08.06.css">
+    <title>Flex box (example)</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row; 
+            color: white;
+        }
+        .item {
+            flex: 1; 
+            padding: 5px;
+        }
+
+        .item:nth-child(1) {
+            background-color: darkgreen;
+            flex:1; 
+            order: 1; 
+        }
+
+        .item:nth-child(2) {
+            background-color: pink;
+            flex:2; 
+            order: 3; 
+        }
+        .item:nth-child(3) {
+            background-color: orange;
+            flex:1;
+            order: 2; 
+        }
+
+        /* Mobile */
+        @media screen and (max-width: 600px) {
+            .container {
+                flex-direction: column; 
+            }
+
+            .item:nth-child(1) {
+                order: 2; 
+            }
+            .item:nth-child(2) {
+                order: 1;
+            }
+            .item:nth-child(3) {
+                order: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">
+            <h3>Column 1</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate.</p>
+        </div>
+        <div class="item">
+            <h3>Column 2</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. L
+                orem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. </p>
+        </div>
+        <div class="item">
+            <h3>Column 3</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. 
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. 
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. </p>
+        </div>
+    </div>
+</body>
+</html>

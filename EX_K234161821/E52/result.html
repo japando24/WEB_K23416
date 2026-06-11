@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Liên Hệ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 30px 40px;
+            width: 520px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .success-box {
+            background-color: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: 4px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            color: #2e7d32;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eeeeee;
+            vertical-align: top;
+        }
+
+        td:first-child {
+            font-weight: bold;
+            width: 180px;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        td:last-child {
+            color: #222;
+        }
+
+        .noidung-value {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .back-btn a {
+            padding: 6px 18px;
+            background-color: #e0e0e0;
+            border: 1px solid #999;
+            text-decoration: none;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .back-btn a:hover {
+            background-color: #cccccc;
+        }
+    </style>
+    <script>
+        function getParam(name) {
+            const url = new URLSearchParams(window.location.search);
+            return url.get(name) || '';
+        }
+
+        window.onload = function () {
+            const hoten      = getParam('hoten');
+            const email      = getParam('email');
+            const gioitinh   = getParam('gioitinh');
+            const nghenghiep = getParam('nghenghiep');
+            const dentu      = getParam('dentư');
+            const noidung    = getParam('noidung');
+
+            document.getElementById('val-hoten').textContent      = hoten      || '(chưa nhập)';
+            document.getElementById('val-email').textContent      = email      || '(chưa nhập)';
+            document.getElementById('val-gioitinh').textContent   = gioitinh   || '(chưa chọn)';
+            document.getElementById('val-nghenghiep').textContent = nghenghiep === 'co'
+                ? 'Có nghề nghiệp ổn định' : 'Chưa có nghề nghiệp ổn định';
+            document.getElementById('val-dentu').textContent      = dentu      || '(chưa chọn)';
+            document.getElementById('val-noidung').textContent    = noidung    || '(chưa nhập)';
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Thông Tin Liên Hệ</h2>
+        <div class="success-box">Gửi thông điệp thành công!</div>
+        <table>
+            <tr>
+                <td>Họ và tên :</td>
+                <td id="val-hoten"></td>
+            </tr>
+            <tr>
+                <td>Email :</td>
+                <td id="val-email"></td>
+            </tr>
+            <tr>
+                <td>Giới tính :</td>
+                <td id="val-gioitinh"></td>
+            </tr>
+            <tr>
+                <td>Nghề nghiệp :</td>
+                <td id="val-nghenghiep"></td>
+            </tr>
+            <tr>
+                <td>Đến từ :</td>
+                <td id="val-dentu"></td>
+            </tr>
+            <tr>
+                <td>Nội dung liên hệ :</td>
+                <td id="val-noidung" class="noidung-value"></td>
+            </tr>
+        </table>
+        <div class="back-btn">
+            <a href="index.html">&#8592; Quay lại</a>
+        </div>
+    </div>
+</body>
+</html>

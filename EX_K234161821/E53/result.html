@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kết Quả Đơn Hàng</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      background: white;
+      padding: 24px 36px;
+      border: 1px solid #ccc;
+      min-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #003399;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    th {
+      background-color: #003399;
+      color: white;
+      border: 1px solid #002080;
+      padding: 7px 14px;
+      text-align: center;
+    }
+
+    td {
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      text-align: center;
+    }
+
+    td.left {
+      text-align: left;
+    }
+
+    td.right {
+      text-align: right;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f5f8ff;
+    }
+
+    .total-section {
+      text-align: right;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .total-section span {
+      font-weight: bold;
+      color: #cc0000;
+      font-size: 18px;
+    }
+
+    .empty-row td {
+      color: #999;
+      font-style: italic;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 7px 18px;
+      background-color: #003399;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .back-btn:hover {
+      background-color: #002080;
+    }
+
+    .no-order {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Xác Nhận Đơn Hàng</h2>
+    <p class="subtitle">Chi tiết sản phẩm bạn đã chọn</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Mã Sản Phẩm</th>
+          <th>Tên Sản Phẩm</th>
+          <th>Đơn Giá</th>
+          <th>Số Lượng</th>
+          <th>Thành Tiền</th>
+        </tr>
+      </thead>
+      <tbody id="order-body">
+      </tbody>
+    </table>
+
+    <div class="total-section" id="total-section"></div>
+
+    <a class="back-btn" href="index.html">← Quay lại</a>
+  </div>
+
+  <script>
+    function getParams() {
+      const params = {};
+      const query = window.location.search.substring(1);
+      query.split('&').forEach(function(pair) {
+        const parts = pair.split('=');
+        if (parts[0]) {
+          params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || '');
+        }
+      });
+      return params;
+    }
+
+    const p = getParams();
+    const tbody = document.getElementById('order-body');
+    let hasOrder = false;
+
+    for (let i = 1; i <= 3; i++) {
+      const qty = parseInt(p['qty' + i]) || 0;
+      if (qty > 0) {
+        hasOrder = true;
+        const pn    = p['pn' + i]    || '';
+        const name  = p['name' + i]  || '';
+        const price = parseFloat(p['price' + i]) || 0;
+        const item  = (qty * price).toFixed(2);
+
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + pn + '</td>' +
+          '<td class="left">' + name + '</td>' +
+          '<td>' + price.toFixed(2) + '$</td>' +
+          '<td>' + qty + '</td>' +
+          '<td class="right">' + item + '$</td>';
+        tbody.appendChild(tr);
+      }
+    }
+
+    if (!hasOrder) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td colspan="5" class="no-order">Không có sản phẩm nào được chọn.</td>';
+      tbody.appendChild(tr);
+    }
+
+    const total = p['total'] || '0.00$';
+    document.getElementById('total-section').innerHTML =
+      'Tổng cộng: <span>' + total + '</span>';
+  </script>
+</body>
+</html>

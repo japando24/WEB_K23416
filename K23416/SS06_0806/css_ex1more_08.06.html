@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Layout</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row; 
+        }
+
+        /* Cột trái (Item 1) */
+        .col-left {
+            flex: 1;
+            background-color: darkred;
+            color: white;
+            padding: 15px;
+        }
+
+        /* Cột phải chứa 2 item */
+        .col-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column; /* Chồng lên nhau */
+        }
+
+        .item2 {
+            background-color: orange;
+            padding: 15px;
+            flex: 1; 
+        }
+
+        .item3 {
+            background-color: green;
+            color: white;
+            padding: 15px;
+            flex: 1;  
+        }
+
+        /* Responsive cho Mobile */
+        @media screen and (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col-left">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit alias ipsa, voluptatibus ad tempore...</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium...</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium...</p>
+        </div>
+
+        <div class="col-right">
+            <div class="item2">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, laboriosam? Quo odit...</p>
+            </div>
+            <div class="item3">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sit vero...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

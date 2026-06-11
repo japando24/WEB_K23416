@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh Sách Sản Phẩm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+      color: #003399;
+      margin-bottom: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th {
+      background-color: #c0c0c0;
+      border: 1px solid #999;
+      padding: 6px 12px;
+      text-align: center;
+    }
+
+    td {
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      text-align: center;
+    }
+
+    td.left {
+      text-align: left;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 80px;
+      padding: 3px 5px;
+      border: 1px solid #999;
+      text-align: right;
+    }
+
+    input[type="text"].total-box {
+      width: 110px;
+    }
+
+    .total-row td {
+      border: none;
+      text-align: right;
+      font-weight: bold;
+      padding-top: 8px;
+    }
+
+    .btn-row {
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    button[type="submit"] {
+      background-color: #d4d0c8;
+      border: 1px solid #888;
+      padding: 4px 14px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #b8b4ac;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Danh Sách Sản Phẩm</h2>
+
+    <form action="result.html" method="GET">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã Sản Phẩm</th>
+            <th>Mô Tả</th>
+            <th>Đơn Giá</th>
+            <th>Số Lượng</th>
+            <th>Thành Tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>C112</td>
+            <td class="left">Chuột Quang</td>
+            <td>19.95$</td>
+            <td><input type="number" name="qty1" id="qty1" value="0" min="0" oninput="tinhTien()"></td>
+            <td><input type="text" name="item1" id="item1" readonly></td>
+            <input type="hidden" name="price1" value="19.95">
+            <input type="hidden" name="name1" value="Chuột Quang">
+            <input type="hidden" name="pn1" value="C112">
+          </tr>
+          <tr>
+            <td>B124</td>
+            <td class="left">Bàn Phím</td>
+            <td>29.95$</td>
+            <td><input type="number" name="qty2" id="qty2" value="0" min="0" oninput="tinhTien()"></td>
+            <td><input type="text" name="item2" id="item2" readonly></td>
+            <input type="hidden" name="price2" value="29.95">
+            <input type="hidden" name="name2" value="Bàn Phím">
+            <input type="hidden" name="pn2" value="B124">
+          </tr>
+          <tr>
+            <td>U125</td>
+            <td class="left">USB KingMax</td>
+            <td>39.95$</td>
+            <td><input type="number" name="qty3" id="qty3" value="0" min="0" oninput="tinhTien()"></td>
+            <td><input type="text" name="item3" id="item3" readonly></td>
+            <input type="hidden" name="price3" value="39.95">
+            <input type="hidden" name="name3" value="USB KingMax">
+            <input type="hidden" name="pn3" value="U125">
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="3"></td>
+            <td>Tổng Cộng</td>
+            <td><input type="text" name="total" id="total" class="total-box" readonly></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="btn-row">
+        <button type="submit">Tổng Cộng</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const prices = [19.95, 29.95, 39.95];
+
+    function tinhTien() {
+      let tongCong = 0;
+      for (let i = 1; i <= 3; i++) {
+        const qty = parseFloat(document.getElementById('qty' + i).value) || 0;
+        const itemTotal = qty * prices[i - 1];
+        document.getElementById('item' + i).value = itemTotal.toFixed(2) + '$';
+        tongCong += itemTotal;
+      }
+      document.getElementById('total').value = tongCong.toFixed(2) + '$';
+    }
+
+    tinhTien();
+  </script>
+</body>
+</html>
