@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>E64 - Dynamic Table</title>
+  <link rel="stylesheet" href="dynamic_table.css">
+</head>
+<body>
+
+  <div id="clock">00:00:00</div>
+
+  <p id="click-line">Click chuột vào dòng này. Sẽ xuất hiện thông báo phím bấm của chuột</p>
+
+  <table id="myTable">
+    <tbody>
+      <tr>
+        <td>Dòng 1 cột 1</td>
+        <td>Dòng 1 cột 2</td>
+      </tr>
+      <tr>
+        <td>Dòng 2 cột 1</td>
+        <td>Dòng 2 cột 2</td>
+      </tr>
+      <tr>
+        <td>Dòng 3 cột 1</td>
+        <td>Dòng 3 cột 2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="btn-bar">
+    <button onclick="themVao()">Thêm vào</button>
+    <button onclick="xoa()">Xoá</button>
+    <button onclick="chiHienDong()">Chỉ hiện dòng</button>
+    <button onclick="chiHienCot()">Chỉ hiện cột</button>
+    <button onclick="moTrangMoi()">Mở một trang mới</button>
+  </div>
+
+  <script src="dynamic_table.js"></script>
+
+</body>
+</html>

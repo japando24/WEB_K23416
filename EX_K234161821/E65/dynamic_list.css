@@ -1,0 +1,49 @@
+body {
+  font-family: Times New Roman, serif;
+  font-size: 14px;
+  margin: 16px 20px;
+}
+
+/* Control table */
+.ctrl-table {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.ctrl-table td {
+  padding: 3px 6px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.ctrl-table button {
+  font-size: 13px;
+  padding: 3px 10px;
+  cursor: pointer;
+  min-width: 90px;
+}
+
+.ctrl-table input[type="text"] {
+  font-size: 13px;
+  padding: 2px 4px;
+  width: 200px;
+}
+
+.vitri-input {
+  width: 50px !important;
+}
+
+/* Web Node */
+.list-title {
+  font-weight: bold;
+  margin: 6px 0 2px 0;
+}
+
+#web-node ul {
+  margin: 4px 0;
+  padding-left: 30px;
+}
+
+#web-node li {
+  margin: 2px 0;
+}

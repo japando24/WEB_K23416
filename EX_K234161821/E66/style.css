@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+table {
+    border-collapse: collapse;
+    min-width: 400px;
+}
+
+thead tr {
+    background-color: #FFD700;
+}
+
+th {
+    border: 1px solid #999;
+    padding: 8px 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
+td {
+    border: 1px solid #999;
+    padding: 8px 16px;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+tbody tr {
+    cursor: default;
+}

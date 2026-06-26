@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 67 - Danh sách Sinh Viên</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr class="title-row">
+                <th colspan="4">Danh sách Sinh Viên</th>
+            </tr>
+            <tr class="header-row">
+                <th data-col="mssv"     data-label="Mã Sinh Viên">Mã Sinh Viên</th>
+                <th data-col="hoTen"    data-label="Họ Tên">Họ Tên</th>
+                <th data-col="ngaySinh" data-label="Ngày Sinh">Ngày Sinh</th>
+                <th data-col="gioiTinh" data-label="Giới Tính">Giới Tính</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

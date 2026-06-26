@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bai 69 - Employee</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px 10px;
+        }
+        th {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        Chọn Title:
+        <select id="titleSelect" onchange="filterByTitle()"></select>
+    </p>
+    <table id="result"></table>
+
+    <script src="script.js"></script>
+</body>
+</html>

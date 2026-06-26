@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #002060;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  padding: 16px;
+}
+
+/* ── Page wrapper ──────────────────────────────── */
+.page {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── Logo ──────────────────────────────────────── */
+.logo-wrap {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.logo {
+  max-height: 80px;
+}
+
+/* ── Title ─────────────────────────────────────── */
+.page-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Today is ──────────────────────────────────── */
+.today-row {
+  text-align: right;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.date-box {
+  width: 90px;
+  padding: 2px 4px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #aaa;
+  font-size: 13px;
+  font-family: inherit;
+  text-align: center;
+}
+
+/* ── Form table ────────────────────────────────── */
+.form-tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-tbl tr {
+  vertical-align: middle;
+}
+
+.form-tbl td {
+  padding: 5px 4px;
+}
+
+/* Label column */
+.lbl {
+  color: #fff;
+  white-space: nowrap;
+  width: 200px;
+  padding-right: 8px;
+}
+
+.lbl-indent {
+  font-style: italic;
+}
+
+.lbl-top {
+  vertical-align: top;
+  padding-top: 8px;
+}
+
+/* Field column */
+.fld {
+  color: #fff;
+}
+
+/* ── Inputs ────────────────────────────────────── */
+.inp-name {
+  width: 120px;
+  padding: 3px 5px;
+  border: 1px solid #888;
+  background: #fff;
+  color: #000;
+  font-size: 13px;
+  font-family: inherit;
+  margin-right: 4px;
+}
+
+.inp-std {
+  width: 180px;
+  padding: 3px 5px;
+  border: 1px solid #888;
+  background: #fff;
+  color: #000;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.inp-std:disabled {
+  background: #d0d0d0;
+  color: #666;
+}
+
+.inp-small {
+  width: 80px;
+  padding: 3px 5px;
+  border: 1px solid #888;
+  background: #ffd8d8;
+  color: #000;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+/* ── Physician select ──────────────────────────── */
+.sel-physician {
+  width: 190px;
+  padding: 2px 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+  color: #000;
+  border: 1px solid #888;
+}
+
+/* ── APGAR sub-table ───────────────────────────── */
+.apgar-tbl {
+  border-collapse: collapse;
+}
+
+.apgar-tbl td {
+  padding: 3px 6px 3px 0;
+  vertical-align: middle;
+}
+
+.apgar-lbl {
+  color: #fff;
+  width: 220px;
+  font-size: 13px;
+}
+
+/* Score inputs */
+.score-inp {
+  width: 36px;
+  padding: 2px 4px;
+  border: 1px solid #888;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+#txtTotal {
+  background: #e0e0e0;
+  cursor: default;
+}
+
+/* ── Checkbox ──────────────────────────────────── */
+#chkConsent {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* ── Buttons ───────────────────────────────────── */
+.btn-row {
+  text-align: center;
+  margin-top: 18px;
+  padding-bottom: 10px;
+}
+
+.btn {
+  padding: 4px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #d4d0c8;
+  color: #000;
+  border: 2px outset #fff;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+.btn:hover {
+  background: #c0bdb5;
+}
+
+.btn:active {
+  border-style: inset;
+}

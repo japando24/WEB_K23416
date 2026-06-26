@@ -1,0 +1,71 @@
+body {
+  font-family: Times New Roman, serif;
+  font-size: 14px;
+  margin: 20px 30px;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+/* ---- Form table ---- */
+.form-table {
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+
+.form-table .label {
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.form-table input[type="text"] {
+  width: 180px;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+.form-table select {
+  font-size: 13px;
+}
+
+.form-table button {
+  font-size: 13px;
+  padding: 3px 14px;
+  cursor: pointer;
+}
+
+.color-label {
+  padding: 1px 4px;
+}
+
+/* ---- Result table ---- */
+#result-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 8px;
+}
+
+#result-table th,
+#result-table td {
+  border: 1px solid #333;
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+#result-table thead tr {
+  background-color: #1a6ecc;
+  color: white;
+}
+
+#result-table tbody tr {
+  background-color: white;
+  cursor: default;
+}

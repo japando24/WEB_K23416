@@ -1,0 +1,46 @@
+body {
+  font-family: Times New Roman, serif;
+  font-size: 14px;
+  margin: 16px 24px;
+}
+
+/* Digital clock */
+#clock {
+  font-family: Courier New, monospace;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Clickable line */
+#click-line {
+  cursor: pointer;
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+/* Table */
+#myTable {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+#myTable td {
+  border: 1px solid #555;
+  padding: 5px 14px;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+/* Button bar */
+#btn-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+#btn-bar button {
+  font-size: 13px;
+  padding: 4px 12px;
+  cursor: pointer;
+}

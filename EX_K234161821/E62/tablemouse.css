@@ -1,0 +1,34 @@
+body {
+  font-family: Times New Roman, serif;
+  font-size: 14px;
+  margin: 20px 40px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 400px;
+  margin: 0 auto;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px 14px;
+  text-align: left;
+}
+
+thead tr {
+  background-color: red;
+  color: white;
+}
+
+tbody tr {
+  background-color: blue;
+  color: white;
+  cursor: default;
+}

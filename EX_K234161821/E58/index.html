@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neonatal Feeding Study</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="init()">
+
+  <div class="page">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="Bai58/Logo.gif" alt="St. Mary's of Northland Pines" class="logo">
+    </div>
+
+    <!-- Title -->
+    <h1 class="page-title">Neonatal Feeding Study</h1>
+
+    <!-- Today is (right-aligned) -->
+    <div class="today-row">
+      Today is:&nbsp;<input type="text" id="txtDate" class="date-box" readonly>
+    </div>
+
+    <!-- Main form -->
+    <table class="form-tbl">
+
+      <tr>
+        <td class="lbl">1) Name (first, last):</td>
+        <td class="fld">
+          <input type="text" id="txtFirst" class="inp-name">
+          <input type="text" id="txtLast"  class="inp-name">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl">2) Medical Record #:</td>
+        <td class="fld"><input type="text" id="txtMedRecord" class="inp-std"></td>
+      </tr>
+
+      <tr>
+        <td class="lbl">3) Date of birth:</td>
+        <td class="fld">
+          <input type="date" id="txtDOB" class="inp-std">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl">4) Physician:</td>
+        <td class="fld">
+          <select id="selPhysician" class="sel-physician" onchange="physicianChanged()">
+            <option value="Dr. Warren Albert">Dr. Warren Albert</option>
+            <option value="Dr. John Smith">Dr. John Smith</option>
+            <option value="Dr. Susan Lee">Dr. Susan Lee</option>
+            <option value="other">Other</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl lbl-indent">&nbsp;&nbsp;&nbsp;If other (specify):</td>
+        <td class="fld">
+          <input type="text" id="txtOtherPhysician" class="inp-std"
+                 disabled onblur="checkOtherPhysician()">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl lbl-top">
+          5) 1 Minute APGAR Score.<br>
+          &nbsp;&nbsp;&nbsp;Each score must be 0, 1, or 2.
+        </td>
+        <td class="fld">
+          <table class="apgar-tbl">
+            <tr>
+              <td class="apgar-lbl">Activity</td>
+              <td>
+                <input type="text" id="txtActivity" class="score-inp"
+                       value="0" oninput="calcTotal()" onblur="validateScore(this)">
+              </td>
+            </tr>
+            <tr>
+              <td class="apgar-lbl">Pulse</td>
+              <td>
+                <input type="text" id="txtPulse" class="score-inp"
+                       value="0" oninput="calcTotal()" onblur="validateScore(this)">
+              </td>
+            </tr>
+            <tr>
+              <td class="apgar-lbl">Grimace (Reflex, Irritability)</td>
+              <td>
+                <input type="text" id="txtGrimace" class="score-inp"
+                       value="0" oninput="calcTotal()" onblur="validateScore(this)">
+              </td>
+            </tr>
+            <tr>
+              <td class="apgar-lbl">Appearance (Skin Color)</td>
+              <td>
+                <input type="text" id="txtAppearance" class="score-inp"
+                       value="0" oninput="calcTotal()" onblur="validateScore(this)">
+              </td>
+            </tr>
+            <tr>
+              <td class="apgar-lbl">Respiration</td>
+              <td>
+                <input type="text" id="txtRespiration" class="score-inp"
+                       value="0" oninput="calcTotal()" onblur="validateScore(this)">
+              </td>
+            </tr>
+            <tr>
+              <td class="apgar-lbl"><strong>TOTAL</strong></td>
+              <td>
+                <input type="text" id="txtTotal" class="score-inp" value="0" readonly>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl lbl-top">
+          6) Birth weight (gms):<br>
+          &nbsp;&nbsp;&nbsp;Weights must be &gt;= 1200 gms.
+        </td>
+        <td class="fld">
+          <input type="text" id="txtBirthWeight" class="inp-small"
+                 onblur="validateBirthWeight(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="lbl">7) Parental Consent (required):</td>
+        <td class="fld">
+          <input type="checkbox" id="chkConsent">
+        </td>
+      </tr>
+
+    </table>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn" onclick="register()">Register</button>
+      <button class="btn" onclick="reloadPage()">Reload Page</button>
+    </div>
+
+  </div><!-- /page -->
+
+  <script src="script.js"></script>
+</body>
+</html>

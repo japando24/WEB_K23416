@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>E63 - Đăng ký thành viên</title>
+  <link rel="stylesheet" href="dangky.css">
+</head>
+<body>
+
+  <h1>Đăng ký thành viên</h1>
+
+  <table class="form-table">
+    <tr>
+      <td class="label">Tên(*)</td>
+      <td>
+        <input type="text" id="ten">
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Ngày sinh(*)</td>
+      <td>
+        Ngày: <select id="ngay"></select>
+        &nbsp;Tháng: <select id="thang"></select>
+        &nbsp;Năm: <select id="nam"></select>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Giới tính(*)</td>
+      <td>
+        <input type="radio" name="gioitinh" value="Nam" checked> Nam
+        &nbsp;
+        <input type="radio" name="gioitinh" value="Nữ"> Nữ
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Email(*)</td>
+      <td>
+        <input type="text" id="email">
+      </td>
+    </tr>
+    <tr>
+      <td class="label" style="vertical-align:top">Sở thích của bạn:</td>
+      <td>
+        <div><input type="checkbox" name="sothich" value="Mua sắm"> Mua sắm</div>
+        <div><input type="checkbox" name="sothich" value="Du lịch"> Du lịch</div>
+        <div><input type="checkbox" name="sothich" value="Tắn gầu"> Tán gẫu</div>
+        <div><input type="checkbox" name="sothich" value="Đọc sách"> Đọc sách</div>
+        <div><input type="checkbox" name="sothich" value="Nghe nhạc"> Nghe nhạc</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="label" style="vertical-align:top">Màu yêu thích của bạn:</td>
+      <td>
+        <div><input type="radio" name="mau" value="Màu xanh da trời">
+          <span class="color-label" style="background-color:dodgerblue; color:white;">Màu xanh da trời</span></div>
+        <div><input type="radio" name="mau" value="Màu đỏ">
+          <span class="color-label" style="background-color:red; color:white;">Màu đỏ</span></div>
+        <div><input type="radio" name="mau" value="Màu vàng">
+          <span class="color-label" style="background-color:yellow; color:black;">Màu vàng</span></div>
+        <div><input type="radio" name="mau" value="Màu xanh lá cây">
+          <span class="color-label" style="background-color:green; color:white;">Màu xanh lá cây</span></div>
+        <div><input type="radio" name="mau" value="Màu xanh tím">
+          <span class="color-label" style="background-color:mediumpurple; color:white;">Màu xanh tím</span></div>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button onclick="dangKy()">Đăng ký</button>
+        &nbsp;
+        <button onclick="tiep()">Tiếp</button>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table id="result-table">
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Email</th>
+        <th>Giới tính</th>
+        <th>Năm sinh</th>
+        <th>Sở thích</th>
+        <th>Màu yêu thích</th>
+      </tr>
+    </thead>
+    <tbody id="result-body">
+    </tbody>
+  </table>
+
+  <script src="dangky.js"></script>
+
+</body>
+</html>

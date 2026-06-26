@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Array: splice (start, deleteCount,... items): xóa, thêm phần tử tại vị trí bất kỳ trong array
+        const beers = ["Heineken","Tiger","Sapporo"];
+        console.log(beers.splice(1,1)); //Tiger
+        console.log(beers); //["Heineken","Tiger"]
+
+        const beers = ["Heineken","Tiger","Sapporo"];
+        console.log(beers.splice(1,1,"Corona")); //Tiger
+        console.log(beers); //["Heineken", "Corona", "Sapporo"]
+
+        const beers = ["Heineken","Tiger","Sapporo"];
+        console.log(beers.splice(1,0,"Corona","Strongbow")); // []
+        console.log(beers); //["Heineken", "Corona", "Strongbow", "Tiger", "Sapporo"]
+
+        //Array: concat(): nối các array
+        const beerList1 = ["Heineken", "Tiger", "Sapporo"];
+        const beerList2 = ["Corona", "Strongbow"];
+        console.log(beerList1.concat(beerList2)); // ['Heineken', 'Tiger', 'Sapporo', 'Corona', 'Strongbow']
+
+        //Array: slice(start, end): cắt array từ vị trí start đến < end
+        const beerList = ["Heineken", "Tiger", "Sapporo"];
+        console.log(beerList.slice(1, 2)); // ['Tiger']
+        console.log(beerList.slice(-2, -1)); // ['Tiger']
+        console.log(beerList.slice(-1)); // // ['Sapporo']
+
+        //Array: sort(), reverse(): sắp xếp mảng
+        const beerList = ["Heineken", "Tiger", "Sapporo"];
+        beerList.sort();
+        console.log(beerList); //['Heineken', 'Sapporo', 'Tiger']
+        beerList.reverse();
+        console. log(beerList); //['Tiger', 'Sapporo', 'Heineken']
+
+        const marks = [4, 2, 10, 8, 15];
+        marks.sort();
+        console.log(marks); //[10, 15, 2, 4, 8]
+        const marks = [4, 2, 10, 8, 15];
+        marks.sort(function(a, b) {
+            return a - b;
+        });
+        console.log(marks); //[2, 4, 8, 10, 15]
+
+        //BT thầy Phúc
+        const products = [
+            { pName: "Táo", pPrice: 15000, pCode: "P001" },
+            { pName: "Dừa", pPrice: 10000, pCode: "P002" },
+            { pName: "Nho", pPrice: 50000, pCode: "P003" },
+            { pName: "Chuối", pPrice: 10000, pCode: "P004" },
+            { pName: "Bơ", pPrice: 30000, pCode: "P005" },
+            { pName: "Thanh Long", pPrice: 20000, pCode: "P006" },
+        ];
+
+        // Ý 1: Sắp xếp tăng dần theo pPrice
+        const sortByPriceAsc = [...products].sort((a, b) => a.pPrice - b.pPrice);
+        console.log("Ý 1 - Tăng dần theo giá:");
+        console.log(sortByPriceAsc);
+
+        // Ý 2: Sắp xếp giảm dần theo pName
+        const sortByNameDesc = [...products].sort((a, b) => b.pName.localeCompare(a.pName, "vi"));
+        console.log("Ý 2 - Giảm dần theo tên:");
+        console.log(sortByNameDesc);
+
+        // Ý 3: Tăng dần theo pPrice, nếu đồng giá thì giảm dần theo tên
+        const sortByPriceThenName = [...products].sort((a, b) => {
+            if (a.pPrice !== b.pPrice) return a.pPrice - b.pPrice;
+            return b.pName.localeCompare(a.pName, "vi");
+        });
+        console.log("Ý 3 - Tăng dần giá, đồng giá thì giảm dần tên:");
+        console.log(sortByPriceThenName);
+
+    </script>
+</body>
+</html>

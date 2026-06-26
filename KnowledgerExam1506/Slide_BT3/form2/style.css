@@ -1,0 +1,187 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.page-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 28px 36px 24px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Google Logo */
+.google-logo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: -0.5px;
+}
+
+.g-blue  { color: #4285f4; }
+.g-red   { color: #ea4335; }
+.g-yellow{ color: #fbbc05; }
+.g-blue2 { color: #4285f4; }
+.g-green { color: #34a853; }
+.g-red2  { color: #ea4335; }
+
+.form-title {
+  font-size: 24px;
+  font-weight: 400;
+  color: #202124;
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: #5f6368;
+  margin-bottom: 24px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 16px;
+  color: #202124;
+  outline: none;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 0 1px #4285f4;
+}
+
+.form-group input::placeholder {
+  color: #80868b;
+}
+
+/* Username field with @gmail.com suffix */
+.username-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.username-group:focus-within {
+  border-color: #4285f4;
+  box-shadow: 0 0 0 1px #4285f4;
+}
+
+.username-input {
+  flex: 1;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+  color: #202124;
+  outline: none;
+}
+
+.gmail-suffix {
+  padding: 0 14px;
+  font-size: 16px;
+  color: #5f6368;
+  background-color: #f8f9fa;
+  border-left: 1px solid #dadce0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: #5f6368;
+  margin-top: -10px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.show-pass-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #202124;
+  cursor: pointer;
+  margin-bottom: 28px;
+}
+
+.show-pass-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e8eaed;
+  padding-top: 16px;
+}
+
+.link-login {
+  color: #1a73e8;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.link-login:hover {
+  text-decoration: underline;
+}
+
+.btn-next {
+  background-color: #1a73e8;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-next:hover {
+  background-color: #1669d9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

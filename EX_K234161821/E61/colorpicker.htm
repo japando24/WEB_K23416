@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A Simple Color Picker</title>
+  <style>
+    body {
+      font-family: Times New Roman, serif;
+      font-size: 14px;
+      margin: 10px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    table.main-table {
+      border: 1px solid #000;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td.left-panel {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      vertical-align: top;
+      width: 45%;
+    }
+
+    td.right-panel {
+      border: 1px solid #000;
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+
+    .label-row {
+      margin-bottom: 6px;
+    }
+
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .color-row label {
+      font-weight: bold;
+    }
+
+    .color-row input[type="text"] {
+      width: 30px;
+      text-align: center;
+      font-size: 13px;
+      border: 1px solid #000;
+      padding: 1px 2px;
+    }
+
+    .btn-row {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-row input[type="button"] {
+      padding: 2px 10px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .right-panel p {
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .right-panel strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    #preview-panel {
+      padding: 10px 14px;
+    }
+
+    .footnote {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>A Simple Color Picker</h1>
+
+  <table class="main-table">
+    <tr>
+      <!-- LEFT: Controls -->
+      <td class="left-panel">
+        <div class="label-row">Background (enter values from '00' to 'FF')</div>
+        <div class="color-row">
+          <label>RED:</label>
+          <input type="text" id="bg-r" value="FF" maxlength="2">
+          <label>GREEN:</label>
+          <input type="text" id="bg-g" value="FF" maxlength="2">
+          <label>BLUE:</label>
+          <input type="text" id="bg-b" value="FF" maxlength="2">
+        </div>
+
+        <div class="label-row">Text (enter values from '00' to 'FF')</div>
+        <div class="color-row">
+          <label>RED:</label>
+          <input type="text" id="txt-r" value="00" maxlength="2">
+          <label>GREEN:</label>
+          <input type="text" id="txt-g" value="00" maxlength="2">
+          <label>BLUE:</label>
+          <input type="text" id="txt-b" value="00" maxlength="2">
+        </div>
+
+        <div class="btn-row">
+          <input type="button" value="Apply" onclick="applyColors()">
+          <input type="button" value="Reload" onclick="reloadPage()">
+        </div>
+      </td>
+
+      <!-- RIGHT: Preview -->
+      <td class="right-panel">
+        <div id="preview-panel">
+          <strong>HAMLET:</strong>
+          <p>
+            Speak the speech, I pray you, as I pronounced it
+            to you, trippingly on the tongue: but if you mouth
+            it, as many of your players do, I had as lief the
+            town-crier spoke my lines.
+          </p>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <p class="footnote">*If you are using Netscape, you won't be able to change the text color.</p>
+
+  <script>
+    function validateHex(value) {
+      var v = value.trim().toUpperCase();
+      if (v === '') v = '00';
+      // Keep only valid hex chars
+      v = v.replace(/[^0-9A-F]/g, '0');
+      if (v.length === 0) v = '00';
+      if (v.length === 1) v = '0' + v;
+      if (v.length > 2) v = v.substring(0, 2);
+      // Clamp 00–FF
+      var num = parseInt(v, 16);
+      if (num < 0) num = 0;
+      if (num > 255) num = 255;
+      return num.toString(16).toUpperCase().padStart(2, '0');
+    }
+
+    function applyColors() {
+      var bgR = validateHex(document.getElementById('bg-r').value);
+      var bgG = validateHex(document.getElementById('bg-g').value);
+      var bgB = validateHex(document.getElementById('bg-b').value);
+
+      var txtR = validateHex(document.getElementById('txt-r').value);
+      var txtG = validateHex(document.getElementById('txt-g').value);
+      var txtB = validateHex(document.getElementById('txt-b').value);
+
+      // Update input fields with validated values
+      document.getElementById('bg-r').value = bgR;
+      document.getElementById('bg-g').value = bgG;
+      document.getElementById('bg-b').value = bgB;
+      document.getElementById('txt-r').value = txtR;
+      document.getElementById('txt-g').value = txtG;
+      document.getElementById('txt-b').value = txtB;
+
+      var bgColor  = '#' + bgR + bgG + bgB;
+      var txtColor = '#' + txtR + txtG + txtB;
+
+      var panel = document.getElementById('preview-panel');
+      panel.style.backgroundColor = bgColor;
+      panel.style.color = txtColor;
+    }
+
+    function reloadPage() {
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>

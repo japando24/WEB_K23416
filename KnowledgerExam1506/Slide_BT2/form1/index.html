@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Course Registration Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <form class="registration-form">
+      <h2 class="form-title">Virtual Course Registration Form</h2>
+      <hr class="divider">
+
+      <fieldset class="program-section">
+        <legend class="question">What program are you planning to enroll with?</legend>
+        <label class="checkbox-label">
+          <input type="checkbox" name="program" value="cpd">
+          Continuing Professional Development
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="program" value="short">
+          Short Courses
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="program" value="skills">
+          Skills Training
+        </label>
+      </fieldset>
+
+      <h3 class="section-title">Student Information</h3>
+
+      <div class="form-group">
+        <label class="field-label">Student Name</label>
+        <div class="name-row">
+          <div class="name-field">
+            <input type="text" placeholder="">
+            <span class="sub-label">First Name</span>
+          </div>
+          <div class="name-field">
+            <input type="text" placeholder="">
+            <span class="sub-label">Last Name</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="inline-row">
+        <div class="form-group half">
+          <label class="field-label">Gender</label>
+          <label class="radio-label">
+            <input type="radio" name="gender" value="male"> Male
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="gender" value="female"> Female
+          </label>
+        </div>
+
+        <div class="form-group half">
+          <label class="field-label">Write something about yourself</label>
+          <textarea placeholder="Type here..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">Phone Number</label>
+        <input type="tel" placeholder="(000) 000-0000" class="phone-input">
+      </div>
+
+      <button type="submit" class="btn-submit">Enroll Now</button>
+    </form>
+  </div>
+</body>
+</html>

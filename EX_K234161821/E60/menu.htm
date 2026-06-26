@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Navigation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+    }
+
+    /* ===== NAVBAR ===== */
+    #navbar {
+      background-color: #4a4a6a;
+      display: flex;
+      position: relative;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .menu-item > a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 14px;
+      font-weight: bold;
+      font-size: 13px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .menu-item > a:hover,
+    .menu-item > a.active {
+      background-color: #f0a500;
+      color: #ffffff;
+    }
+
+    /* ===== DROPDOWN ===== */
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #ffffff;
+      border: 1px solid #4a4a6a;
+      min-width: 160px;
+      z-index: 999;
+    }
+
+    .submenu a {
+      display: block;
+      padding: 8px 12px;
+      color: #000000;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    .submenu a:last-child {
+      border-bottom: none;
+    }
+
+    .submenu a:hover {
+      background-color: #f0a500;
+      color: #ffffff;
+    }
+
+    .submenu.open {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-home')"
+                onmouseout="hideMenu(this, 'sub-home')">HOME</a>
+    <div class="submenu" id="sub-home"
+         onmouseover="keepMenu(this, 'sub-home')"
+         onmouseout="hideMenu(null, 'sub-home')">
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-html')"
+                onmouseout="hideMenu(this, 'sub-html')">HTML</a>
+    <div class="submenu" id="sub-html"
+         onmouseover="keepMenu(this, 'sub-html')"
+         onmouseout="hideMenu(null, 'sub-html')">
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-css')"
+                onmouseout="hideMenu(this, 'sub-css')">CSS</a>
+    <div class="submenu" id="sub-css"
+         onmouseover="keepMenu(this, 'sub-css')"
+         onmouseout="hideMenu(null, 'sub-css')">
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">CSS CĂN BẢN</a>
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">GIAO DIỆN VỚI CSS</a>
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">CSS NÂNG CAO</a>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-js')"
+                onmouseout="hideMenu(this, 'sub-js')">JAVASCRIPT</a>
+    <div class="submenu" id="sub-js"
+         onmouseover="keepMenu(this, 'sub-js')"
+         onmouseout="hideMenu(null, 'sub-js')">
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">LESSON 01</a>
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">LESSON 02</a>
+      <a href="#" onmouseover="highlightItem(this)" onmouseout="resetItem(this)">LESSON 03</a>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-dom')"
+                onmouseout="hideMenu(this, 'sub-dom')">HTML DOM</a>
+    <div class="submenu" id="sub-dom"
+         onmouseover="keepMenu(this, 'sub-dom')"
+         onmouseout="hideMenu(null, 'sub-dom')">
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <a href="#" onmouseover="showMenu(this, 'sub-asp')"
+                onmouseout="hideMenu(this, 'sub-asp')">NGÔN NGỮ ASP</a>
+    <div class="submenu" id="sub-asp"
+         onmouseover="keepMenu(this, 'sub-asp')"
+         onmouseout="hideMenu(null, 'sub-asp')">
+    </div>
+  </div>
+
+</nav>
+
+<script>
+  var activeLink = null;
+  var hoverTimers = {};
+
+  function showMenu(link, subId) {
+    // Highlight the top-level link
+    if (activeLink && activeLink !== link) {
+      activeLink.classList.remove('active');
+    }
+    link.classList.add('active');
+    activeLink = link;
+
+    // Cancel any pending hide for this submenu
+    clearTimeout(hoverTimers[subId]);
+
+    var sub = document.getElementById(subId);
+    if (sub) {
+      sub.classList.add('open');
+    }
+  }
+
+  function hideMenu(link, subId) {
+    // Delay hide so mouse can move into the submenu
+    hoverTimers[subId] = setTimeout(function () {
+      var sub = document.getElementById(subId);
+      if (sub) {
+        sub.classList.remove('open');
+      }
+      if (link) {
+        link.classList.remove('active');
+      }
+    }, 150);
+  }
+
+  function keepMenu(submenuEl, subId) {
+    // Mouse entered the submenu — cancel the hide timer
+    clearTimeout(hoverTimers[subId]);
+  }
+
+  function highlightItem(el) {
+    el.style.backgroundColor = '#f0a500';
+    el.style.color = '#ffffff';
+  }
+
+  function resetItem(el) {
+    el.style.backgroundColor = '';
+    el.style.color = '';
+  }
+</script>
+
+</body>
+</html>

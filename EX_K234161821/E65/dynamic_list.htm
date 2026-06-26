@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>E65 - Dynamic List</title>
+  <link rel="stylesheet" href="dynamic_list.css">
+</head>
+<body>
+
+  <table class="ctrl-table">
+    <tr>
+      <td><button onclick="themNode()">THÊM NODE</button></td>
+      <td><label>NỘI DUNG</label></td>
+      <td><input type="text" id="them-noidung"></td>
+      <td><label>VỊ TRÍ</label></td>
+      <td><input type="text" id="them-vitri" class="vitri-input"></td>
+    </tr>
+    <tr>
+      <td><button onclick="xoaNode()">XÓA NODE</button></td>
+      <td colspan="2"></td>
+      <td><label>VỊ TRÍ</label></td>
+      <td><input type="text" id="xoa-vitri" class="vitri-input"></td>
+    </tr>
+    <tr>
+      <td><button onclick="suaNode()">SỬA</button></td>
+      <td><label>NỘI DUNG SỬA</label></td>
+      <td><input type="text" id="sua-noidung"></td>
+      <td><label>VỊ TRÍ</label></td>
+      <td><input type="text" id="sua-vitri" class="vitri-input"></td>
+    </tr>
+  </table>
+
+  <p class="list-title">Web Node</p>
+
+  <div id="web-node">
+    <ul id="myList">
+      <li>Data base</li>
+      <li>Web1</li>
+      <li>Web2</li>
+    </ul>
+  </div>
+
+  <script src="dynamic_list.js"></script>
+
+</body>
+</html>

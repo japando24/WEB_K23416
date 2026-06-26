@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Virtual Course Registration Form</title>
+</head>
+<body>
+    <form class="registration-form">
+        <table class="form-table">
+            <tr>
+                <td colspan="2">
+                    <h2 class="form-title">Virtual Course Registration Form</h2>
+                    <hr class="divider">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset class="program-section">
+                        <legend class="question">What program are you planning to enroll with?</legend>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="program" value="cpd">
+                                        Continuing Professional Development
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="program" value="short">
+                                        Short Courses
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="program" value="skills">
+                                        Skills Training
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h3 class="section-title">Student Information</h3>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <label class="field-label">Student Name</label>
+                    <table class="name-table">
+                        <tr>
+                            <td>
+                                <input type="text" class="name-input">
+                                <span class="sub-label">First Name</span>
+                            </td>
+                            <td>
+                                <input type="text" class="name-input">
+                                <span class="sub-label">Last Name</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="half-cell">
+                    <label class="field-label">Gender</label>
+                    <table>
+                        <tr>
+                            <td>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="male"> Male
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="half-cell">
+                    <label class="field-label">Write something about yourself</label>
+                    <textarea placeholder="Type here..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label class="field-label">Phone Number</label><br>
+                    <input type="tel" placeholder="(000) 000-0000" class="phone-input">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" class="btn-submit">Enroll Now</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

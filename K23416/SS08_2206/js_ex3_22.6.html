@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Function Ex</title>
+
+    <script>
+    // C1: 
+        // function say(name) {
+        //     console.log("Hi " + name);
+        // }
+
+    // C2:
+    // var say --> biến
+        // var say = function(name){
+        //     console.log("Hi " + name)
+        // }
+
+    // C3: 
+        // var say=(name) => {
+        //     console.log("Hi " + name)
+        // }
+
+    // C4:
+        // var say=(name) => console.log("Hi "+name)
+
+        // say("Jollibee");
+    
+    // // C1:
+    // function tong(x,y){
+    //     return x+y;
+    // }
+
+    // // C2:
+    // var tong = function (x, y) {
+    //     return x+y;
+    // }
+
+    // // C3:
+    // var tong=(x,y) => {
+    //     return x+y;
+    // }
+
+    // // C4:
+    // var tong=(x,y) => x+y;
+
+
+        // const product={
+        //     pCode:1,
+        //     pName:"Tiger",
+        //     pPrice:19000,
+        //     getInfo:function(){
+        //         return this.pName+"--"+ this.pPrice;
+        //     },
+        // };
+
+        // console.log(product.pName);
+        // console.log(product.getInfo());
+
+    // SỐ
+        // function test(...prms){
+        //     // console.log(prms[0]);
+        //     // console.log(prms[1]);
+        //     // console.log(prms[2]);
+
+        //     // for(let i=0; i<prms.length; i++) {
+        //     //     console.log(prms[i]);
+        //     // }
+
+        //     let i=0;
+        //     for(; i<prms.length; ){
+        //         // console.log(prms[i]);
+        //         tong+=prms[i];
+        //         i++;
+        //     }
+        //     return tong;
+        // }
+        // console.log(test(7,4,5,9));
+
+        // test(7,4,5,9);
+
+        // var x=6;
+        // var y= ++x;
+        // console.log(x,y);
+        // // 7, 7
+
+        // var x=6;
+        // var y= x++;
+        // console.log(x,y);
+        // // 7, 6
+
+        // var x=2;
+        // var y="2";
+        // console.log(x+y);
+        // 2-"2"=0
+        // 2+"2"=22 --> thành chuỗi
+
+        function tinhTong(){
+            let tong = 0
+            for (let i =0; i<arguments.length; i++){
+                tong+=arguments[i];
+            }
+            return tong;
+        }
+        console.log(tinhTong(5,6,7,8,8));
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

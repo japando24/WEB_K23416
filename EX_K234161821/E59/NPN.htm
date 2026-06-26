@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>North Pole Novelties</title>
+  <style>
+    /* ===== BASE ===== */
+    body {
+      background-color: #336600;
+      margin: 0;
+      padding: 10px 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: #000000;
+    }
+
+    /* ===== LINKS: no underline, hover = red ===== */
+    a { text-decoration: none; color: #336600; }
+    a:hover { color: red; }
+
+    /* ===== OUTER TABLE ===== */
+    #tOuter {
+      width: 618px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    /* Bells strips on left & right */
+    .cBells {
+      width: 43px;
+      background: url('Bai59/hinh/Bells.jpg') repeat-y left top #336600;
+    }
+
+    /* Center column */
+    .cCenter {
+      width: 532px;
+      background-color: #ffffff;
+      vertical-align: top;
+    }
+
+    /* ===== INNER TABLE ===== */
+    #tInner {
+      width: 532px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    /* --- Header row --- */
+    .hdrLeft {
+      width: 92px;
+      background-color: #000000;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: bold;
+      vertical-align: top;
+      padding: 8px 5px 5px 6px;
+      line-height: 1.5;
+    }
+    .hdrRight {
+      background-color: #ffffff;
+      text-align: center;
+      padding: 4px 0;
+      vertical-align: middle;
+      overflow: hidden;
+    }
+    .hdrRight img {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      height: auto;
+    }
+
+    /* --- Date bar row --- */
+    .dateBar {
+      background-color: #FFFF00;
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+      color: #000000;
+      padding: 5px 0;
+      line-height: 1.7;
+    }
+
+    /* --- Nav + Content row --- */
+    .navCol {
+      width: 92px;
+      background-color: #000000;
+      vertical-align: top;
+      padding: 4px 5px 10px 6px;
+    }
+    .navCol a {
+      display: block;
+      color: #99ff33;
+      font-size: 11px;
+      line-height: 1.8;
+      text-decoration: none;
+    }
+    .navCol a:first-child { color: #ffffff; }
+    .navCol a:hover { color: red; }
+
+    /* Content area */
+    .contentCol {
+      background-color: #ffffff;
+      vertical-align: top;
+      padding: 0;
+    }
+
+    /* ===== 2-COLUMN TABLE inside content ===== */
+    #tCols {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .colLeft {
+      width: 50%;
+      vertical-align: top;
+      padding: 6px 8px 10px 8px;
+    }
+    .colRight {
+      width: 50%;
+      vertical-align: top;
+      padding: 6px 8px 10px 8px;
+      border-left: 1px solid #cccccc;
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    h2 {
+      color: #336600;
+      font-style: italic;
+      font-size: 15px;
+      font-weight: bold;
+      margin: 2px 0 6px 0;
+    }
+
+    /* ===== HIGHLIGHTED TEXT ===== */
+    .hiRed       { color: #cc0000; font-weight: bold; }
+    .hiRedItalic { color: #cc0000; font-weight: bold; font-style: italic; }
+
+    /* ===== IMAGES inside content ===== */
+    .imgLeft  { float: left;  margin: 0 8px 6px 0; }
+    .imgRight { float: right; margin: 0 0 6px 10px; }
+
+    /* ===== FOOTER ===== */
+    .footerRow {
+      background-color: #c0c0c0;
+      text-align: center;
+      font-size: 11px;
+      color: #333333;
+      padding: 6px 4px;
+      line-height: 1.7;
+    }
+  </style>
+
+  <script>
+    function showCountdown() {
+      var today = new Date();
+      var y     = today.getFullYear();
+      var xmas  = new Date(y, 11, 25);
+      if (today >= xmas) xmas = new Date(y + 1, 11, 25);
+
+      var days = Math.ceil((xmas - today) / (1000 * 60 * 60 * 24));
+      var mn   = ["January","February","March","April","May","June",
+                  "July","August","September","October","November","December"];
+
+      document.getElementById("dateSpan").innerHTML =
+        "Today is " + mn[today.getMonth()] + " " + today.getDate() +
+        "<br>Only " + days + " days until Christmas";
+    }
+  </script>
+</head>
+<body onload="showCountdown()">
+
+<!-- =====================================================
+     OUTER: [bells 43px] [center 532px] [bells 43px]
+     ===================================================== -->
+<table id="tOuter" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+
+    <!-- LEFT BELLS -->
+    <td class="cBells" width="43">&nbsp;</td>
+
+    <!-- CENTER CONTENT -->
+    <td class="cCenter" width="532">
+
+      <table id="tInner" border="0" cellspacing="0" cellpadding="0">
+
+        <!-- ROW 1 ── HEADER -->
+        <tr>
+          <td class="hdrLeft" width="92" rowspan="2">
+            Why don't<br>you visit<br>our:
+          </td>
+          <td class="hdrRight" width="440">
+            <img src="Bai59/hinh/Logo.jpg" alt="North Pole Novelties">
+          </td>
+        </tr>
+
+        <!-- ROW 2 ── DATE / COUNTDOWN BAR -->
+        <tr>
+          <td class="dateBar">
+            <span id="dateSpan">Loading...</span>
+          </td>
+        </tr>
+
+        <!-- ROW 3 ── NAV  +  CONTENT -->
+        <tr>
+
+          <!-- Navigation links -->
+          <td class="navCol" width="92">
+            <a href="#">Home Page</a>
+            <a href="#">Angels</a>
+            <a href="#">Cards</a>
+            <a href="#">Collectibles</a>
+            <a href="#">Crochet</a>
+            <a href="#">Garland</a>
+            <a href="#">Gift Wraps</a>
+            <a href="#">Lights</a>
+            <a href="#">Nutcrackers</a>
+            <a href="#">Ornaments</a>
+            <a href="#">Santas</a>
+            <a href="#">Trains</a>
+            <a href="#">Trees</a>
+            <a href="#">Villages</a>
+            <a href="#">Wreaths</a>
+          </td>
+
+          <!-- 2-column content -->
+          <td class="contentCol">
+            <table id="tCols" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+
+                <!-- LEFT column: Welcome + News Flash -->
+                <td class="colLeft">
+
+                  <h2>Welcome!</h2>
+                  <p>
+                    <img src="Bai59/hinh/Wrap.jpg" alt="Gift Wrap"
+                         class="imgLeft" width="66" height="76">
+                    Welcome to <span class="hiRed">North Pole Novelties</span>.
+                    Consider us your complete holiday store. Whether you're a
+                    collector or simply looking for a beautiful piece to treasure
+                    for years, you'll find it at NPN. Please click on one of the
+                    many links to explore all we have to offer.
+                  </p>
+
+                  <h2>News Flash!</h2>
+                  <p>
+                    North Pole Novelties is proud to announce a new line of
+                    <span class="hiRedItalic">Lasseter Old Towne Village
+                    collectible houses</span>. Start building your collection
+                    of these wonderful miniature porcelain houses and shops.
+                  </p>
+                  <p>
+                    Each model has accessories to enhance the collection. Be
+                    sure to order extra trees, fences, street lights and signs
+                    to bring activity and a festive atmosphere to your
+                    miniature town.
+                  </p>
+
+                </td>
+
+                <!-- RIGHT column: Who Are We -->
+                <td class="colRight">
+
+                  <h2>Who Are We?</h2>
+                  <p>
+                    Located in Seton Grove, Minnesota, North Pole Novelties
+                    is one of the oldest and largest holiday stores in the
+                    country. The store was founded in 1968 by
+                    <span class="hiRed">David Watkins</span> (shown here).
+                    Today, David, his family, and over 300 employees manage
+                    the daily operation of making the holiday season last
+                    all year.
+                  </p>
+                  <p>
+                    The store itself is the size of two football fields and
+                    attracts visitors from around the world. If you can't
+                    pay us a visit, order our catalogue. We will deliver to
+                    any spot in the United States and overseas. In a rush?
+                    We can deliver your order overnight! We also gift wrap.
+                  </p>
+
+                </td>
+
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+
+        <!-- ROW 4 ── FOOTER -->
+        <tr>
+          <td class="footerRow" colspan="2">
+            North Pole Novelties<br>
+            25 Oakdale Avenue<br>
+            Seton Grove, MN &nbsp;&nbsp; 55112<br>
+            Telephone: (404) 555-1225
+          </td>
+        </tr>
+
+      </table>
+
+    </td><!-- /center -->
+
+    <!-- RIGHT BELLS -->
+    <td class="cBells" width="43">&nbsp;</td>
+
+  </tr>
+</table>
+
+</body>
+</html>
