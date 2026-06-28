@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thẻ liên kết - Anchor Tag</title>
+</head>
+<body>
+
+  <!-- =============================================
+       THẺ LIÊN KẾT <a> (Anchor Tag)
+       
+       Cú pháp: <a href="đích_liên_kết">Nội dung hiển thị</a>
+       
+       Thuộc tính quan trọng:
+         href   = địa chỉ đích liên kết (BẮT BUỘC)
+         target = cách mở trang đích
+         title  = tooltip khi hover chuột
+       
+       Giá trị của target:
+         _self  = mở trong tab/cửa sổ hiện tại (MẶC ĐỊNH)
+         _blank = mở trong tab/cửa sổ MỚI
+  ============================================== -->
+
+
+  <!-- =============================================
+       LOẠI 1: LIÊN KẾT ĐẾN WEBSITE BÊN NGOÀI
+       href phải có "http://" hoặc "https://"
+  ============================================== -->
+
+  <h2>1. Liên kết website bên ngoài</h2>
+
+  <!-- Mở trong tab hiện tại -->
+  <p><a href="https://www.uel.edu.vn">Trang web Đại học Kinh Tế - Luật</a></p>
+
+  <!-- Mở trong tab mới (target="_blank") -->
+  <p><a href="https://www.google.com" target="_blank">Google (mở tab mới)</a></p>
+
+  <!-- Có tooltip khi hover -->
+  <p>
+    <a href="https://www.w3schools.com" target="_blank" title="Trang học HTML, CSS, JS miễn phí">
+      W3Schools - Tài liệu học lập trình web
+    </a>
+  </p>
+
+
+  <!-- =============================================
+       LOẠI 2: LIÊN KẾT ĐẾN FILE TRONG CÙNG PROJECT
+       Dùng đường dẫn tương đối (không có https://)
+  ============================================== -->
+
+  <h2>2. Liên kết nội bộ (cùng project)</h2>
+
+  <!-- Liên kết đến file cùng thư mục -->
+  <p><a href="page2.html">Đến trang 2</a></p>
+
+  <!-- Liên kết đến file trong thư mục con -->
+  <p><a href="products/danhsach.html">Danh sách sản phẩm</a></p>
+
+  <!-- Liên kết đến file ở thư mục cha -->
+  <p><a href="../index.html">Về trang chủ</a></p>
+
+
+  <!-- =============================================
+       LOẠI 3: LIÊN KẾT ĐẾN EMAIL
+       Khi click → mở ứng dụng email mặc định
+  ============================================== -->
+
+  <h2>3. Liên kết Email</h2>
+
+  <p><a href="mailto:example@gmail.com">Gửi email cho chúng tôi</a></p>
+  <p>Contact: <a href="mailto:phucnq@uel.edu.vn">phucnq@uel.edu.vn</a></p>
+
+
+  <!-- =============================================
+       LOẠI 4: LIÊN KẾT ĐẾN VỊ TRÍ TRONG CÙNG TRANG (Anchor)
+       
+       Bước 1: Đặt "neo" (id) tại vị trí đích
+       Bước 2: Liên kết đến neo đó bằng "#id"
+  ============================================== -->
+
+  <h2>4. Liên kết trong cùng trang (Jump to section)</h2>
+
+  <!-- Menu điều hướng nhanh -->
+  <nav>
+    <p>Chuyển đến phần:</p>
+    <a href="#gioi_thieu">Giới thiệu</a> |
+    <a href="#noi_dung">Nội dung</a> |
+    <a href="#lien_he">Liên hệ</a>
+  </nav>
+
+  <!-- Nội dung dài để demo scroll -->
+  <div style="height: 300px; background: #f0f0f0; margin: 20px 0; padding: 10px;">
+    (Khu vực nội dung - cuộn xuống để thấy các section)
+  </div>
+
+  <!-- BƯỚC 1: Đặt neo bằng thuộc tính id -->
+  <!-- Cách 1: dùng id trực tiếp trên thẻ tiêu đề -->
+  <h3 id="gioi_thieu">Phần Giới Thiệu</h3>
+  <p>Nội dung phần giới thiệu...</p>
+
+  <div style="height: 200px;"></div>
+
+  <!-- Cách 2: dùng <span> bọc ngoài thẻ -->
+  <span id="noi_dung"><h3>Phần Nội Dung</h3></span>
+  <p>Nội dung chính của trang...</p>
+
+  <div style="height: 200px;"></div>
+
+  <h3 id="lien_he">Phần Liên Hệ</h3>
+  <p>Thông tin liên hệ...</p>
+
+  <!-- Nút quay về đầu trang -->
+  <p><a href="#">↑ Về đầu trang</a></p>
+
+
+  <!-- =============================================
+       LOẠI 5: LIÊN KẾT ĐẾN VỊ TRÍ TRONG TRANG KHÁC
+       Kết hợp tên file + #id
+  ============================================== -->
+
+  <h2>5. Liên kết đến vị trí trong trang khác</h2>
+
+  <!-- Trang page1.html phải có thẻ với id="sample_text_1" -->
+  <p>
+    <a href="page1.html#sample_text_1" target="_blank">
+      Đến phần "sample text 1" trong page1.html
+    </a>
+  </p>
+
+
+  <!-- =============================================
+       LIÊN KẾT BẰNG HÌNH ẢNH
+       Bọc thẻ <img> bên trong thẻ <a>
+  ============================================== -->
+
+  <h2>6. Hình ảnh làm liên kết</h2>
+
+  <a href="https://www.uel.edu.vn" target="_blank">
+    <img src="images/avatar.jpg" alt="Logo UEL" />
+  </a>
+  <p>(Click vào logo để đến trang web UEL)</p>
+
+
+  <!-- =============================================
+       TÓM TẮT 4 LOẠI LIÊN KẾT:
+       
+       1. Website ngoài:  href="https://www.example.com"
+       2. File nội bộ:    href="page2.html"
+       3. Email:          href="mailto:abc@gmail.com"
+       4. Trong trang:    href="#ten_id"
+       5. Trang khác+id:  href="page.html#ten_id"
+  ============================================== -->
+
+</body>
+</html>

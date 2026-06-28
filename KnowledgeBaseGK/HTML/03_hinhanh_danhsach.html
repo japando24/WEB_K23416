@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hình ảnh & Danh sách</title>
+</head>
+<body>
+
+  <!-- =============================================
+       1. THẺ HÌNH ẢNH <img />
+       Đây là thẻ TỰ ĐÓNG (self-closing tag, không có </img>)
+       
+       Các thuộc tính quan trọng:
+         src    = đường dẫn đến file ảnh (BẮT BUỘC)
+         alt    = văn bản thay thế khi ảnh không load được (BẮT BUỘC cho accessibility)
+         width  = chiều rộng (px hoặc %)
+         height = chiều cao (px hoặc %)
+         title  = tooltip hiện khi hover chuột
+         align  = căn chỉnh: left | right | center
+  ============================================== -->
+
+  <!-- Ảnh từ cùng thư mục -->
+  <img src="images/avatar.jpg" alt="Mô tả hình ảnh" />
+
+  <!-- Ảnh từ thư mục con "images" -->
+  <img src="images/avatar.jpg" alt="Logo công ty" width="200" />
+
+  <!-- Ảnh với đầy đủ thuộc tính -->
+  <img 
+    src="images/avatar.jpg" 
+    alt="Ảnh sản phẩm - hiện khi ảnh không load được"
+    width="400px"
+    height="300px"
+    title="Di chuột vào ảnh để thấy tooltip này"
+  />
+
+  <!-- Ảnh từ URL bên ngoài -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsg677AkkBkPdaOxfXWVDRlmJKZ1pMICylQ&s" alt="Ảnh placeholder" width="300" />
+
+  <!-- Ảnh căn giữa (dùng div bọc ngoài) -->
+  <div style="text-align: center;">
+    <img src="images/avatar.jpg" alt="Ảnh căn giữa" width="400" />
+    <p><i>Chú thích ảnh bên dưới</i></p>
+  </div>
+
+  <!-- 
+    Đường dẫn tương đối vs tuyệt đối:
+    - Tương đối: src="images/anh.jpg"      → file trong cùng project
+    - Tuyệt đối: src="https://..."          → URL đầy đủ từ internet
+  -->
+
+
+  <hr /> <!-- Đường kẻ ngang phân cách -->
+
+
+  <!-- =============================================
+       2. DANH SÁCH CÓ THỨ TỰ <ol> (Ordered List)
+       Hiển thị với số: 1. 2. 3. ... hoặc a. b. c. ...
+       
+       Thuộc tính type của <ol>:
+         type="1" → 1, 2, 3 (MẶC ĐỊNH)
+         type="A" → A, B, C
+         type="a" → a, b, c
+         type="I" → I, II, III (số La Mã hoa)
+         type="i" → i, ii, iii (số La Mã thường)
+       
+       Mỗi mục dùng thẻ <li>
+  ============================================== -->
+
+  <h2>Danh sách có thứ tự (Ordered List)</h2>
+
+  <!-- Kiểu số (mặc định) -->
+  <ol>
+    <li>ReactJs</li>
+    <li>AngularJs</li>
+    <li>VueJs</li>
+  </ol>
+
+  <!-- Kiểu chữ cái thường -->
+  <ol type="a">
+    <li>Mục thứ nhất</li>
+    <li>Mục thứ hai</li>
+    <li>Mục thứ ba</li>
+  </ol>
+
+  <!-- Kiểu chữ cái hoa -->
+  <ol type="A">
+    <li>Câu A</li>
+    <li>Câu B</li>
+    <li>Câu C</li>
+  </ol>
+
+  <!-- Kiểu số La Mã hoa -->
+  <ol type="I">
+    <li>Chương I</li>
+    <li>Chương II</li>
+    <li>Chương III</li>
+  </ol>
+
+  <!-- Bắt đầu từ số khác (thuộc tính start) -->
+  <ol start="5">
+    <li>Mục số 5</li>
+    <li>Mục số 6</li>
+    <li>Mục số 7</li>
+  </ol>
+
+
+  <!-- =============================================
+       3. DANH SÁCH KHÔNG THỨ TỰ <ul> (Unordered List)
+       Hiển thị với ký hiệu bullet •  ■  ○
+       
+       Thuộc tính type của <ul>:
+         type="disc"   → ● (MẶC ĐỊNH, hình tròn đặc)
+         type="circle" → ○ (hình tròn rỗng)
+         type="square" → ■ (hình vuông)
+       
+       Mỗi mục dùng thẻ <li>
+  ============================================== -->
+
+  <h2>Danh sách không thứ tự (Unordered List)</h2>
+
+  <!-- Kiểu disc (mặc định) -->
+  <ul>
+    <li>Mục thứ nhất</li>
+    <li>Mục thứ hai</li>
+    <li>Mục thứ ba</li>
+  </ul>
+
+  <!-- Kiểu circle (tròn rỗng) -->
+  <ul type="circle">
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+  </ul>
+
+  <!-- Kiểu square (vuông) -->
+  <ul type="square">
+    <li>Sản phẩm A</li>
+    <li>Sản phẩm B</li>
+    <li>Sản phẩm C</li>
+  </ul>
+
+
+  <!-- =============================================
+       4. DANH SÁCH LỒNG NHAU (Nested List)
+       Đặt <ul> hoặc <ol> bên trong <li>
+  ============================================== -->
+
+  <h2>Danh sách lồng nhau</h2>
+
+  <ol>
+    <li>Chương 1: HTML
+      <ul>
+        <li>Cấu trúc trang HTML</li>
+        <li>Các thẻ cơ bản</li>
+        <li>Bảng và biểu mẫu</li>
+      </ul>
+    </li>
+    <li>Chương 2: CSS
+      <ul>
+        <li>Selectors</li>
+        <li>Box Model</li>
+        <li>Flexbox</li>
+      </ul>
+    </li>
+    <li>Chương 3: JavaScript</li>
+  </ol>
+
+
+  <!-- =============================================
+       5. DANH SÁCH ĐỀ MỤC CÓ DIỄN GIẢI <dl>
+       dl = Definition List
+       dt = Definition Term (từ khóa)
+       dd = Definition Description (diễn giải)
+  ============================================== -->
+
+  <h2>Danh sách đề mục có diễn giải (Definition List)</h2>
+
+  <dl>
+    <dt>Coffee</dt>
+    <dd>- black hot drink (đồ uống nóng màu đen)</dd>
+
+    <dt>Milk</dt>
+    <dd>- white cold drink (đồ uống lạnh màu trắng)</dd>
+
+    <dt>HTML</dt>
+    <dd>- HyperText Markup Language - ngôn ngữ đánh dấu siêu văn bản</dd>
+  </dl>
+
+</body>
+</html>

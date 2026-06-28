@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thẻ văn bản & Định dạng ký tự</title>
+</head>
+<body>
+
+  <!-- =============================================
+       1. HEADING TAGS (Thẻ tiêu đề / đề mục)
+       Từ h1 (to nhất) → h6 (nhỏ nhất)
+       Sau mỗi thẻ h, văn bản TỰ ĐỘNG xuống dòng
+  ============================================== -->
+
+  <h1>Đề mục cấp 1 - To nhất</h1>
+  <h2>Đề mục cấp 2</h2>
+  <h3>Đề mục cấp 3</h3>
+  <h4>Đề mục cấp 4</h4>
+  <h5>Đề mục cấp 5</h5>
+  <h6>Đề mục cấp 6 - Nhỏ nhất</h6>
+
+  <!-- Thuộc tính align: căn lề cho heading -->
+  <h2 align="center">Tiêu đề căn giữa</h2>
+  <h2 align="right">Tiêu đề căn phải</h2>
+  <!-- align có thể là: left | right | center | justify -->
+
+
+  <!-- =============================================
+       2. THẺ ĐOẠN VĂN <p>
+       Tạo đoạn văn bản + 1 dòng trống phía dưới
+  ============================================== -->
+
+  <p>Đây là đoạn văn bản thứ nhất. Thẻ p tự tạo khoảng cách với đoạn tiếp theo.</p>
+  <p align="justify">Đây là đoạn văn căn đều hai bên (justify). Lorem ipsum dolor sit amet.</p>
+  <p align="center">Đây là đoạn văn căn giữa.</p>
+
+  <!-- LƯU Ý: Khoảng trắng và xuống dòng trong code HTML
+       → Trình duyệt chỉ hiển thị 1 khoảng trắng duy nhất
+       Ví dụ: "Chúc      tất   cả" → hiển thị "Chúc tất cả"
+  -->
+
+
+  <!-- =============================================
+       3. THẺ XUỐNG DÒNG <br />
+       Xuống dòng TẠI CHỖ, không tạo khoảng cách
+       Đây là thẻ TỰ ĐÓNG (không có thẻ đóng)
+  ============================================== -->
+
+  <p>
+    Dòng thứ nhất<br />
+    Dòng thứ hai (cùng đoạn với dòng 1)<br />
+    Dòng thứ ba
+  </p>
+
+
+  <!-- =============================================
+       4. THẺ ĐỊNH DẠNG KÝ TỰ
+  ============================================== -->
+
+  <p><b>In đậm - dùng thẻ &lt;b&gt;</b></p>
+  <p><i>In nghiêng - dùng thẻ &lt;i&gt;</i></p>
+  <p><u>Gạch dưới - dùng thẻ &lt;u&gt;</u></p>
+  <p><tt>Chữ fixed-width (độ rộng cố định) - dùng &lt;tt&gt;</tt></p>
+
+  <!-- Kết hợp nhiều định dạng: -->
+  <p><b><i>Vừa đậm vừa nghiêng</i></b></p>
+  <p><b><u>Vừa đậm vừa gạch dưới</u></b></p>
+
+
+  <!-- =============================================
+       5. SUBSCRIPT & SUPERSCRIPT
+       sub = chỉ số dưới (H₂O)
+       sup = chỉ số trên (X²)
+  ============================================== -->
+
+  <p>Công thức nước: H<sub>2</sub>O</p>
+  <p>Phương trình: ax<sup>2</sup> + bx + c = 0</p>
+  <p>Chú thích<sup>1</sup></p>
+
+
+  <!-- =============================================
+       6. THẺ <font> (Định dạng font chữ)
+       Thuộc tính:
+         face  = tên font
+         size  = kích thước (1-7, mặc định 3)
+         color = màu chữ (tên màu hoặc mã HEX)
+  ============================================== -->
+
+  <font face="Arial" size="5" color="blue">Chữ Arial, cỡ 5, màu xanh dương</font><br />
+  <font face="Times New Roman" size="4" color="#ff0000">Chữ Times, cỡ 4, màu đỏ</font><br />
+  <font face="Verdana" color="green">Chữ Verdana, màu xanh lá</font>
+
+
+  <!-- =============================================
+       7. KÝ TỰ ĐẶC BIỆT (HTML Entities)
+       Dùng khi muốn hiển thị ký tự có ý nghĩa đặc biệt trong HTML
+  ============================================== -->
+
+  <p>&nbsp; = Khoảng trắng (non-breaking space)</p>
+  <p>Nhiều&nbsp;&nbsp;&nbsp;khoảng trắng dùng &amp;nbsp;</p>
+  <p>&lt;p&gt; = Hiển thị ký tự dấu nhỏ hơn và lớn hơn</p>
+  <p>&quot;Dấu ngoặc kép&quot; = dùng &amp;quot;</p>
+  <p>Ký hiệu bản quyền: &copy; UEL 2024</p>
+
+
+  <!-- =============================================
+       8. THẺ <div> và <span>
+       div  = khối (block) - chiếm toàn bộ chiều rộng, xuống dòng
+       span = nội tuyến (inline) - chỉ chiếm phần nội dung, KHÔNG xuống dòng
+  ============================================== -->
+
+  <div style="background-color: lightblue; padding: 10px;">
+    Đây là thẻ DIV - chiếm toàn bộ hàng ngang
+  </div>
+
+  <p>
+    Đây là văn bản thường,
+    <span style="color: red; font-weight: bold;">đây là SPAN màu đỏ</span>,
+    và tiếp tục văn bản bình thường.
+  </p>
+
+
+  <!-- =============================================
+       9. CÁC THẺ SEMANTIC HTML5
+       Có ý nghĩa cấu trúc rõ ràng hơn <div>
+  ============================================== -->
+
+  <header>
+    <h1>Đây là phần HEADER của trang</h1>
+    <!-- header: vùng đầu trang (logo, menu chính...) -->
+  </header>
+
+  <nav>
+    <!-- nav: nhóm các liên kết điều hướng -->
+    <a href="#">Trang chủ</a> |
+    <a href="#">Giới thiệu</a> |
+    <a href="#">Liên hệ</a>
+  </nav>
+
+  <section>
+    <!-- section: một vùng nội dung có chủ đề (giống div nhưng có ngữ nghĩa) -->
+    <h2>Phần nội dung chính</h2>
+    <p>Nội dung của section...</p>
+  </section>
+
+  <footer>
+    <!-- footer: vùng chân trang (bản quyền, địa chỉ...) -->
+    <p>&copy; 2024 - Trường Đại học Kinh tế - Luật UEL</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Bài 73 - Danh sách sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .search-box {
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 600px;
+        }
+
+        th {
+            background-color: yellow;
+            border: 1px solid #333;
+            padding: 6px 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            border: 1px solid #333;
+            padding: 6px 12px;
+        }
+
+        input[type="text"] {
+            padding: 4px 8px;
+            width: 200px;
+        }
+    </style>
+
+    <script>
+        var sanphams = [
+            { ma: "sp1", ten: "Cocacola", gia: 15000 },
+            { ma: "sp2", ten: "Pepsi",    gia: 25000 },
+            { ma: "sp3", ten: "Sting",    gia: 17000 },
+            { ma: "sp4", ten: "Chanh dây",gia: 12000 },
+            { ma: "sp5", ten: "pho mát",  gia: 18000 }
+        ];
+
+        function hienThi(danhSach) {
+            var table = "<table>";
+            table += "<tr><th>Mã Sản Phẩm</th><th>Tên Sản Phẩm</th><th>Đơn giá</th></tr>";
+
+            for (var i = 0; i < danhSach.length; i++) {
+                var sp = danhSach[i];
+                table += "<tr>";
+                table += "<td>" + sp.ma  + "</td>";
+                table += "<td>" + sp.ten + "</td>";
+                table += "<td>" + sp.gia + "</td>";
+                table += "</tr>";
+            }
+
+            table += "</table>";
+            document.getElementById("infor").innerHTML = table;
+        }
+
+        function timKiem() {
+            var keyword = document.getElementById("txtSearch").value.toLowerCase();
+            var ketQua = [];
+
+            for (var i = 0; i < sanphams.length; i++) {
+                if (sanphams[i].ten.toLowerCase().indexOf(keyword) >= 0) {
+                    ketQua.push(sanphams[i]);
+                }
+            }
+
+            hienThi(ketQua);
+        }
+
+        window.onload = function() {
+            hienThi(sanphams);
+        };
+    </script>
+</head>
+<body>
+    <div class="search-box">
+        Muốn tìm gì: <input type="text" id="txtSearch" oninput="timKiem()" />
+    </div>
+    <div id="infor"></div>
+</body>
+</html>

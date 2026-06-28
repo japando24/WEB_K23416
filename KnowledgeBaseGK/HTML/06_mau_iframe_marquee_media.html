@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Màu sắc, Iframe, Marquee, Multimedia</title>
+</head>
+<body>
+
+  <!-- =============================================
+       1. MÀU SẮC TRONG HTML
+       
+       Có 3 cách khai báo màu:
+         a) Tên màu:  color="red", color="blue"
+         b) HEX:      color="#ff0000", color="#0000ff"
+         c) RGB:      color="rgb(255, 0, 0)"
+         d) HSL:      color="hsl(0, 100%, 50%)"
+       
+       Dùng trong thuộc tính:
+         - color (màu chữ)
+         - background-color (màu nền)
+         - border-color (màu viền)
+  ============================================== -->
+
+  <h2>1. Màu sắc trong HTML</h2>
+
+  <!-- Màu chữ bằng tên màu -->
+  <p style="color: red;">Màu đỏ - color: red</p>
+  <p style="color: blue;">Màu xanh dương - color: blue</p>
+  <p style="color: green;">Màu xanh lá - color: green</p>
+  <p style="color: Tomato;">Màu Tomato (tên màu HTML5)</p>
+  <p style="color: DodgerBlue;">Màu DodgerBlue</p>
+  <p style="color: MediumSeaGreen;">Màu MediumSeaGreen</p>
+  <!-- Xem danh sách 140 màu: https://www.w3schools.com/colors/colors_names.asp -->
+
+  <!-- Màu chữ bằng mã HEX -->
+  <p style="color: #ff0000;">Màu đỏ - HEX #ff0000</p>
+  <p style="color: #0000ff;">Màu xanh dương - HEX #0000ff</p>
+  <p style="color: #3cb371;">Màu xanh lá - HEX #3cb371</p>
+
+  <!-- Màu chữ bằng RGB -->
+  <p style="color: rgb(255, 0, 0);">Màu đỏ - RGB(255, 0, 0)</p>
+  <p style="color: rgb(60, 179, 113);">Màu xanh lá - RGB(60, 179, 113)</p>
+
+  <!-- Màu chữ bằng HSL (Hue, Saturation, Lightness) -->
+  <p style="color: hsl(0, 100%, 50%);">Màu đỏ - HSL(0, 100%, 50%)</p>
+  <p style="color: hsl(240, 100%, 50%);">Màu xanh dương - HSL(240, 100%, 50%)</p>
+
+  <!-- Màu nền (background-color) -->
+  <h1 style="background-color: hsl(57, 61%, 82%);">Hello World - nền vàng HSL</h1>
+  <p style="background-color: cyan;">Nền màu cyan</p>
+  <p style="background-color: rgb(228, 181, 123);">Nền màu cam - RGB</p>
+
+  <!-- Màu viền (border) -->
+  <h1 style="border: 2px solid Tomato;">Hello World - viền Tomato</h1>
+  <h1 style="border: 2px solid hsl(214, 81%, 53%);">Hello World - viền xanh HSL</h1>
+  <h1 style="border: 2px solid rgb(228, 123, 228);">Hello World - viền tím RGB</h1>
+
+  <!-- Kết hợp màu nền + màu chữ -->
+  <p style="color: white; background-color: #003366; padding: 10px;">
+    Chữ trắng, nền xanh đậm
+  </p>
+
+  <hr />
+
+
+  <!-- =============================================
+       2. THẺ IFRAME
+       Nhúng trang web khác vào trong trang hiện tại
+       
+       Thuộc tính:
+         src    = URL của trang cần nhúng
+         width  = chiều rộng khung
+         height = chiều cao khung
+         name   = tên iframe (dùng để làm target cho liên kết)
+         title  = mô tả (tốt cho accessibility)
+  ============================================== -->
+
+  <h2>2. Iframe</h2>
+
+  <!-- Nhúng trang web ngoài vào -->
+  <iframe 
+    src="https://www.uel.edu.vn" 
+    width="800" 
+    height="400"
+    title="Trang web UEL">
+  </iframe>
+
+  <!-- 
+    IFRAME làm TARGET cho liên kết:
+    Khi click link, nội dung mở trong iframe thay vì tab mới
+  -->
+  <h3>Iframe làm target cho link</h3>
+
+  <div style="display: flex;">
+    <!-- Cột 1: Danh sách link (20% chiều rộng) -->
+    <div style="flex: 20%">
+      <p><a href="https://reactjs.org" target="my_iframe">ReactJs</a></p>
+      <p><a href="https://angular.io" target="my_iframe">AngularJs</a></p>
+      <p><a href="https://vuejs.org" target="my_iframe">VueJs</a></p>
+    </div>
+
+    <!-- Cột 2: Iframe nhận nội dung (80% chiều rộng) -->
+    <div style="flex: 80%">
+      <iframe 
+        name="my_iframe"       <!-- Tên để <a target="my_iframe"> nhắm vào -->
+        src="https://reactjs.org"
+        height="400px" 
+        width="100%"
+        title="Khung xem trang web">
+      </iframe>
+    </div>
+  </div>
+
+  <hr />
+
+
+  <!-- =============================================
+       3. MARQUEE (Văn bản/hình ảnh chạy động)
+       
+       LƯU Ý: Thẻ <marquee> đã bị DEPRECATED (không còn chuẩn)
+       trong HTML5 nhưng vẫn hoạt động trên hầu hết trình duyệt
+       
+       Thuộc tính:
+         direction    = hướng: left (mặc định) | right | up | down
+         behavior     = kiểu di chuyển:
+                          scroll    = chạy liên tục (mặc định)
+                          slide     = chạy 1 lần rồi dừng
+                          alternate = chạy qua lại
+         scrollamount = tốc độ (số càng lớn càng nhanh, mặc định 6)
+         loop         = số lần lặp (-1 = vô hạn, mặc định -1)
+         bgcolor      = màu nền
+         width        = chiều rộng
+  ============================================== -->
+
+  <h2>3. Marquee</h2>
+
+  <!-- Chạy từ phải sang trái (mặc định) -->
+  <marquee>Chạy từ phải sang trái - mặc định</marquee>
+
+  <!-- Chạy từ trái sang phải -->
+  <marquee direction="right" behavior="scroll" loop="-1" scrollamount="10">
+    Chạy qua phải, lặp liên tục, tốc độ 10
+  </marquee>
+
+  <!-- Chạy 1 lần rồi dừng lại bên trái -->
+  <marquee direction="left" behavior="slide" loop="1" scrollamount="10">
+    Chạy qua trái, slide 1 lần rồi dừng
+  </marquee>
+
+  <!-- Chạy qua lại -->
+  <marquee behavior="alternate" scrollamount="5" bgcolor="#ffffcc">
+    Chạy qua lại (alternate)
+  </marquee>
+
+  <!-- Chạy từ trên xuống (cần height) -->
+  <marquee direction="down" behavior="scroll" loop="-1" scrollamount="5" height="80px">
+    <p align="center">Chạy từ trên xuống</p>
+  </marquee>
+
+  <!-- Hình ảnh chạy -->
+  <marquee scrollamount="8">
+    <img src="https://via.placeholder.com/50x30?text=IMG1" alt="img1" />
+    &nbsp;&nbsp;&nbsp;
+    <img src="https://via.placeholder.com/50x30?text=IMG2" alt="img2" />
+    &nbsp;&nbsp;&nbsp;
+    <img src="https://via.placeholder.com/50x30?text=IMG3" alt="img3" />
+  </marquee>
+
+  <hr />
+
+
+  <!-- =============================================
+       4. MULTIMEDIA - ÂM THANH & VIDEO
+  ============================================== -->
+
+  <h2>4. Multimedia</h2>
+
+  <!-- 
+    AUDIO - Chèn âm thanh
+    Thuộc tính:
+      controls  = hiện thanh điều khiển (play/pause/volume...)
+      autoplay  = tự động phát (nhiều trình duyệt chặn)
+      loop      = lặp lại
+      muted     = tắt tiếng
+  -->
+  <h3>Audio</h3>
+  <audio controls>
+    <source src="media/nhac.mp3" type="audio/mpeg">
+    <source src="media/nhac.ogg" type="audio/ogg">
+    <!-- Thông báo dự phòng nếu trình duyệt không hỗ trợ -->
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- 
+    VIDEO - Chèn video
+    Thuộc tính tương tự audio + thêm:
+      width, height = kích thước video
+      poster        = ảnh preview trước khi play
+  -->
+  <h3>Video</h3>
+  <video width="640" height="360" controls>
+    <source src="media/video.mp4" type="video/mp4">
+    <source src="media/video.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Video với poster (ảnh thumbnail) -->
+  <video width="640" height="360" controls poster="media/thumbnail.jpg">
+    <source src="media/video.mp4" type="video/mp4">
+  </video>
+
+  <!-- 
+    NHÚNG VIDEO YOUTUBE
+    Cách 1: dùng <object>
+  -->
+  <h3>Nhúng YouTube - dùng &lt;object&gt;</h3>
+  <object 
+    width="560" 
+    height="315" 
+    data="https://www.youtube.com/v/sVPYIRF9RCQ">
+  </object>
+
+  <!-- 
+    Cách 2: dùng <embed> (đơn giản hơn)
+  -->
+  <h3>Nhúng YouTube - dùng &lt;embed&gt;</h3>
+  <embed 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/v/sVPYIRF9RCQ">
+
+  <!-- 
+    Cách 3: dùng <iframe> (KHUYẾN NGHỊ - hiện đại nhất)
+    Lấy link embed từ: YouTube → Share → Embed
+  -->
+  <h3>Nhúng YouTube - dùng &lt;iframe&gt; (khuyến nghị)</h3>
+  <iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/sVPYIRF9RCQ"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+
+</body>
+</html>

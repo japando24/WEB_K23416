@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Bài 74 - Bảng điểm Sinh Viên</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .search-box {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 4px 8px;
+            width: 200px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 6px 14px;
+            text-align: left;
+        }
+
+        th {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        .ket-qua-rot {
+            color: red;
+        }
+    </style>
+
+    <script>
+        var danhSachSV = [];
+
+        function docDuLieuAJAX() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "Bai74/databaseSinhVien.json", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    danhSachSV = JSON.parse(xhr.responseText);
+                    hienThi(danhSachSV);
+                }
+            };
+            xhr.send();
+        }
+
+        function tinhTrungBinh(monHocs) {
+            var tong = 0;
+            for (var i = 0; i < monHocs.length; i++) {
+                tong += monHocs[i].Diem;
+            }
+            return tong / monHocs.length;
+        }
+
+        function hienThi(danhSach) {
+            var table = "<table>";
+            table += "<tr>";
+            table += "<th rowspan='2'>Mã Sinh Viên</th>";
+            table += "<th rowspan='2'>Tên Sinh Viên</th>";
+            table += "<th colspan='3'>Điểm thành phần</th>";
+            table += "<th rowspan='2'>Điểm Trung Bình</th>";
+            table += "<th rowspan='2'>Kết quả</th>";
+            table += "</tr>";
+            table += "<tr><th>Toán</th><th>Lý</th><th>Hóa</th></tr>";
+
+            for (var i = 0; i < danhSach.length; i++) {
+                var sv  = danhSach[i];
+                var mhs = sv.MonHocs;
+                var tb  = tinhTrungBinh(mhs);
+                var tbHienThi = tb.toFixed(2);
+                var ketQua = tb >= 5 ? "Đậu" : "Rớt";
+                var ketQuaClass = tb >= 5 ? "" : "ket-qua-rot";
+
+                table += "<tr>";
+                table += "<td>" + sv.Ma  + "</td>";
+                table += "<td>" + sv.Ten + "</td>";
+                table += "<td>" + mhs[0].Diem + "</td>";
+                table += "<td>" + mhs[1].Diem + "</td>";
+                table += "<td>" + mhs[2].Diem + "</td>";
+                table += "<td>" + tbHienThi   + "</td>";
+                table += "<td class='" + ketQuaClass + "'>" + ketQua + "</td>";
+                table += "</tr>";
+            }
+
+            table += "</table>";
+            document.getElementById("infor").innerHTML = table;
+        }
+
+        function timKiem() {
+            var keyword = document.getElementById("txtSearch").value.toLowerCase();
+            var ketQua = [];
+            for (var i = 0; i < danhSachSV.length; i++) {
+                if (danhSachSV[i].Ten.toLowerCase().indexOf(keyword) >= 0) {
+                    ketQua.push(danhSachSV[i]);
+                }
+            }
+            hienThi(ketQua);
+        }
+
+        window.onload = function () {
+            docDuLieuAJAX();
+        };
+    </script>
+</head>
+<body>
+    <div class="search-box">
+        Muốn tìm gì: <input type="text" id="txtSearch" oninput="timKiem()" />
+    </div>
+    <div id="infor"></div>
+</body>
+</html>

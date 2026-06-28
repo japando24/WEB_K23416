@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi" ng-app="myApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Bài 75 - Hiển thị Sách môn học</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 6px 14px;
+        }
+
+        th {
+            background-color: yellow;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .info-table td {
+            padding: 5px 10px;
+        }
+
+        .info-table input {
+            width: 200px;
+            padding: 3px 6px;
+        }
+
+        .section-label {
+            margin: 10px 0 6px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+
+    <!-- Chọn sinh viên -->
+    <div style="margin-bottom:10px;">
+        Chọn Sinh Viên:
+        <select ng-model="sinhvien" ng-options="sv.Ten for sv in danhSachSV">
+        </select>
+    </div>
+
+    <!-- Bảng thông tin sinh viên -->
+    <table class="info-table" border="1" style="border-collapse:collapse;">
+        <tr>
+            <td>Nhập Mã:</td>
+            <td><input type="text" ng-model="sinhvien.Ma" /></td>
+        </tr>
+        <tr>
+            <td>Nhập Tên:</td>
+            <td><input type="text" ng-model="sinhvien.Ten" /></td>
+        </tr>
+        <tr>
+            <td>Mã và Tên:</td>
+            <td>{{ sinhvien.Ma + ' ' + sinhvien.Ten }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Danh sách Sách đang mượn:</td>
+        </tr>
+    </table>
+
+    <!-- Bảng danh sách sách, sắp xếp theo Số Trang tăng dần -->
+    <table>
+        <tr>
+            <th>Mã Sách</th>
+            <th>Tên Sách</th>
+            <th>Số Trang</th>
+        </tr>
+        <tr ng-repeat="sach in sinhvien.Sachs | orderBy:'Trang'">
+            <td>{{ sach.Ma }}</td>
+            <td>{{ sach.Ten }}</td>
+            <td>{{ sach.Trang }}</td>
+        </tr>
+    </table>
+
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+
+            function taoSV(ma, ten, sachs) {
+                return { Ma: ma, Ten: ten, Sachs: sachs };
+            }
+
+            $scope.danhSachSV = [
+                taoSV(1, 'Trần Duy Thanh', [
+                    { Ma: 'S1',  Ten: 'Hồng Lâu Mộng',      Trang: 100  },
+                    { Ma: 'S2',  Ten: 'Tây Du Ký',            Trang: 200  },
+                    { Ma: 'S3',  Ten: 'Tam Quốc Chí',         Trang: 90   },
+                    { Ma: 'S4',  Ten: 'Bích Huyết Kiếm',      Trang: 70   },
+                    { Ma: 'S5',  Ten: 'Anh Hùng Xạ Điêu',    Trang: 1000 },
+                    { Ma: 'S6',  Ten: 'Thần Điêu Đại Hiệp',  Trang: 500  },
+                    { Ma: 'S7',  Ten: 'Tần Thủy Hoàng',       Trang: 600  },
+                    { Ma: 'S8',  Ten: 'Chiến Quốc',           Trang: 400  },
+                    { Ma: 'S9',  Ten: 'Hán Sở Tranh Hùng',   Trang: 300  },
+                    { Ma: 'S10', Ten: 'Bảo Đao',              Trang: 700  }
+                ]),
+                taoSV(2, 'Nguyễn Thị Lan', [
+                    { Ma: 'S1',  Ten: 'Dế Mèn Phiêu Lưu Ký', Trang: 150 },
+                    { Ma: 'S2',  Ten: 'Số Đỏ',                Trang: 280 },
+                    { Ma: 'S3',  Ten: 'Chí Phèo',             Trang: 95  },
+                    { Ma: 'S4',  Ten: 'Tắt Đèn',              Trang: 210 },
+                    { Ma: 'S5',  Ten: 'Lão Hạc',              Trang: 60  }
+                ]),
+                taoSV(3, 'Lê Văn Minh', [
+                    { Ma: 'S1',  Ten: 'Đắc Nhân Tâm',         Trang: 320 },
+                    { Ma: 'S2',  Ten: 'Nhà Giả Kim',           Trang: 228 },
+                    { Ma: 'S3',  Ten: 'Sapiens',               Trang: 500 },
+                    { Ma: 'S4',  Ten: 'Atomic Habits',         Trang: 285 },
+                    { Ma: 'S5',  Ten: 'Tư Duy Nhanh Và Chậm', Trang: 430 },
+                    { Ma: 'S6',  Ten: 'Deep Work',             Trang: 296 }
+                ])
+            ];
+
+            $scope.sinhvien = $scope.danhSachSV[0];
+        });
+    </script>
+</body>
+</html>

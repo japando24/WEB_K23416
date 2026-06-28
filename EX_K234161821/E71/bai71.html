@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Bài 71 - Hiển thị thông tin User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 500px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 16px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #eaf4fb;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+            width: 160px;
+        }
+    </style>
+
+    <script>
+        var user = {
+            "id": "100005823642721",
+            "first_name": "Duy Thanh",
+            "gender": "male",
+            "last_name": "Trần",
+            "link": "https://www.facebook.com/duythanhcse",
+            "locale": "en_US",
+            "birthday": "20/12/1961",
+            "name": "Duy Thanh Trần",
+            "username": "duythanhcse"
+        };
+
+        function hienThiThongTin() {
+            var table = "<table>";
+            table += "<tr><th colspan='2'>Thông tin User</th></tr>";
+            table += "<tr><td class='label'>ID</td><td>" + user.id + "</td></tr>";
+            table += "<tr><td class='label'>Họ</td><td>" + user.last_name + "</td></tr>";
+            table += "<tr><td class='label'>Tên</td><td>" + user.first_name + "</td></tr>";
+            table += "<tr><td class='label'>Họ và tên</td><td>" + user.name + "</td></tr>";
+            table += "<tr><td class='label'>Giới tính</td><td>" + user.gender + "</td></tr>";
+            table += "<tr><td class='label'>Ngày sinh</td><td>" + user.birthday + "</td></tr>";
+            table += "<tr><td class='label'>Ngôn ngữ</td><td>" + user.locale + "</td></tr>";
+            table += "<tr><td class='label'>Username</td><td>" + user.username + "</td></tr>";
+            table += "<tr><td class='label'>Link</td><td><a href='" + user.link + "' target='_blank'>" + user.link + "</a></td></tr>";
+            table += "</table>";
+
+            document.getElementById("thongtin").innerHTML = table;
+        }
+    </script>
+</head>
+<body>
+    <h2>Bài 71: Hiển thị thông tin User</h2>
+    <input type="button" value="Hiển thị thông tin" onclick="hienThiThongTin()" />
+    <br/><br/>
+    <div id="thongtin"></div>
+</body>
+</html>

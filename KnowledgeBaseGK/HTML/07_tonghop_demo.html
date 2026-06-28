@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TỔNG HỢP - Trang Web Demo HTML</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #0055a5;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      background-color: white;
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+    h2 {
+      color: #003366;
+      border-left: 5px solid #0055a5;
+      padding-left: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    table th, table td {
+      border: 1px solid #999;
+      padding: 8px;
+    }
+    table th {
+      background-color: #003366;
+      color: white;
+    }
+    table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Trường Đại học Kinh tế - Luật</h1>
+    <p>Phát triển Web Kinh Doanh - Demo HTML</p>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="#gioi-thieu">Giới thiệu</a>
+    <a href="#khoa-hoc">Khóa học</a>
+    <a href="#bang-diem">Bảng điểm</a>
+    <a href="#lien-he">Liên hệ</a>
+  </nav>
+
+  <!-- MARQUEE thông báo -->
+  <marquee bgcolor="#ffffcc" scrollamount="4">
+    🎓 Chào mừng đến với trang web demo HTML | Môn học: Phát triển Web Kinh Doanh | GV: ThS. Nguyễn Quang Phúc
+  </marquee>
+
+
+  <!-- SECTION 1: GIỚI THIỆU -->
+  <section id="gioi-thieu">
+    <h2>Giới thiệu về HTML</h2>
+
+    <p>
+      <b>HTML</b> (HyperText Markup Language) là ngôn ngữ đánh dấu siêu văn bản,
+      là ngôn ngữ <i>cơ bản nền tảng</i> để xây dựng các trang web.
+    </p>
+
+    <p>
+      HTML sử dụng các <u>thẻ (tags)</u> để định dạng cách hiển thị dữ liệu.
+      Phiên bản hiện tại là <b>HTML5</b>.
+    </p>
+
+    <!-- Hình ảnh -->
+    <div style="text-align: center;">
+      <img 
+        src="https://via.placeholder.com/600x200?text=HTML+Web+Development"
+        alt="HTML Web Development"
+        width="600"
+        title="Hình minh họa phát triển web"
+        style="border: 2px solid #003366;"
+      />
+      <p><i>Hình 1: Minh họa phát triển web với HTML</i></p>
+    </div>
+  </section>
+
+
+  <!-- SECTION 2: KHÓA HỌC -->
+  <section id="khoa-hoc">
+    <h2>Nội dung khóa học</h2>
+
+    <!-- Danh sách có thứ tự -->
+    <h3>Chương trình học</h3>
+    <ol>
+      <li>HTML - HyperText Markup Language
+        <ul>
+          <li>Cấu trúc trang HTML</li>
+          <li>Các thẻ cơ bản</li>
+          <li>Bảng và liên kết</li>
+        </ul>
+      </li>
+      <li>CSS - Cascading Style Sheets</li>
+      <li>JavaScript cơ bản</li>
+      <li>Dự án thực tế</li>
+    </ol>
+
+    <!-- Danh sách không thứ tự -->
+    <h3>Công cụ cần thiết</h3>
+    <ul>
+      <li>Visual Studio Code (IDE)</li>
+      <li>Trình duyệt Chrome / Firefox</li>
+      <li>Extension: Live Server</li>
+    </ul>
+  </section>
+
+
+  <!-- SECTION 3: BẢNG ĐIỂM -->
+  <section id="bang-diem">
+    <h2>Bảng điểm sinh viên</h2>
+
+    <table>
+      <caption><b>Bảng điểm học kỳ 1 - Lớp Web01</b></caption>
+      <tr>
+        <th rowspan="2">STT</th>
+        <th rowspan="2">MSSV</th>
+        <th rowspan="2">Họ và Tên</th>
+        <th colspan="3" align="center">Điểm thành phần</th>
+        <th rowspan="2">Điểm TB</th>
+      </tr>
+      <tr>
+        <th>Giữa kỳ</th>
+        <th>Thực hành</th>
+        <th>Cuối kỳ</th>
+      </tr>
+      <tr>
+        <td align="center">1</td>
+        <td>K224111001</td>
+        <td>Nguyễn Văn An</td>
+        <td align="center">8.5</td>
+        <td align="center">9.0</td>
+        <td align="center">8.0</td>
+        <td align="center"><b>8.5</b></td>
+      </tr>
+      <tr>
+        <td align="center">2</td>
+        <td>K224111002</td>
+        <td>Trần Thị Bình</td>
+        <td align="center">7.0</td>
+        <td align="center">8.5</td>
+        <td align="center">7.5</td>
+        <td align="center"><b>7.6</b></td>
+      </tr>
+      <tr>
+        <td align="center">3</td>
+        <td>K224111003</td>
+        <td>Lê Văn Cường</td>
+        <td align="center">9.0</td>
+        <td align="center">9.5</td>
+        <td align="center">9.0</td>
+        <td align="center"><b>9.1</b></td>
+      </tr>
+      <tr bgcolor="#ffffcc">
+        <td colspan="6" align="right"><b>Điểm trung bình lớp:</b></td>
+        <td align="center"><b>8.4</b></td>
+      </tr>
+    </table>
+  </section>
+
+
+  <!-- SECTION 4: LIÊN HỆ -->
+  <section id="lien-he">
+    <h2>Liên hệ</h2>
+
+    <p>
+      <b>Giảng viên:</b> ThS. Nguyễn Quang Phúc<br />
+      <b>Email:</b> <a href="mailto:phucnq@uel.edu.vn">phucnq@uel.edu.vn</a><br />
+      <b>Website:</b> <a href="https://www.uel.edu.vn" target="_blank">www.uel.edu.vn</a>
+    </p>
+
+    <!-- Nhúng bản đồ (Google Maps iframe) -->
+    <h3>Vị trí trường</h3>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.9!2d106.7!3d10.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ1JzAwLjAiTiAxMDbCsDQyJzAwLjAiRQ!5e0!3m2!1svi!2svn!4v1234567890"
+      width="600"
+      height="300"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      title="Bản đồ UEL">
+    </iframe>
+
+    <!-- Các liên kết -->
+    <h3>Link tham khảo</h3>
+    <ul>
+      <li><a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML Tutorial</a></li>
+      <li><a href="https://developer.mozilla.org/vi/docs/Web/HTML" target="_blank">MDN Web Docs - HTML (Tiếng Việt)</a></li>
+      <li><a href="https://www.w3schools.com/colors/colors_names.asp" target="_blank">Danh sách 140 tên màu HTML</a></li>
+      <li><a href="https://flatuicolors.com" target="_blank">Flat UI Colors - Bảng màu đẹp</a></li>
+    </ul>
+
+    <!-- Về đầu trang -->
+    <p align="right"><a href="#">↑ Về đầu trang</a></p>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2024 - Trường Đại học Kinh tế - Luật (UEL)</p>
+    <p>
+      Đại học Quốc gia Thành phố Hồ Chí Minh |
+      <a href="mailto:uel@uel.edu.vn" style="color: #aad4f5;">uel@uel.edu.vn</a>
+    </p>
+  </footer>
+
+</body>
+</html>
+
+<!--
+  ==================================================
+  CHECKLIST ÔN TẬP GIỮA KỲ:
+  ==================================================
+  
+  CẤU TRÚC CƠ BẢN:
+  □ <!DOCTYPE html> - Khai báo HTML5
+  □ <html lang="vi"> - Thẻ gốc + ngôn ngữ
+  □ <head> - Phần đầu không hiển thị
+  □ <meta charset="UTF-8"> - Mã hóa ký tự (quan trọng!)
+  □ <title> - Tiêu đề tab trình duyệt
+  □ <body> - Toàn bộ nội dung hiển thị
+  
+  CÁC THẺ VĂN BẢN:
+  □ <h1>...<h6> - Tiêu đề (heading)
+  □ <p> - Đoạn văn
+  □ <br /> - Xuống dòng (self-closing)
+  □ <b>, <i>, <u> - Đậm, nghiêng, gạch dưới
+  □ <sub>, <sup> - Chỉ số dưới/trên
+  □ <font face="" size="" color=""> - Định dạng font
+  □ <!-- --> - Ghi chú
+  □ &nbsp; &lt; &gt; &copy; - Ký tự đặc biệt
+  
+  HÌNH ẢNH:
+  □ <img src="" alt="" width="" height="" title="" />
+  
+  DANH SÁCH:
+  □ <ol type="1/A/a/I/i"> + <li> - Có thứ tự
+  □ <ul type="disc/circle/square"> + <li> - Không thứ tự
+  □ <dl> + <dt> + <dd> - Định nghĩa
+  
+  LIÊN KẾT:
+  □ <a href="URL"> - Website ngoài
+  □ <a href="file.html"> - File nội bộ
+  □ <a href="mailto:abc@email.com"> - Email
+  □ <a href="#id"> - Trong trang
+  □ <a href="page.html#id"> - Trang khác + vị trí
+  □ target="_blank" - Mở tab mới
+  □ id="..." - Đặt neo (anchor)
+  
+  BẢNG:
+  □ <table border="" width="" cellspacing="" cellpadding="">
+  □ <caption> - Tiêu đề bảng
+  □ <tr> - Hàng
+  □ <th> - Ô tiêu đề (bold + center)
+  □ <td> - Ô dữ liệu
+  □ colspan="n" - Gộp n cột
+  □ rowspan="n" - Gộp n hàng
+  □ &nbsp; - Ô trống
+  
+  MÀU SẮC:
+  □ Tên màu: color="red"
+  □ HEX: color="#ff0000"
+  □ RGB: color="rgb(255,0,0)"
+  □ HSL: color="hsl(0,100%,50%)"
+  
+  IFRAME:
+  □ <iframe src="" width="" height="" name="" title="">
+  □ target="tên_iframe" - Mở link trong iframe
+  
+  MARQUEE:
+  □ direction: left | right | up | down
+  □ behavior: scroll | slide | alternate
+  □ scrollamount: tốc độ
+  □ loop: -1 = vô hạn
+  
+  MULTIMEDIA:
+  □ <audio controls> + <source src="" type="">
+  □ <video controls width="" height=""> + <source>
+  □ <iframe> - Nhúng YouTube (khuyến nghị)
+  □ <object data=""> - Cách cũ nhúng YouTube
+  □ <embed src=""> - Cách cũ nhúng YouTube
+  
+  ==================================================
+-->

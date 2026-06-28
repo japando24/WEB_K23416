@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Bài 72 - Danh sách sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #2980b9;
+            color: white;
+            padding: 8px 14px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px 14px;
+            border: 1px solid #ccc;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #eaf4fb;
+        }
+
+        input[type="button"] {
+            padding: 6px 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        var dmMayTinh = {
+            "Sanphams": [
+                {
+                    "MaSP": "sp_1xxx",
+                    "TenSP": "DELL Inspiron 14NR",
+                    "SoLuong": 100,
+                    "DonGia": 150000
+                },
+                {
+                    "MaSP": "sp_2yyyy",
+                    "TenSP": "HP Inspiron 113",
+                    "SoLuong": 130,
+                    "DonGia": 140000
+                },
+                {
+                    "MaSP": "sp_3aaaa",
+                    "TenSP": "Lenovo IdeaPad 3",
+                    "SoLuong": 80,
+                    "DonGia": 160000
+                },
+                {
+                    "MaSP": "sp_4bbbb",
+                    "TenSP": "Asus VivoBook 15",
+                    "SoLuong": 60,
+                    "DonGia": 175000
+                }
+            ],
+            "MaDM": "DM1",
+            "TenDM": "Hàng máy tính"
+        };
+
+        function hienThi() {
+            var table = "<table>";
+            table += "<tr><th>Mã</th><th>Tên</th><th>Số lượng</th><th>Đơn giá</th></tr>";
+
+            for (var i = 0; i < dmMayTinh.Sanphams.length; i++) {
+                var sp = dmMayTinh.Sanphams[i];
+                table += "<tr>";
+                table += "<td>" + sp.MaSP + "</td>";
+                table += "<td>" + sp.TenSP + "</td>";
+                table += "<td>" + sp.SoLuong + "</td>";
+                table += "<td>" + sp.DonGia + "</td>";
+                table += "</tr>";
+            }
+
+            table += "</table>";
+            document.getElementById("infor").innerHTML = table;
+        }
+    </script>
+</head>
+<body>
+    <h2>Bài 72: Danh sách sản phẩm</h2>
+    <input type="button" value="Hiển thị" onclick="hienThi()" />
+    <div id="infor"></div>
+</body>
+</html>

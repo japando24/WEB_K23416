@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng HTML - Table</title>
+  <style>
+    /* CSS để bảng dễ nhìn hơn khi học */
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { color: #003366; border-bottom: 2px solid #003366; }
+    .section { margin-bottom: 40px; }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       BẢNG HTML <table>
+       
+       Cấu trúc cơ bản:
+         <table>       = toàn bộ bảng
+           <caption>   = tiêu đề bảng (tùy chọn)
+           <tr>        = table row (hàng)
+             <th>      = table header cell (ô tiêu đề - in đậm, căn giữa)
+             <td>      = table data cell (ô dữ liệu)
+       
+       Thuộc tính của <table>:
+         border       = độ dày đường viền (0 = không có viền)
+         width        = độ rộng bảng (px hoặc %)
+         height       = chiều cao bảng
+         cellspacing  = khoảng cách giữa các ô
+         cellpadding  = khoảng cách nội dung với mép ô
+         align        = căn chỉnh bảng: left | center | right
+         bgcolor      = màu nền bảng
+       
+       Thuộc tính của <td> và <th>:
+         width, height  = kích thước ô
+         align          = căn lề ngang: left | center | right | justify
+         valign         = căn lề dọc: top | middle | bottom
+         colspan="n"    = gộp n cột ngang
+         rowspan="n"    = gộp n hàng dọc
+         bgcolor        = màu nền ô
+         nowrap         = không tự xuống dòng
+  ============================================== -->
+
+
+  <!-- =============================================
+       1. BẢNG CƠ BẢN
+  ============================================== -->
+
+  <div class="section">
+    <h2>1. Bảng cơ bản</h2>
+
+    <table border="1" width="500">
+      <caption>Danh sách sinh viên</caption>
+
+      <!-- Hàng tiêu đề: dùng <th> → in đậm, căn giữa tự động -->
+      <tr>
+        <th>Mã số SV</th>
+        <th>Họ tên</th>
+        <th>Ngày sinh</th>
+      </tr>
+
+      <!-- Hàng dữ liệu: dùng <td> -->
+      <tr>
+        <td>NV01</td>
+        <td>Huỳnh Nhật Phi</td>
+        <td>02/05/2000</td>
+      </tr>
+      <tr>
+        <td>NV02</td>
+        <td>Lê Triệu Vỹ</td>
+        <td>15/08/2000</td>
+      </tr>
+      <tr>
+        <td>NV03</td>
+        <td>Lý Huỳnh Tiến</td>
+        <td>09/03/2000</td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- =============================================
+       2. BẢNG CÓ ĐỊNH DẠNG ĐẦY ĐỦ
+  ============================================== -->
+
+  <div class="section">
+    <h2>2. Bảng có định dạng đầy đủ</h2>
+
+    <table 
+      align="center"
+      border="1" 
+      cellspacing="1"   <!-- khoảng cách giữa các ô: 1px -->
+      cellpadding="3"   <!-- khoảng cách nội dung với mép: 3px -->
+      bgcolor="#faebd7" <!-- màu nền toàn bảng -->
+      width="600"
+    >
+      <caption><b>Bảng sản phẩm</b></caption>
+
+      <!-- Hàng tiêu đề với màu nền riêng -->
+      <tr bgcolor="#d3d3d3">
+        <th>STT</th>
+        <th>Mã SP</th>
+        <th>Tên SP</th>
+        <th align="right">Giá (VNĐ)</th>
+        <th>Xuất xứ</th>
+      </tr>
+
+      <tr>
+        <td align="center">1</td>
+        <td>SP001</td>
+        <td>Coca Cola</td>
+        <td align="right">15,000</td>
+        <td align="center">VN</td>
+      </tr>
+      <tr>
+        <td align="center">2</td>
+        <td>SP002</td>
+        <td>Pepsi</td>
+        <td align="right">20,000</td>
+        <td align="center">VN</td>
+      </tr>
+      <tr>
+        <td align="center">3</td>
+        <td>SP003</td>
+        <td>Sting</td>
+        <td align="right">17,000</td>
+        <td align="center">US</td>
+      </tr>
+
+      <!-- Ô trống: dùng &nbsp; để ô không bị xẹp lại -->
+      <tr>
+        <td align="center">4</td>
+        <td>&nbsp;</td>
+        <td>Chưa có thông tin</td>
+        <td align="right">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- =============================================
+       3. BẢNG GỘP CỘT (colspan) và GỘP HÀNG (rowspan)
+       
+       colspan="n": ô này chiếm n cột → gộp ngang
+       rowspan="n": ô này chiếm n hàng → gộp dọc
+       
+       LƯU Ý: Khi gộp ô, phải BỎ BỚT các thẻ <td>/<th>
+       tương ứng ở các hàng/cột bị gộp
+  ============================================== -->
+
+  <div class="section">
+    <h2>3. Bảng gộp cột (colspan) và gộp hàng (rowspan)</h2>
+
+    <!--
+      Cấu trúc bảng muốn tạo:
+      
+      | STT | Mã  | Tên   |      Điểm      |
+      |     |     |       | Toán | Lý | Hóa |
+      |  1  | SV01| Nam Anh|  8  |  9 |  7  |
+      |  2  | SV02| Khả Như|  7  |  7 |  9  |
+      |  3  | SV03| Hùng An|  7  |  8 |  8  |
+    -->
+
+    <table border="1" cellpadding="5" cellspacing="1" align="center" bgcolor="#00008b"
+           style="color: white;">
+      <caption style="color: black; font-weight: bold;">Bảng điểm học kỳ 1</caption>
+
+      <!-- Hàng 1: STT, Mã, Tên gộp 2 hàng | Điểm gộp 3 cột -->
+      <tr style="text-align: center;">
+        <th rowspan="2">STT</th>   <!-- Gộp 2 hàng dọc -->
+        <th rowspan="2">Mã</th>    <!-- Gộp 2 hàng dọc -->
+        <th rowspan="2">Tên</th>   <!-- Gộp 2 hàng dọc -->
+        <th colspan="3">Điểm</th>  <!-- Gộp 3 cột ngang -->
+      </tr>
+
+      <!-- Hàng 2: Chỉ cần 3 cột Toán/Lý/Hóa (3 cột đầu đã gộp từ hàng 1) -->
+      <tr style="text-align: center;">
+        <th>Toán</th>
+        <th>Lý</th>
+        <th>Hóa</th>
+      </tr>
+
+      <!-- Hàng dữ liệu bình thường (6 cột = STT+Mã+Tên+Toán+Lý+Hóa) -->
+      <tr style="text-align: center;">
+        <td>1</td><td>SV01</td><td>Nam Anh</td>
+        <td>8</td><td>9</td><td>7</td>
+      </tr>
+      <tr style="text-align: center;">
+        <td>2</td><td>SV02</td><td>Khả Như</td>
+        <td>7</td><td>7</td><td>9</td>
+      </tr>
+      <tr style="text-align: center;">
+        <td>3</td><td>SV03</td><td>Hùng An</td>
+        <td>7</td><td>8</td><td>8</td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- =============================================
+       4. VÍ DỤ THÊM: colspan GỘP Ô TỔNG KẾT
+  ============================================== -->
+
+  <div class="section">
+    <h2>4. Ví dụ colspan gộp ô "Tổng cộng"</h2>
+
+    <table border="1" cellpadding="8" width="400" align="center">
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Đơn giá</th>
+      </tr>
+      <tr>
+        <td>Coca Cola</td>
+        <td align="center">2</td>
+        <td align="right">15,000</td>
+      </tr>
+      <tr>
+        <td>Pepsi</td>
+        <td align="center">3</td>
+        <td align="right">20,000</td>
+      </tr>
+
+      <!-- Gộp 2 cột đầu để tạo ô "Tổng cộng" rộng hơn -->
+      <tr bgcolor="#ffeb3b">
+        <td colspan="2" align="right"><b>Tổng cộng:</b></td>
+        <td align="right"><b>90,000</b></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- =============================================
+       TÓM TẮT NHANH:
+       
+       <table border="1">        = tạo bảng có viền
+         <caption>Tiêu đề</caption>
+         <tr>                    = 1 hàng
+           <th>Tiêu đề cột</th>  = ô tiêu đề (bold, center)
+           <td>Dữ liệu</td>      = ô dữ liệu
+         </tr>
+       </table>
+       
+       Gộp cột: <td colspan="3"> = ô này rộng 3 cột
+       Gộp hàng: <td rowspan="2"> = ô này cao 2 hàng
+       Ô trống: <td>&nbsp;</td>
+  ============================================== -->
+
+</body>
+</html>
