@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>02 - Toán Tử JavaScript</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; font-size: 1.05em; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 4px; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    th { background: #f7971e; color: #1a0000; padding: 8px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid #333; font-family: monospace; }
+    tr:nth-child(even) td { background: #16213e; }
+    .highlight { color: #ffd200; font-weight: bold; }
+    .red { color: #ff6b6b; }
+    .green { color: #00ff88; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .warn { background: rgba(231,76,60,0.1); border-left: 3px solid #e74c3c; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .calc-input { background: #0d0d1a; border: 1px solid #f7971e; border-radius: 4px; padding: 8px; color: #fff; font-size: 1em; width: 100%; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 02 — Toán Tử JavaScript</h1>
+
+  <!-- ===== SỐ HỌC ===== -->
+  <h2>1. Toán Tử Số Học</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Toán tử</th><th>Tên</th><th>Ví dụ</th><th>Kết quả</th></tr>
+      <tr><td>+</td><td>Cộng</td><td>5 + 3</td><td>8</td></tr>
+      <tr><td>-</td><td>Trừ</td><td>5 - 3</td><td>2</td></tr>
+      <tr><td>*</td><td>Nhân</td><td>5 * 3</td><td>15</td></tr>
+      <tr><td>**</td><td>Luỹ thừa</td><td>2 ** 10</td><td>1024</td></tr>
+      <tr><td>/</td><td>Chia</td><td>10 / 3</td><td>3.333...</td></tr>
+      <tr><td>%</td><td>Chia dư (modulo)</td><td>10 % 3</td><td>1</td></tr>
+      <tr><td>++</td><td>Tăng 1</td><td>x++ hoặc ++x</td><td>x = x + 1</td></tr>
+      <tr><td>--</td><td>Giảm 1</td><td>x-- hoặc --x</td><td>x = x - 1</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+let a = 10, b = 3;
+
+console.log(a + b);   // 13
+console.log(a - b);   // 7
+console.log(a * b);   // 30
+console.log(a ** b);  // 1000 (10^3)
+console.log(a / b);   // 3.3333333333333335
+console.log(a % b);   // 1 (10 chia 3 dư 1)
+
+// ++ và --
+let x = 5;
+console.log(x++); // 5 (dùng xong mới tăng — post-increment)
+console.log(x);   // 6
+console.log(++x); // 7 (tăng trước rồi dùng — pre-increment)
+
+// Dùng % kiểm tra chẵn lẻ
+if (n % 2 === 0) console.log("chẵn");
+else console.log("lẻ");</div>
+
+  <!-- ===== GÁN ===== -->
+  <h2>2. Toán Tử Gán</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Toán tử</th><th>Tương đương</th><th>Ví dụ (x=10)</th><th>Kết quả</th></tr>
+      <tr><td>=</td><td>—</td><td>x = 5</td><td>x = 5</td></tr>
+      <tr><td>+=</td><td>x = x + n</td><td>x += 3</td><td>x = 13</td></tr>
+      <tr><td>-=</td><td>x = x - n</td><td>x -= 3</td><td>x = 7</td></tr>
+      <tr><td>*=</td><td>x = x * n</td><td>x *= 2</td><td>x = 20</td></tr>
+      <tr><td>/=</td><td>x = x / n</td><td>x /= 2</td><td>x = 5</td></tr>
+      <tr><td>%=</td><td>x = x % n</td><td>x %= 3</td><td>x = 1</td></tr>
+      <tr><td>**=</td><td>x = x ** n</td><td>x **= 2</td><td>x = 100</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== NỐI CHUỖI ===== -->
+  <h2>3. Toán Tử Nối Chuỗi</h2>
+  <div class="code-block">
+// Cộng chuỗi với chuỗi
+let str1 = "Hello";
+let str2 = "World";
+let result = str1 + " " + str2;  // "Hello World"
+
+// Cộng chuỗi với số — tự động ép kiểu!
+"5" + 3        // "53" (string concat!)
+"5" - 3        // 2   (số học — JS ép về number)
+"5" * 3        // 15
+"5" + 3 + 2   // "532" (từ trái sang phải: "5"+3="53", "53"+2="532")
+5 + 3 + "2"   // "82"  (5+3=8, 8+"2"="82")
+
+// Template Literal (ES6+) — dùng backtick `
+let name = "An";
+let age = 20;
+let msg = `Tên: ${name}, Tuổi: ${age}`;  // "Tên: An, Tuổi: 20"
+let calc = `2 + 2 = ${2 + 2}`;           // "2 + 2 = 4"</div>
+
+  <div class="warn">
+    ⚠️ <strong>Lưu ý:</strong> <code>"5" + 3 = "53"</code> (string!), nhưng <code>"5" - 3 = 2</code> (number). Phép + với string sẽ nối chuỗi, các phép còn lại ép về number.
+  </div>
+
+  <!-- ===== SO SÁNH ===== -->
+  <h2>4. Toán Tử So Sánh</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Toán tử</th><th>Tên</th><th>Ví dụ</th><th>Kết quả</th></tr>
+      <tr><td>==</td><td>Bằng (loose — tự ép kiểu)</td><td>5 == "5"</td><td class="green">true</td></tr>
+      <tr><td>===</td><td>Bằng chặt (strict — so cả kiểu)</td><td>5 === "5"</td><td class="red">false</td></tr>
+      <tr><td>!=</td><td>Khác (loose)</td><td>5 != "5"</td><td class="red">false</td></tr>
+      <tr><td>!==</td><td>Khác chặt (strict)</td><td>5 !== "5"</td><td class="green">true</td></tr>
+      <tr><td>></td><td>Lớn hơn</td><td>5 > 3</td><td class="green">true</td></tr>
+      <tr><td><</td><td>Nhỏ hơn</td><td>5 < 3</td><td class="red">false</td></tr>
+      <tr><td>>=</td><td>Lớn hơn hoặc bằng</td><td>5 >= 5</td><td class="green">true</td></tr>
+      <tr><td><=</td><td>Nhỏ hơn hoặc bằng</td><td>5 <= 3</td><td class="red">false</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    ✅ <strong>Luôn dùng <code>===</code> thay vì <code>==</code></strong> để tránh lỗi ép kiểu ngầm!<br>
+    <code>0 == false</code> → true | <code>0 === false</code> → false<br>
+    <code>"" == false</code> → true | <code>"" === false</code> → false<br>
+    <code>null == undefined</code> → true | <code>null === undefined</code> → false
+  </div>
+
+  <!-- ===== LOGIC ===== -->
+  <h2>5. Toán Tử Logic</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Toán tử</th><th>Tên</th><th>Mô tả</th><th>Ví dụ</th><th>Kết quả</th></tr>
+      <tr><td>&&</td><td>AND</td><td>Cả hai đều đúng</td><td>true && false</td><td class="red">false</td></tr>
+      <tr><td>||</td><td>OR</td><td>Ít nhất một đúng</td><td>true || false</td><td class="green">true</td></tr>
+      <tr><td>!</td><td>NOT</td><td>Đảo ngược</td><td>!true</td><td class="red">false</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+let age = 20;
+let hasID = true;
+
+// AND
+if (age >= 18 && hasID) {
+  console.log("Được vào"); // ✅ cả hai đúng
+}
+
+// OR
+if (age < 18 || !hasID) {
+  console.log("Không được vào");
+}
+
+// NOT
+let isLoggedIn = false;
+if (!isLoggedIn) {
+  console.log("Vui lòng đăng nhập");
+}
+
+// Short-circuit evaluation
+// && — nếu vế trái false, không xét vế phải
+// || — nếu vế trái true, không xét vế phải
+let user = null;
+let name = user && user.name;  // null (không crash dù user.name sẽ báo lỗi)
+let display = user || "Guest"; // "Guest" (default value pattern)</div>
+
+  <!-- ===== TERNARY ===== -->
+  <h2>6. Toán Tử 3 Ngôi (Ternary)</h2>
+  <div class="code-block">
+// Cú pháp: điều_kiện ? giá_trị_nếu_đúng : giá_trị_nếu_sai
+let age = 20;
+let access = (age >= 18) ? "Được phép" : "Không được phép";
+console.log(access); // "Được phép"
+
+// Thay thế if/else ngắn gọn
+let score = 75;
+let grade = (score >= 90) ? "A" :
+            (score >= 80) ? "B" :
+            (score >= 70) ? "C" : "F";
+console.log(grade); // "C"
+
+// Dùng trong JSX/template
+let isOnline = true;
+let status = `Trạng thái: ${isOnline ? "🟢 Online" : "🔴 Offline"}`;
+console.log(status); // "Trạng thái: 🟢 Online"</div>
+
+  <!-- ===== DEMO ===== -->
+  <h2>7. Demo Tương Tác</h2>
+  <div class="demo">
+    <div class="calc-grid">
+      <div>
+        <p>Số a: <input type="number" id="numA" class="calc-input" value="10"></p>
+        <p>Số b: <input type="number" id="numB" class="calc-input" value="3"></p>
+      </div>
+      <div>
+        <button onclick="runCalc('+')">a + b</button>
+        <button onclick="runCalc('-')">a - b</button>
+        <button onclick="runCalc('*')">a * b</button>
+        <button onclick="runCalc('**')">a ** b</button>
+        <button onclick="runCalc('/')">a / b</button>
+        <button onclick="runCalc('%')">a % b</button>
+      </div>
+    </div>
+    <div class="result" id="calcResult">Nhấn nút để tính...</div>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo == vs ===:</strong></p>
+    <button onclick="demoCompare()">Chạy so sánh</button>
+    <div class="result" id="compareResult">Nhấn nút...</div>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li><strong>==</strong> (loose) tự ép kiểu — TRÁNH dùng! | <strong>===</strong> (strict) an toàn — NÊN dùng</li>
+      <li>Nối chuỗi: <code>"a" + "b"</code> hoặc template literal <code>`Hello ${name}`</code></li>
+      <li>Ternary: <code>condition ? valueA : valueB</code> — thay thế if/else đơn giản</li>
+      <li>Short-circuit: <code>user || "Guest"</code> (default) | <code>user && user.name</code> (safe access)</li>
+      <li><code>%</code> (modulo) dùng kiểm tra chẵn/lẻ: <code>n % 2 === 0</code></li>
+      <li><code>**</code> là luỹ thừa: <code>2 ** 8 = 256</code></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function runCalc(op) {
+    const a = parseFloat(document.getElementById("numA").value);
+    const b = parseFloat(document.getElementById("numB").value);
+    let result;
+    switch(op) {
+      case '+': result = a + b; break;
+      case '-': result = a - b; break;
+      case '*': result = a * b; break;
+      case '**': result = Math.pow(a, b); break;
+      case '/': result = b !== 0 ? a / b : "Lỗi: Chia cho 0!"; break;
+      case '%': result = a % b; break;
+    }
+    document.getElementById("calcResult").innerText = `${a} ${op} ${b} = ${result}`;
+  }
+
+  function demoCompare() {
+    const lines = [
+      `5 == "5"   → ${5 == "5"}   (loose: ép kiểu)`,
+      `5 === "5"  → ${5 === "5"}  (strict: khác kiểu)`,
+      `0 == false → ${0 == false}   (loose: ép kiểu)`,
+      `0 === false→ ${0 === false}  (strict: khác kiểu)`,
+      `null == undefined  → ${null == undefined}   (loose)`,
+      `null === undefined → ${null === undefined}  (strict)`,
+      `"" == false → ${"" == false}   (loose)`,
+      `"" === false → ${"" === false}  (strict)`,
+    ];
+    document.getElementById("compareResult").innerText = lines.join("\n");
+  }
+</script>
+</body>
+</html>

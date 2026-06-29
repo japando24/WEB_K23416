@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>01 - XML Cơ Bản & XML DOM</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        h2 { color: #1a5276; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h3 { color: #2471a3; }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; overflow-x: auto; margin: 10px 0;
+        }
+        .comment { color: #6a9955; }
+        .tag { color: #569cd6; }
+        .attr { color: #9cdcfe; }
+        .value { color: #ce9178; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        .warn {
+            background: #fef9e7; border-left: 4px solid #f39c12;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        #output {
+            background: #f4f6f7; border: 1px solid #ccc;
+            padding: 15px; border-radius: 6px; margin-top: 10px;
+        }
+        button {
+            background: #2471a3; color: white; border: none;
+            padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 14px;
+        }
+        button:hover { background: #1a5276; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background: #2471a3; color: white; padding: 8px 12px; }
+        td { padding: 8px 12px; border: 1px solid #ccc; }
+        tr:nth-child(even) { background: #eaf2ff; }
+    </style>
+</head>
+<body>
+
+<h2>01 - XML Cơ Bản & XML DOM</h2>
+
+<!-- ================================================ -->
+<h3>1. Cấu trúc XML</h3>
+
+<div class="note">
+    <b>XML (eXtensible Markup Language)</b>: Ngôn ngữ đánh dấu dùng để <b>lưu trữ và truyền tải dữ liệu</b>.<br>
+    Khác HTML: XML tự định nghĩa thẻ, không hiển thị, chỉ mô tả dữ liệu.
+</div>
+
+<div class="code-block">
+<span class="comment">&lt;!-- Cấu trúc XML cơ bản --&gt;</span><br>
+<span class="tag">&lt;?xml</span> <span class="attr">version</span>=<span class="value">"1.0"</span> <span class="attr">encoding</span>=<span class="value">"UTF-8"</span><span class="tag">?&gt;</span>  <span class="comment">&lt;!-- Dòng khai báo --&gt;</span><br>
+<span class="tag">&lt;products&gt;</span>               <span class="comment">&lt;!-- Root element (bắt buộc phải có 1 root) --&gt;</span><br>
+&nbsp;&nbsp;<span class="tag">&lt;product&gt;</span>             <span class="comment">&lt;!-- Child element --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;id&gt;</span>1<span class="tag">&lt;/id&gt;</span>           <span class="comment">&lt;!-- Text node --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;name&gt;</span>Heineken<span class="tag">&lt;/name&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;price&gt;</span>19000<span class="tag">&lt;/price&gt;</span><br>
+&nbsp;&nbsp;<span class="tag">&lt;/product&gt;</span><br>
+<span class="tag">&lt;/products&gt;</span>
+</div>
+
+<div class="warn">
+    <b>Lưu ý quan trọng:</b>
+    <ul>
+        <li>Các thẻ mở <b>phải có thẻ đóng</b> tương ứng</li>
+        <li>Tên thẻ <b>phân biệt chữ hoa/thường</b>: &lt;Name&gt; ≠ &lt;name&gt;</li>
+        <li>XML document phải có <b>đúng 1 thẻ root</b></li>
+        <li>Giá trị thuộc tính phải đặt trong <b>nháy kép</b> hoặc nháy đơn</li>
+    </ul>
+</div>
+
+<!-- ================================================ -->
+<h3>2. XML DOM (Document Object Model)</h3>
+
+<div class="note">
+    XML DOM gồm 3 thành phần chính: <b>Element</b> (thẻ), <b>Attribute</b> (thuộc tính), <b>Text</b> (nội dung văn bản)
+</div>
+
+<div class="code-block">
+<span class="comment">// ===== BƯỚC 1: Chuyển chuỗi XML thành XML Document =====</span><br>
+<span class="keyword">var</span> xmlString = <span class="string">"&lt;products&gt;&lt;product&gt;"</span>;<br>
+xmlString += <span class="string">"&lt;id&gt;1&lt;/id&gt;&lt;name&gt;Heineken&lt;/name&gt;&lt;price&gt;19000&lt;/price&gt;"</span>;<br>
+xmlString += <span class="string">"&lt;/product&gt;&lt;/products&gt;"</span>;<br><br>
+<span class="keyword">var</span> parser = <span class="keyword">new</span> <span class="func">DOMParser</span>();                              <span class="comment">// Tạo parser</span><br>
+<span class="keyword">var</span> xmlDoc = parser.<span class="func">parseFromString</span>(xmlString, <span class="string">"text/xml"</span>);  <span class="comment">// Parse chuỗi → XML Doc</span><br><br>
+<span class="comment">// ===== BƯỚC 2: Truy cập phần tử =====</span><br>
+<span class="comment">// Lấy theo tên thẻ → trả về HTMLCollection (mảng các phần tử)</span><br>
+<span class="keyword">var</span> products = xmlDoc.<span class="func">getElementsByTagName</span>(<span class="string">"product"</span>);  <span class="comment">// Lấy tất cả &lt;product&gt;</span><br><br>
+<span class="comment">// Lấy text value của phần tử đầu tiên trong product đầu tiên</span><br>
+<span class="keyword">var</span> tenSanPham = products[0].<span class="func">getElementsByTagName</span>(<span class="string">"name"</span>)[0]  <span class="comment">// thẻ &lt;name&gt; đầu tiên</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.childNodes[0]                              <span class="comment">// text node</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.nodeValue;                                 <span class="comment">// lấy giá trị → "Heineken"</span><br><br>
+<span class="comment">// ===== CÔNG THỨC TỔNG QUÁT =====</span><br>
+<span class="comment">// xmlDoc.getElementsByTagName("tên_thẻ")[chỉ_số].childNodes[0].nodeValue</span>
+</div>
+
+<!-- ================================================ -->
+<h3>3. Demo: Parse XML từ chuỗi</h3>
+<button onclick="parseXML()">Parse XML & Hiển thị</button>
+<div id="output">Kết quả sẽ hiển thị ở đây...</div>
+
+<script>
+    function parseXML() {
+        // Chuỗi XML mẫu
+        var xmlString = "<products>";
+        xmlString += "<product><id>1</id><name>Heineken</name><price>19000</price></product>";
+        xmlString += "<product><id>2</id><name>Tiger</name><price>18000</price></product>";
+        xmlString += "<product><id>3</id><name>Sapporo</name><price>21000</price></product>";
+        xmlString += "</products>";
+
+        // Bước 1: Parse chuỗi → XML Document
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        // Bước 2: Lấy danh sách phần tử <product>
+        var products = xmlDoc.getElementsByTagName("product");
+
+        // Bước 3: Build HTML từ dữ liệu XML
+        var html = "<table><tr><th>ID</th><th>Tên sản phẩm</th><th>Giá</th></tr>";
+
+        for (var i = 0; i < products.length; i++) {
+            var id    = products[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+            var name  = products[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            var price = products[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+
+            html += "<tr><td>" + id + "</td><td>" + name + "</td><td>" + price + " đ</td></tr>";
+        }
+
+        html += "</table>";
+        document.getElementById("output").innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

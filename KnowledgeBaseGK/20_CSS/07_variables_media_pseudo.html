@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>07 - CSS Variables, Math Functions & Media Queries</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #2c3e50; }
+    h2 { color: #e74c3c; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+    h3 { color: #3498db; }
+    .section { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .demo-box { padding: 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; background: #fafafa; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; color: #c0392b; }
+    pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+
+    /* ================================================
+       CSS VARIABLES (Biến CSS)
+       - Khai báo: --tên-biến: giá trị;
+       - Sử dụng: var(--tên-biến)
+       - Phạm vi: khai báo trong :root = toàn cục
+    ================================================ */
+
+    /* Khai báo biến toàn cục trong :root */
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #e74c3c;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+
+      --font-size-sm: 14px;
+      --font-size-md: 16px;
+      --font-size-lg: 20px;
+      --font-size-xl: 28px;
+
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+
+      --border-radius: 8px;
+      --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Sử dụng biến */
+    .var-demo-btn {
+      background-color: var(--primary-color);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: var(--font-size-md);
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .var-demo-btn.secondary {
+      background-color: var(--secondary-color);
+    }
+
+    .var-demo-card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: var(--spacing-lg);
+      margin: var(--spacing-md) 0;
+    }
+
+    /* Biến cục bộ (chỉ trong một selector) */
+    .local-var {
+      --local-color: purple;
+      color: var(--local-color);    /* Dùng được */
+    }
+
+    /* Giá trị dự phòng (fallback) */
+    .fallback-demo {
+      color: var(--undefined-var, red);  /* Nếu --undefined-var không tồn tại, dùng red */
+    }
+
+    /* ================================================
+       CSS MATH FUNCTIONS
+    ================================================ */
+
+    /* calc(): Tính toán kết hợp đơn vị khác nhau */
+    .calc-demo {
+      width: calc(100% - 40px);   /* full width trừ 40px */
+      padding: 10px;
+      background: #d6eaf8;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+
+    .calc-demo-2 {
+      width: calc(50% - 20px);
+      height: calc(100px + 2rem);
+      background: #d5f5e3;
+      border: 1px solid #27ae60;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 5px;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    /* min(): Chọn giá trị NHỎ NHẤT */
+    .min-demo {
+      width: min(500px, 80%);  /* 500px HOẶC 80%, lấy cái nhỏ hơn */
+      background: #fef3c7;
+      padding: 10px;
+      border: 1px solid #f39c12;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+
+    /* max(): Chọn giá trị LỚN NHẤT */
+    .max-demo {
+      width: max(200px, 50%);  /* 200px HOẶC 50%, lấy cái lớn hơn */
+      background: #fce4ec;
+      padding: 10px;
+      border: 1px solid #e91e63;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+
+    /* clamp(): Giữ giá trị trong khoảng */
+    .clamp-demo {
+      font-size: clamp(14px, 3vw, 28px);  /* min=14px, preferred=3vw, max=28px */
+      background: #e8eaf6;
+      padding: 10px;
+      border: 1px solid #3f51b5;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+
+    /* ================================================
+       MEDIA QUERIES
+    ================================================ */
+
+    /* Màu nền thay đổi theo kích thước màn hình */
+    .media-demo {
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 8px;
+      color: white;
+    }
+
+    /* Mặc định (mobile first) */
+    .media-demo {
+      background: #e74c3c;
+      font-size: 14px;
+    }
+
+    /* Tablet (≥768px) */
+    @media screen and (min-width: 768px) {
+      .media-demo {
+        background: #f39c12;
+        font-size: 16px;
+      }
+    }
+
+    /* Desktop (≥1024px) */
+    @media screen and (min-width: 1024px) {
+      .media-demo {
+        background: #27ae60;
+        font-size: 18px;
+      }
+    }
+
+    /* Cú pháp max-width (desktop first) */
+    .media-desktop-first {
+      background: #3498db;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .media-desktop-first {
+        background: #9b59b6;
+        font-size: 12px;
+      }
+    }
+
+    /* Responsive grid dùng media query */
+    .responsive-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .grid-item {
+      flex: 1 1 100%;   /* Mobile: 1 cột */
+      background: #3498db;
+      color: white;
+      padding: 15px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    @media screen and (min-width: 600px) {
+      .grid-item {
+        flex: 1 1 calc(50% - 10px);  /* Tablet: 2 cột */
+      }
+    }
+
+    @media screen and (min-width: 900px) {
+      .grid-item {
+        flex: 1 1 calc(33.33% - 10px);  /* Desktop: 3 cột */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Variables, Math Functions & Media Queries</h1>
+
+  <!-- SECTION 1: CSS VARIABLES -->
+  <div class="section">
+    <h2>1. CSS Variables (Biến CSS)</h2>
+
+    <h3>Khai báo và Sử dụng</h3>
+    <pre>
+/* 1. Khai báo biến trong :root (toàn cục) */
+:root {
+    --primary-color: #3498db;
+    --font-size: 16px;
+    --spacing: 20px;
+}
+
+/* 2. Sử dụng biến với var() */
+.button {
+    background-color: var(--primary-color);
+    font-size: var(--font-size);
+    padding: var(--spacing);
+}
+
+/* 3. Giá trị dự phòng (fallback) */
+.element {
+    color: var(--undefined-var, red);  /* dùng red nếu biến không tồn tại */
+}
+
+/* 4. Biến cục bộ (chỉ trong 1 selector) */
+.card {
+    --card-color: orange;
+    background: var(--card-color);
+}
+
+/* 5. Thay đổi biến bằng JavaScript */
+document.documentElement.style.setProperty('--primary-color', 'red');</pre>
+
+    <div class="demo-box">
+      <p>Sử dụng biến --primary-color và --secondary-color:</p>
+      <button class="var-demo-btn">Primary Button</button>
+      <button class="var-demo-btn secondary">Secondary Button</button>
+
+      <div class="var-demo-card">
+        <h4 style="margin: 0 0 10px; color: var(--primary-color);">Card dùng biến CSS</h4>
+        <p style="margin: 0; font-size: var(--font-size-sm);">
+          Padding: var(--spacing-lg), border-radius: var(--border-radius), box-shadow: var(--box-shadow)
+        </p>
+      </div>
+
+      <p class="fallback-demo">Fallback: var(--undefined-var, red) → màu đỏ vì biến không tồn tại</p>
+    </div>
+
+    <h3>Ưu điểm của CSS Variables</h3>
+    <ul>
+      <li>Thay đổi một chỗ, áp dụng toàn bộ trang</li>
+      <li>Dễ tạo themes (dark mode, light mode)</li>
+      <li>Có thể thay đổi bằng JavaScript</li>
+      <li>Kế thừa theo DOM (scope)</li>
+    </ul>
+
+    <h3>Ví dụ Thực Tế: Dark/Light Theme</h3>
+    <pre>
+/* Light theme (mặc định) */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #dddddd;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-color: #1a1a2e;
+    --text-color: #e0e0e0;
+    --border-color: #555555;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Kích hoạt dark mode bằng JS: */
+document.body.dataset.theme = 'dark';</pre>
+  </div>
+
+  <!-- SECTION 2: CSS MATH FUNCTIONS -->
+  <div class="section">
+    <h2>2. CSS Math Functions (Hàm Toán Học)</h2>
+
+    <h3>2.1 calc() - Tính toán</h3>
+    <pre>
+/* calc(): Tính toán, KẾT HỢP các đơn vị khác nhau */
+width: calc(100% - 40px);      /* 100% trừ 40px cố định */
+width: calc(50% - 1rem);
+height: calc(100vh - 80px);    /* chiều cao viewport trừ header */
+font-size: calc(16px + 0.5vw); /* font responsive */
+padding: calc(var(--spacing) * 2);  /* kết hợp với biến */
+
+/* Toán tử: + - * / */
+/* Lưu ý: * và / cần ít nhất 1 số không có đơn vị */
+width: calc(100% / 3);         /* ✓ đúng */
+width: calc(100% * 2);         /* ✓ đúng */
+/* width: calc(100% * 50%);   -- ✗ sai (2 số có đơn vị) */</pre>
+
+    <div class="demo-box">
+      <div class="calc-demo">width: calc(100% - 40px) — chiều rộng bằng 100% trừ 40px</div>
+      <div class="calc-demo-2">width: calc(50% - 20px)</div>
+      <div class="calc-demo-2" style="background: #f8d7da; border-color: #e74c3c;">width: calc(50% - 20px)</div>
+    </div>
+
+    <h3>2.2 min() - Giá trị nhỏ nhất</h3>
+    <pre>
+/* min(a, b): Chọn giá trị NHỎ HƠN */
+width: min(500px, 80%);
+/* - Màn hình rộng: 80% < 500px → dùng 80% */
+/* - Màn hình hẹp: 80% > 500px → dùng 500px */
+/* → Đảm bảo phần tử KHÔNG LỚN HƠN 500px */
+
+font-size: min(5vw, 36px); /* Text responsive, tối đa 36px */</pre>
+
+    <div class="demo-box">
+      <div class="min-demo">min(500px, 80%) — Không bao giờ rộng hơn 500px</div>
+    </div>
+
+    <h3>2.3 max() - Giá trị lớn nhất</h3>
+    <pre>
+/* max(a, b): Chọn giá trị LỚN HƠN */
+width: max(200px, 50%);
+/* - Màn hình hẹp: 50% < 200px → dùng 200px */
+/* - Màn hình rộng: 50% > 200px → dùng 50% */
+/* → Đảm bảo phần tử ÍT NHẤT 200px */
+
+font-size: max(14px, 1vw); /* Text tối thiểu 14px */</pre>
+
+    <div class="demo-box">
+      <div class="max-demo">max(200px, 50%) — Luôn tối thiểu 200px</div>
+    </div>
+
+    <h3>2.4 clamp() - Giữ trong khoảng</h3>
+    <pre>
+/* clamp(min, preferred, max) */
+font-size: clamp(14px, 3vw, 28px);
+/* - Tối thiểu: 14px */
+/* - Ưu tiên: 3vw (3% viewport width) */
+/* - Tối đa: 28px */
+/* → Font responsive, không quá nhỏ hay quá lớn */
+
+width: clamp(300px, 50%, 800px);</pre>
+
+    <div class="demo-box">
+      <div class="clamp-demo">clamp(14px, 3vw, 28px) — Thu nhỏ cửa sổ để thấy font thay đổi</div>
+    </div>
+
+    <h3>So sánh nhanh</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #3498db; color: white;">
+        <th style="padding: 8px;">Hàm</th>
+        <th style="padding: 8px;">Cú pháp</th>
+        <th style="padding: 8px;">Kết quả</th>
+        <th style="padding: 8px;">Use case</th>
+      </tr>
+      <tr><td style="padding: 8px;"><code>calc()</code></td><td style="padding: 8px;"><code>calc(100% - 40px)</code></td><td style="padding: 8px;">Tính toán kết hợp</td><td style="padding: 8px;">Trừ border, margin khỏi %</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>min()</code></td><td style="padding: 8px;"><code>min(500px, 80%)</code></td><td style="padding: 8px;">Lấy giá trị nhỏ hơn</td><td style="padding: 8px;">Giới hạn tối đa</td></tr>
+      <tr><td style="padding: 8px;"><code>max()</code></td><td style="padding: 8px;"><code>max(200px, 50%)</code></td><td style="padding: 8px;">Lấy giá trị lớn hơn</td><td style="padding: 8px;">Đảm bảo tối thiểu</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>clamp()</code></td><td style="padding: 8px;"><code>clamp(14px, 3vw, 28px)</code></td><td style="padding: 8px;">Giữ trong khoảng min-max</td><td style="padding: 8px;">Responsive font/size</td></tr>
+    </table>
+  </div>
+
+  <!-- SECTION 3: MEDIA QUERIES -->
+  <div class="section">
+    <h2>3. CSS Media Queries (Responsive Design)</h2>
+
+    <h3>Cú pháp cơ bản</h3>
+    <pre>
+/* Cú pháp */
+@media type and (condition) {
+    /* CSS áp dụng khi điều kiện đúng */
+}
+
+/* Loại (media type) */
+@media screen { }  /* Màn hình (phổ biến nhất) */
+@media print  { }  /* Khi in */
+@media all    { }  /* Tất cả */
+
+/* Điều kiện phổ biến */
+@media screen and (max-width: 768px) { }    /* Nhỏ hơn hoặc bằng 768px */
+@media screen and (min-width: 768px) { }    /* Lớn hơn hoặc bằng 768px */
+@media screen and (max-width: 1200px) and (min-width: 768px) { }  /* Khoảng giữa */</pre>
+
+    <h3>Breakpoints phổ biến</h3>
+    <pre>
+/* Mobile First Approach (ưu tiên mobile) */
+/* Mặc định: Mobile (< 576px) */
+
+@media screen and (min-width: 576px)  { /* Small devices - điện thoại lớn */ }
+@media screen and (min-width: 768px)  { /* Medium - tablet */ }
+@media screen and (min-width: 992px)  { /* Large - laptop */ }
+@media screen and (min-width: 1200px) { /* XL - desktop */ }
+
+/* ======================================================== */
+
+/* Desktop First Approach */
+/* Mặc định: Desktop */
+
+@media screen and (max-width: 1200px) { /* < Desktop */ }
+@media screen and (max-width: 992px)  { /* < Laptop */ }
+@media screen and (max-width: 768px)  { /* < Tablet */ }
+@media screen and (max-width: 576px)  { /* Mobile */ }</pre>
+
+    <div class="demo-box">
+      <div class="media-demo">
+        Thu nhỏ cửa sổ trình duyệt để thấy màu thay đổi:<br>
+        🔴 Đỏ = Mobile (&lt;768px) |
+        🟡 Vàng = Tablet (≥768px) |
+        🟢 Xanh = Desktop (≥1024px)
+      </div>
+    </div>
+
+    <h3>Ví dụ Responsive Navigation</h3>
+    <pre>
+/* Mobile: menu dọc */
+nav ul {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop: menu ngang */
+@media screen and (min-width: 768px) {
+    nav ul {
+        flex-direction: row;
+    }
+}</pre>
+
+    <h3>Ví dụ Responsive Grid</h3>
+    <pre>
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    flex: 1 1 100%;   /* Mobile: 1 cột */
+}
+
+@media screen and (min-width: 600px) {
+    .card {
+        flex: 1 1 calc(50% - 10px);  /* Tablet: 2 cột */
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .card {
+        flex: 1 1 calc(33.33% - 14px);  /* Desktop: 3 cột */
+    }
+}</pre>
+
+    <div class="demo-box">
+      <p><strong>Demo responsive grid</strong> (thu nhỏ cửa sổ để thấy thay đổi):</p>
+      <div class="responsive-grid">
+        <div class="grid-item">Item 1<br><small>(1 cột → 2 cột → 3 cột)</small></div>
+        <div class="grid-item">Item 2</div>
+        <div class="grid-item">Item 3</div>
+        <div class="grid-item">Item 4</div>
+        <div class="grid-item">Item 5</div>
+        <div class="grid-item">Item 6</div>
+      </div>
+    </div>
+
+    <h3>Các điều kiện Media Query khác</h3>
+    <pre>
+/* Orientation (chiều màn hình) */
+@media screen and (orientation: portrait)  { }  /* Dọc */
+@media screen and (orientation: landscape) { }  /* Ngang */
+
+/* Resolution (độ phân giải) */
+@media screen and (min-resolution: 2dppx) { }  /* Màn hình Retina / HiDPI */
+
+/* Kết hợp nhiều điều kiện */
+@media screen and (min-width: 600px) and (max-width: 900px) { }
+
+/* Hoặc (hoặc) */
+@media screen and (max-width: 600px), screen and (min-width: 1200px) { }
+
+/* Phủ định */
+@media not screen and (max-width: 600px) { }</pre>
+  </div>
+
+  <!-- SECTION TÓM TẮT -->
+  <div class="section" style="background: #e8f5e9; border-color: #4caf50;">
+    <h2 style="color: #2e7d32;">Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li><strong>CSS Variables</strong>: Khai báo <code>--tên: giá trị</code> trong <code>:root</code>, dùng <code>var(--tên)</code></li>
+      <li><strong>calc()</strong>: Tính toán kết hợp đơn vị. VD: <code>calc(100% - 40px)</code></li>
+      <li><strong>min()</strong>: Lấy giá trị nhỏ nhất. VD: <code>min(500px, 80%)</code></li>
+      <li><strong>max()</strong>: Lấy giá trị lớn nhất. VD: <code>max(200px, 50%)</code></li>
+      <li><strong>Media Query</strong>: <code>@media screen and (max-width: Xpx) { }</code></li>
+      <li><strong>Mobile First</strong>: Viết CSS mặc định cho mobile, dùng <code>min-width</code> cho màn hình lớn hơn</li>
+      <li><strong>Desktop First</strong>: Viết CSS mặc định cho desktop, dùng <code>max-width</code> cho màn hình nhỏ hơn</li>
+      <li>Breakpoints phổ biến: 576px (phone), 768px (tablet), 992px (laptop), 1200px (desktop)</li>
+    </ul>
+  </div>
+
+</body>
+</html>

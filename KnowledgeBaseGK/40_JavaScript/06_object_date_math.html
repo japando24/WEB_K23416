@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>06 - Object, Date & Math</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 3px; font-size: 0.85em; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; font-size: 0.9em; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    th { background: #f7971e; color: #1a0000; padding: 7px 10px; text-align: left; }
+    td { padding: 7px 10px; border-bottom: 1px solid #333; }
+    td:last-child { font-family: monospace; color: #00ff88; }
+    tr:nth-child(even) td { background: #16213e; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 06 — Object, Date & Math</h1>
+
+  <!-- ========== OBJECT ========== -->
+  <h2>PHẦN A — OBJECT (Đối Tượng)</h2>
+
+  <h3>Khai báo Object</h3>
+  <div class="code-block">
+// Object literal — cách phổ biến nhất
+const person = {
+  name: "Nguyễn An",    // property (thuộc tính)
+  age: 20,
+  city: "TP.HCM",
+  isStudent: true,
+  greet: function() {   // method (phương thức)
+    return "Xin chào, tôi là " + this.name;
+  },
+  // ES6: method shorthand
+  study() {
+    return this.name + " đang học";
+  }
+};
+
+// Arrow function làm method — KHÔNG dùng! (this sai)
+// bad: greet: () => "Hi " + this.name  ← this không phải person!</div>
+
+  <h3>Truy cập thuộc tính</h3>
+  <div class="code-block">
+const person = { name: "An", age: 20, "full name": "Nguyễn An" };
+
+// Dot notation — phổ biến
+person.name         // "An"
+person.age          // 20
+
+// Bracket notation — dùng khi tên có khoảng trắng hoặc dùng biến
+person["age"]       // 20
+person["full name"] // "Nguyễn An"
+
+let key = "name";
+person[key]         // "An" (dùng biến làm key)
+
+// Thêm / sửa / xoá property
+person.email = "an@example.com";  // thêm mới
+person.age = 21;                   // cập nhật
+delete person.city;                // xoá
+
+// Kiểm tra property tồn tại
+"name" in person            // true
+person.hasOwnProperty("age") // true
+
+// Lấy tất cả key / value
+Object.keys(person)    // ["name", "age", "email"]
+Object.values(person)  // ["An", 21, "an@example.com"]
+Object.entries(person) // [["name","An"], ["age",21], ...]</div>
+
+  <h3>Destructuring và Spread</h3>
+  <div class="code-block">
+const person = { name: "An", age: 20, city: "HCM" };
+
+// Destructuring — lấy nhanh nhiều property
+const { name, age } = person;
+console.log(name, age); // "An" 20
+
+// Đổi tên khi destructure
+const { name: fullName, age: tuoi } = person;
+console.log(fullName, tuoi); // "An" 20
+
+// Default value
+const { country = "Việt Nam" } = person;
+console.log(country); // "Việt Nam"
+
+// Spread — copy / merge object
+const copy = { ...person };               // copy
+const updated = { ...person, age: 21 };  // merge (ghi đè age)
+const merged = { ...obj1, ...obj2 };      // merge 2 object</div>
+
+  <h3>Class (ES6)</h3>
+  <div class="code-block">
+// Định nghĩa class
+class Student {
+  // constructor chạy khi new Student(...)
+  constructor(name, age, gpa) {
+    this.name = name;   // gán thuộc tính
+    this.age = age;
+    this.gpa = gpa;
+  }
+
+  // Method
+  greet() {
+    return `Tôi là ${this.name}, GPA: ${this.gpa}`;
+  }
+
+  getGrade() {
+    if (this.gpa >= 3.6) return "Xuất sắc";
+    if (this.gpa >= 3.2) return "Giỏi";
+    if (this.gpa >= 2.5) return "Khá";
+    return "Trung bình";
+  }
+}
+
+// Tạo instance (đối tượng từ class)
+const sv1 = new Student("Nguyễn An", 20, 3.7);
+const sv2 = new Student("Trần Bình", 21, 2.8);
+
+console.log(sv1.greet());     // "Tôi là Nguyễn An, GPA: 3.7"
+console.log(sv1.getGrade());  // "Xuất sắc"
+console.log(sv2.getGrade());  // "Khá"
+
+// Kế thừa (Inheritance)
+class GradStudent extends Student {
+  constructor(name, age, gpa, major) {
+    super(name, age, gpa);  // gọi constructor cha
+    this.major = major;
+  }
+
+  info() {
+    return `${this.name} — Chuyên ngành: ${this.major}`;
+  }
+}</div>
+
+  <div class="demo">
+    <p><strong>Demo Class:</strong></p>
+    <button onclick="demoClass()">Tạo Student instances</button>
+    <button onclick="demoObj()">Object methods</button>
+    <div class="result" id="objResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ========== DATE ========== -->
+  <h2>PHẦN B — DATE OBJECT</h2>
+  <div class="code-block">
+// Tạo Date object
+const now     = new Date();                        // thời gian hiện tại
+const d1      = new Date("2024-01-15");            // từ string
+const d2      = new Date(2024, 0, 15, 10, 30, 0); // year, month(0-11), day, h, m, s
+const d3      = new Date(1705305600000);           // từ timestamp (ms)
+
+// GET methods — đọc giá trị
+now.getFullYear()    // Năm: 2026
+now.getMonth()       // Tháng: 0-11 (⚠️ 0=Tháng 1!)
+now.getMonth() + 1   // Tháng thực: 1-12
+now.getDate()        // Ngày trong tháng: 1-31
+now.getDay()         // Thứ trong tuần: 0=CN, 1=T2, ..., 6=T7
+now.getHours()       // Giờ: 0-23
+now.getMinutes()     // Phút: 0-59
+now.getSeconds()     // Giây: 0-59
+now.getMilliseconds() // Milliseconds: 0-999
+now.getTime()         // Timestamp (ms từ 1/1/1970)
+
+// SET methods — đặt giá trị
+const d = new Date();
+d.setFullYear(2025);
+d.setMonth(11);    // Tháng 12 (index 11)
+d.setDate(25);     // Ngày 25
+
+// Format hiển thị
+now.toString()          // "Sat Jun 28 2026 10:30:00 GMT+0700"
+now.toLocaleDateString() // "28/6/2026" (phụ thuộc locale)
+now.toLocaleTimeString() // "10:30:00 SA"
+now.toISOString()       // "2026-06-28T03:30:00.000Z"
+now.toDateString()      // "Sat Jun 28 2026"
+
+// Tính khoảng cách giữa 2 ngày
+const d_start = new Date("2024-01-01");
+const d_end   = new Date("2024-12-31");
+const diff_ms = d_end - d_start;          // hiệu số milliseconds
+const diff_days = diff_ms / (1000*60*60*24); // chuyển ra ngày</div>
+
+  <div class="demo">
+    <p><strong>Demo Date:</strong></p>
+    <button onclick="showDate()">Thời gian hiện tại</button>
+    <button onclick="showComponents()">Các thành phần</button>
+    <button onclick="calcDiff()">Ngày còn lại trong năm</button>
+    <div class="result" id="dateResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ========== MATH ========== -->
+  <h2>PHẦN C — MATH OBJECT</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method/Property</th><th>Mô tả</th><th>Kết quả</th></tr>
+      <tr><td>Math.PI</td><td>Số Pi</td><td>3.14159265...</td></tr>
+      <tr><td>Math.round(x)</td><td>Làm tròn</td><td>Math.round(4.5) → 5</td></tr>
+      <tr><td>Math.ceil(x)</td><td>Làm tròn lên</td><td>Math.ceil(4.1) → 5</td></tr>
+      <tr><td>Math.floor(x)</td><td>Làm tròn xuống</td><td>Math.floor(4.9) → 4</td></tr>
+      <tr><td>Math.abs(x)</td><td>Giá trị tuyệt đối</td><td>Math.abs(-5) → 5</td></tr>
+      <tr><td>Math.pow(x, n)</td><td>Luỹ thừa x^n</td><td>Math.pow(2,8) → 256</td></tr>
+      <tr><td>Math.sqrt(x)</td><td>Căn bậc 2</td><td>Math.sqrt(16) → 4</td></tr>
+      <tr><td>Math.min(a,b,...)</td><td>Giá trị nhỏ nhất</td><td>Math.min(3,1,5) → 1</td></tr>
+      <tr><td>Math.max(a,b,...)</td><td>Giá trị lớn nhất</td><td>Math.max(3,1,5) → 5</td></tr>
+      <tr><td>Math.random()</td><td>Số ngẫu nhiên [0,1)</td><td>0.7241...</td></tr>
+      <tr><td>Math.trunc(x)</td><td>Lấy phần nguyên</td><td>Math.trunc(4.9) → 4</td></tr>
+      <tr><td>Math.log(x)</td><td>Logarit tự nhiên</td><td>Math.log(Math.E) → 1</td></tr>
+      <tr><td>Math.sin/cos/tan</td><td>Lượng giác (radian)</td><td>Math.sin(Math.PI/2) → 1</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+// Math thường dùng
+Math.PI        // 3.141592653589793
+Math.round(4.5) // 5
+Math.round(4.4) // 4
+Math.ceil(4.1)  // 5
+Math.floor(4.9) // 4
+Math.abs(-10)   // 10
+Math.pow(2, 10) // 1024 (hoặc dùng 2 ** 10)
+Math.sqrt(144)  // 12
+
+// Min / Max
+Math.min(5, 3, 9, 1)  // 1
+Math.max(5, 3, 9, 1)  // 9
+
+// Với mảng dùng spread operator
+const nums = [5, 3, 9, 1, 7];
+Math.min(...nums)  // 1
+Math.max(...nums)  // 9
+
+// Random — số ngẫu nhiên
+Math.random()                     // [0, 1)  như 0.7241
+Math.floor(Math.random() * 10)    // [0, 9]  số nguyên
+Math.floor(Math.random() * 6) + 1 // [1, 6]  như xúc xắc
+
+// Random trong khoảng [min, max]
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+randInt(1, 100) // số nguyên ngẫu nhiên từ 1 đến 100</div>
+
+  <div class="demo">
+    <p><strong>Demo Math:</strong></p>
+    <button onclick="mathDemo('round')">round</button>
+    <button onclick="mathDemo('ceil')">ceil</button>
+    <button onclick="mathDemo('floor')">floor</button>
+    <button onclick="mathDemo('random')">random [1-6]</button>
+    <button onclick="mathDemo('minmax')">min/max array</button>
+    <button onclick="mathDemo('pow')">pow / sqrt</button>
+    <div class="result" id="mathResult">Nhấn nút...</div>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>Object: <code>{ key: value }</code> — dot notation <code>obj.key</code> hoặc bracket <code>obj["key"]</code></li>
+      <li><code>Object.keys()</code> → mảng keys | <code>Object.values()</code> → mảng values | <code>Object.entries()</code> → [[k,v]...]</li>
+      <li>Class: <code>constructor</code> chạy khi <code>new</code> | kế thừa: <code>extends</code> + <code>super()</code></li>
+      <li>Date: <code>getMonth()</code> = 0-11 → cần <code>+1</code> để ra tháng thực!</li>
+      <li><code>getDay()</code> = 0 (Chủ Nhật) đến 6 (Thứ Bảy)</li>
+      <li>Math.random() [0,1) → số nguyên [1,n]: <code>Math.floor(Math.random()*n) + 1</code></li>
+      <li>Min/Max từ mảng: <code>Math.min(...array)</code> | <code>Math.max(...array)</code></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function demoClass() {
+    class Student {
+      constructor(name, gpa) { this.name = name; this.gpa = gpa; }
+      getGrade() {
+        if (this.gpa >= 3.6) return "Xuất sắc";
+        if (this.gpa >= 3.2) return "Giỏi";
+        if (this.gpa >= 2.5) return "Khá";
+        return "Trung bình";
+      }
+    }
+    const students = [
+      new Student("Nguyễn An", 3.8),
+      new Student("Trần Bình", 3.3),
+      new Student("Lê Châu", 2.7),
+    ];
+    const lines = students.map(s => `${s.name} — GPA: ${s.gpa} → ${s.getGrade()}`);
+    document.getElementById("objResult").innerText = lines.join("\n");
+  }
+
+  function demoObj() {
+    const person = { name: "An", age: 20, city: "HCM" };
+    const lines = [
+      `Object: ${JSON.stringify(person)}`,
+      `Object.keys: [${Object.keys(person).join(", ")}]`,
+      `Object.values: [${Object.values(person).join(", ")}]`,
+      `"name" in person: ${"name" in person}`,
+    ];
+    document.getElementById("objResult").innerText = lines.join("\n");
+  }
+
+  function showDate() {
+    const now = new Date();
+    document.getElementById("dateResult").innerText =
+      `now.toString(): ${now.toString()}\nnow.toLocaleDateString(): ${now.toLocaleDateString()}\nnow.toLocaleTimeString(): ${now.toLocaleTimeString()}`;
+  }
+
+  function showComponents() {
+    const now = new Date();
+    const days = ["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
+    const lines = [
+      `getFullYear(): ${now.getFullYear()}`,
+      `getMonth()+1: ${now.getMonth()+1} (tháng thực)`,
+      `getDate(): ${now.getDate()} (ngày trong tháng)`,
+      `getDay(): ${now.getDay()} = ${days[now.getDay()]}`,
+      `getHours(): ${now.getHours()}`,
+      `getMinutes(): ${now.getMinutes()}`,
+      `getTime(): ${now.getTime()} (timestamp ms)`,
+    ];
+    document.getElementById("dateResult").innerText = lines.join("\n");
+  }
+
+  function calcDiff() {
+    const now = new Date();
+    const endOfYear = new Date(now.getFullYear(), 11, 31);
+    const diff = endOfYear - now;
+    const days = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("dateResult").innerText =
+      `Hôm nay: ${now.toLocaleDateString()}\nCòn ${days} ngày đến 31/12/${now.getFullYear()}`;
+  }
+
+  function mathDemo(type) {
+    const x = 4.567;
+    let res;
+    switch(type) {
+      case 'round': res = `Math.round(${x}) = ${Math.round(x)}`; break;
+      case 'ceil': res = `Math.ceil(${x}) = ${Math.ceil(x)}`; break;
+      case 'floor': res = `Math.floor(${x}) = ${Math.floor(x)}`; break;
+      case 'random':
+        const rolls = Array.from({length:5}, () => Math.floor(Math.random()*6)+1);
+        res = `5 lần tung xúc xắc: [${rolls.join(", ")}]`; break;
+      case 'minmax':
+        const arr = [15, 3, 42, 7, 28, 1, 99];
+        res = `Array: [${arr.join(", ")}]\nMath.min(...arr) = ${Math.min(...arr)}\nMath.max(...arr) = ${Math.max(...arr)}`; break;
+      case 'pow':
+        res = `Math.pow(2,10) = ${Math.pow(2,10)}\nMath.sqrt(144) = ${Math.sqrt(144)}\nMath.abs(-42) = ${Math.abs(-42)}`; break;
+    }
+    document.getElementById("mathResult").innerText = res;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Template 02 – select · datalist · textarea · fieldset · output</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; background: #f0f4f8; }
+    h1 { color: #003087; font-size: 20px; margin-bottom: 6px; }
+    .subtitle { color: #5A6070; font-size: 13px; margin-bottom: 30px; }
+    .section-title {
+      font-size: 13px; font-weight: 700; color: #1565C0;
+      text-transform: uppercase; letter-spacing: .06em;
+      margin: 28px 0 12px; padding-bottom: 6px;
+      border-bottom: 2px solid #D0D7E3;
+    }
+    .field-group { background: white; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; border: 1px solid #D0D7E3; }
+    .field-group label { display: block; font-size: 13px; font-weight: 600; color: #003087; margin-bottom: 6px; }
+    .field-group select,
+    .field-group input[type="text"],
+    .field-group input[type="search"],
+    .field-group textarea {
+      width: 100%; padding: 8px 12px; border: 1px solid #D0D7E3;
+      border-radius: 6px; font-size: 14px; box-sizing: border-box;
+    }
+    .note { font-size: 12px; color: #78909C; margin-top: 6px; font-style: italic; }
+    fieldset { border: 2px solid #1565C0; border-radius: 8px; padding: 16px 20px; background: white; margin-bottom: 12px; }
+    legend { color: #003087; font-weight: 700; font-size: 14px; padding: 0 8px; }
+    fieldset label { display: block; font-size: 13px; font-weight: 600; color: #003087; margin: 10px 0 4px; }
+    fieldset input { padding: 8px 12px; border: 1px solid #D0D7E3; border-radius: 6px; font-size: 14px; width: 100%; box-sizing: border-box; }
+    .output-demo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .output-demo input[type="range"]  { flex: 1; min-width: 120px; }
+    .output-demo input[type="number"] { width: 80px; padding: 6px; border: 1px solid #D0D7E3; border-radius: 6px; }
+    output { font-weight: 700; font-size: 18px; color: #003087; min-width: 40px; }
+    .btn-row { display: flex; gap: 12px; margin-top: 16px; }
+    .btn { padding: 10px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .btn-submit { background: #1565C0; color: white; }
+    .btn-reset  { background: #eee; color: #333; }
+    .tag { font-family: monospace; background: #E3F0FF; color: #003087; padding: 1px 7px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<h1>📋 Template 02 – select · datalist · textarea · fieldset · output</h1>
+<p class="subtitle">File mẫu có chú thích đầy đủ – Môn Phát triển Web Kinh doanh · UEL</p>
+
+<form action="#" method="post">
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 1: SELECT – DROPDOWN LIST CƠ BẢN
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">1 · &lt;select&gt; Dropdown cơ bản <span class="tag">&lt;select&gt;</span></div>
+
+  <div class="field-group">
+    <!--
+      <label for="cars"> liên kết với <select id="cars">
+    -->
+    <label for="cars">Chọn xe</label>
+    <select id="cars" name="cars">
+      <!--
+        <option value="..."> → giá trị gửi lên server
+        Nội dung trong thẻ  → text hiện ra cho người dùng
+        selected            → mặc định được chọn
+      -->
+      <option value="">-- Chọn hãng xe --</option>  <!-- option trống đầu tiên = placeholder -->
+      <option value="vol">Volvo</option>
+      <option value="aud" selected>Audi</option>     <!-- selected = mặc định chọn Audi -->
+      <option value="bmw">BMW</option>
+      <option value="mer">Mercedes</option>
+    </select>
+    <p class="note">💡 value là thứ server nhận, text bên trong là thứ user thấy. Luôn thêm option trống đầu tiên làm placeholder.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 2: SELECT – MULTIPLE VÀ SIZE
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">2 · &lt;select&gt; Multiple &amp; Size <span class="tag">multiple</span> <span class="tag">size</span></div>
+
+  <div class="field-group">
+    <label for="langs">Ngôn ngữ lập trình (giữ Ctrl/Cmd để chọn nhiều)</label>
+    <select id="langs" name="langs" multiple size="4">
+      <!--
+        multiple  → cho phép chọn nhiều (giữ Ctrl/Cmd + click)
+        size="4"  → hiện 4 dòng trực tiếp (không cần click để mở)
+        selected  → các option mặc định được chọn
+      -->
+      <option value="html"   selected>HTML</option>
+      <option value="css"    selected>CSS</option>
+      <option value="js">JavaScript</option>
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+      <option value="php">PHP</option>
+    </select>
+    <p class="note">💡 multiple + size hiển thị list box. Người dùng giữ Ctrl/Cmd để chọn nhiều mục.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 3: SELECT – OPTGROUP (NHÓM TÙY CHỌN)
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">3 · &lt;optgroup&gt; Nhóm tùy chọn <span class="tag">&lt;optgroup&gt;</span></div>
+
+  <div class="field-group">
+    <label for="industry">Nghề nghiệp liên quan</label>
+    <select id="industry" name="industry">
+      <option value="">-- Chọn ngành nghề --</option>
+      <!--
+        <optgroup label="..."> → tên nhóm (hiện ra mờ, KHÔNG chọn được)
+        disabled               → vô hiệu hóa cả nhóm, không chọn được
+      -->
+      <optgroup label="Công nghệ">
+        <option value="dev">Lập trình viên</option>
+        <option value="ux">UX/UI Designer</option>
+        <option value="da">Data Analyst</option>
+      </optgroup>
+      <optgroup label="Kinh doanh">
+        <option value="mkt">Marketing</option>
+        <option value="sale">Kinh doanh</option>
+        <option value="fin">Tài chính</option>
+      </optgroup>
+      <optgroup label="Khác (tạm ngừng)" disabled>
+        <!-- disabled trên optgroup → cả nhóm không chọn được -->
+        <option value="edu">Giáo dục</option>
+        <option value="med">Y tế</option>
+      </optgroup>
+    </select>
+    <p class="note">💡 optgroup nhóm các option lại cho dễ nhìn. disabled vô hiệu hóa cả nhóm.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 4: DATALIST – GỢI Ý AUTOCOMPLETE
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">4 · &lt;datalist&gt; Gợi ý autocomplete <span class="tag">&lt;datalist&gt;</span></div>
+
+  <div class="field-group">
+    <label for="browser">Trình duyệt yêu thích</label>
+    <!--
+      Bước 1: <input> có thuộc tính list="browsers"
+      Bước 2: <datalist> có id="browsers"
+      → list= của input PHẢI KHỚP với id= của datalist
+      
+      Khác select: người dùng VẪN CÓ THỂ gõ giá trị không có trong list
+    -->
+    <input
+      type="text"
+      id="browser"
+      name="browser"
+      list="browsers"
+      placeholder="Gõ để tìm kiếm..."
+    />
+    <datalist id="browsers">
+      <option value="Chrome">
+      <option value="Firefox">
+      <option value="Safari">
+      <option value="Edge">
+      <option value="Opera">
+      <!-- datalist dùng <option value="..."> không cần nội dung trong thẻ -->
+    </datalist>
+    <p class="note">💡 list= của input phải khớp với id= của datalist. Người dùng vẫn có thể gõ giá trị không có trong gợi ý.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 5: TEXTAREA – NHẬP NHIỀU DÒNG
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">5 · &lt;textarea&gt; Nhập nhiều dòng <span class="tag">&lt;textarea&gt;</span></div>
+
+  <div class="field-group">
+    <label for="bio">Giới thiệu bản thân</label>
+    <!--
+      textarea KHÁC input:
+      - Có thẻ đóng </textarea>
+      - Nội dung mặc định đặt GIỮA 2 thẻ (không dùng value=)
+      - rows = số dòng hiển thị ban đầu
+      - cols = số ký tự rộng (thường dùng CSS width thay thế)
+    -->
+    <textarea
+      id="bio"
+      name="bio"
+      rows="5"
+      cols="50"
+      placeholder="Nhập giới thiệu về bản thân..."
+      maxlength="500"
+    ></textarea>
+    <!--
+      Để có nội dung mặc định:
+      <textarea name="bio" rows="5">Văn bản mặc định ở đây</textarea>
+      
+      LƯU Ý: KHÔNG ĐƯỢC có khoảng trắng giữa > và </textarea>
+      nếu không muốn có khoảng trắng thừa
+    -->
+    <p class="note">💡 rows/cols kiểm soát kích thước. Nội dung mặc định đặt giữa thẻ, không dùng value=.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 6: FIELDSET + LEGEND – NHÓM CONTROLS
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">6 · &lt;fieldset&gt; + &lt;legend&gt; Nhóm controls <span class="tag">&lt;fieldset&gt;</span></div>
+
+  <!--
+    <fieldset> → vẽ đường viền xung quanh nhóm inputs
+    <legend>   → tiêu đề xuất hiện trên đường viền
+    
+    Dùng để chia form thành các phần có ý nghĩa rõ ràng
+    Ví dụ: "Thông tin cá nhân" | "Mật khẩu" | "Sở thích"
+  -->
+  <fieldset>
+    <legend>🔐 Thông tin đăng nhập</legend>
+    <label for="fs-user">Tên đăng nhập</label>
+    <input type="text"     id="fs-user" name="fs_user" value="John" />
+
+    <label for="fs-lname">Họ và tên</label>
+    <input type="text"     id="fs-lname" name="fs_lname" value="Doe" />
+  </fieldset>
+
+  <fieldset>
+    <legend>📧 Thông tin liên hệ</legend>
+    <label for="fs-email">Email</label>
+    <input type="email" id="fs-email" name="fs_email" placeholder="ten@uel.edu.vn" />
+
+    <label for="fs-phone">Số điện thoại</label>
+    <input type="text"  id="fs-phone" name="fs_phone" placeholder="0909 000 000" />
+  </fieldset>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 7: OUTPUT – HIỂN THỊ KẾT QUẢ TÍNH TOÁN
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">7 · &lt;output&gt; Hiển thị kết quả <span class="tag">&lt;output&gt;</span></div>
+
+  <!--
+    oninput="x.value = parseInt(a.value) + parseInt(b.value)"
+    → khi bất kỳ input nào thay đổi, cập nhật output ngay lập tức
+    
+    x, a, b là tham chiếu đến các element có name tương ứng
+  -->
+  <div class="field-group">
+    <label>Tính tổng theo thời gian thực</label>
+    <form action="#"
+          oninput="result.value = parseInt(sliderVal.value) + parseInt(numVal.value)">
+      <div class="output-demo">
+        <span>0</span>
+        <input type="range"  id="sliderVal" name="sliderVal" value="50" min="0" max="100" />
+        <span>100</span>
+        <span>+</span>
+        <input type="number" id="numVal"    name="numVal"    value="50" min="0" max="200" />
+        <span>=</span>
+        <!--
+          <output name="result" for="sliderVal numVal">
+          name="result" → dùng để JS/form tham chiếu
+          for="..."     → liệt kê các input liên quan (cách nhau bởi dấu cách)
+        -->
+        <output name="result" for="sliderVal numVal">100</output>
+      </div>
+    </form>
+    <p class="note">💡 oninput trên &lt;form&gt; chạy mỗi khi bất kỳ input nào thay đổi. output hiển thị kết quả ngay lập tức.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       NÚT GỬI
+       ════════════════════════════════════════════════ -->
+  <div class="btn-row">
+    <input class="btn btn-submit" type="submit" value="Gửi" />
+    <input class="btn btn-reset"  type="reset"  value="Xóa" />
+  </div>
+
+</form>
+
+</body>
+</html>

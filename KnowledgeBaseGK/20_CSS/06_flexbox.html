@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>06 - CSS Flexbox</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #2c3e50; }
+    h2 { color: #e74c3c; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+    h3 { color: #3498db; }
+    .section { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .demo-box { padding: 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; background: #fafafa; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; color: #c0392b; }
+    pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+
+    /* ================================================
+       STYLE CHUNG CHO FLEXBOX DEMO
+    ================================================ */
+    .flex-container {
+      display: flex;
+      background: #ecf0f1;
+      border: 2px solid #bdc3c7;
+      border-radius: 4px;
+      padding: 10px;
+      min-height: 80px;
+      margin: 8px 0;
+    }
+
+    .flex-item {
+      background: #3498db;
+      color: white;
+      padding: 15px;
+      margin: 5px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 50px;
+    }
+
+    .flex-item:nth-child(2) { background: #e74c3c; }
+    .flex-item:nth-child(3) { background: #27ae60; }
+    .flex-item:nth-child(4) { background: #f39c12; }
+    .flex-item:nth-child(5) { background: #9b59b6; }
+
+    /* ================================================
+       display: flex vs inline-flex
+    ================================================ */
+    .inline-flex-demo {
+      display: inline-flex;   /* chiếm vừa nội dung, không full width */
+      border: 2px solid #3498db;
+      padding: 5px;
+    }
+
+    /* ================================================
+       flex-direction (Hướng của main axis)
+    ================================================ */
+    .flex-row            { flex-direction: row; }           /* → MẶC ĐỊNH */
+    .flex-row-reverse    { flex-direction: row-reverse; }   /* ← */
+    .flex-column         { flex-direction: column; }        /* ↓ */
+    .flex-column-reverse { flex-direction: column-reverse; }/* ↑ */
+
+    /* ================================================
+       flex-wrap (Xuống dòng)
+    ================================================ */
+    .flex-nowrap      { flex-wrap: nowrap; }       /* MẶC ĐỊNH - không xuống dòng */
+    .flex-wrap-demo   { flex-wrap: wrap; }         /* Xuống dòng khi hết chỗ */
+    .flex-wrap-reverse{ flex-wrap: wrap-reverse; } /* Xuống dòng ngược */
+
+    /* ================================================
+       justify-content (Căn trục chính - main axis)
+    ================================================ */
+    .jc-start         { justify-content: flex-start; }     /* MẶC ĐỊNH - trái */
+    .jc-end           { justify-content: flex-end; }       /* phải */
+    .jc-center        { justify-content: center; }         /* giữa */
+    .jc-between       { justify-content: space-between; }  /* đều khoảng cách, sát hai đầu */
+    .jc-around        { justify-content: space-around; }   /* đều khoảng cách, có khoảng 2 đầu */
+    .jc-evenly        { justify-content: space-evenly; }   /* đều khoảng cách hoàn toàn */
+
+    /* ================================================
+       align-items (Căn trục phụ - cross axis)
+    ================================================ */
+    .ai-start         { align-items: flex-start; }  /* đầu cross axis */
+    .ai-end           { align-items: flex-end; }    /* cuối cross axis */
+    .ai-center        { align-items: center; }      /* giữa cross axis */
+    .ai-stretch       { align-items: stretch; }     /* MẶC ĐỊNH - kéo dài */
+    .ai-baseline      { align-items: baseline; }    /* căn chỉnh theo baseline chữ */
+
+    /* ================================================
+       align-content (Căn chỉnh nhiều dòng)
+       Chỉ hoạt động khi flex-wrap: wrap và có nhiều dòng
+    ================================================ */
+    .ac-start         { align-content: flex-start; }
+    .ac-end           { align-content: flex-end; }
+    .ac-center        { align-content: center; }
+    .ac-between       { align-content: space-between; }
+    .ac-around        { align-content: space-around; }
+
+    /* Demo cao hơn để thấy align-content */
+    .flex-tall { height: 180px; flex-wrap: wrap; }
+
+    /* ================================================
+       FLEX ITEM PROPERTIES
+    ================================================ */
+
+    /* flex-grow: chiếm bao nhiêu phần không gian còn lại */
+    .grow-0 { flex-grow: 0; }   /* Không mở rộng */
+    .grow-1 { flex-grow: 1; }   /* Mở rộng bình thường */
+    .grow-2 { flex-grow: 2; }   /* Mở rộng gấp đôi */
+    .grow-3 { flex-grow: 3; }   /* Mở rộng gấp ba */
+
+    /* flex-shrink: thu nhỏ bao nhiêu khi không đủ chỗ */
+    .shrink-0 { flex-shrink: 0; width: 150px; }  /* Không thu nhỏ */
+    .shrink-1 { flex-shrink: 1; width: 150px; }  /* Thu nhỏ bình thường (mặc định) */
+    .shrink-2 { flex-shrink: 2; width: 150px; }  /* Thu nhỏ gấp đôi */
+
+    /* flex-basis: kích thước ban đầu của item */
+    .basis-auto  { flex-basis: auto; }   /* Theo content (mặc định) */
+    .basis-100   { flex-basis: 100px; }  /* 100px ban đầu */
+    .basis-50pct { flex-basis: 50%; }    /* 50% container */
+
+    /* flex shorthand: flex: grow shrink basis */
+    .flex-1   { flex: 1; }       /* flex: 1 1 0 (mở rộng đều) */
+    .flex-auto{ flex: auto; }    /* flex: 1 1 auto */
+    .flex-none{ flex: none; }    /* flex: 0 0 auto (cố định) */
+
+    /* order: thứ tự hiển thị */
+    .order-1 { order: 1; }
+    .order-2 { order: 2; }
+    .order-3 { order: 3; }
+    .order-m1{ order: -1; }  /* Âm = ra trước */
+
+    /* align-self: căn chỉnh riêng từng item */
+    .as-start    { align-self: flex-start; }
+    .as-center   { align-self: center; }
+    .as-end      { align-self: flex-end; }
+    .as-stretch  { align-self: stretch; }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Flexbox - Hướng Dẫn Đầy Đủ</h1>
+
+  <!-- SECTION 1: KHÁI NIỆM CƠ BẢN -->
+  <div class="section">
+    <h2>1. Flexbox Cơ Bản</h2>
+    <pre>
+/* Bật Flexbox cho container */
+.container {
+    display: flex;        /* block flex container */
+    display: inline-flex; /* inline flex container */
+}
+/* Tất cả con TRỰC TIẾP trở thành flex items */</pre>
+
+    <div class="demo-box">
+      <p><code>display: flex</code> (full width)</p>
+      <div class="flex-container flex-row">
+        <div class="flex-item">1</div>
+        <div class="flex-item">2</div>
+        <div class="flex-item">3</div>
+      </div>
+
+      <p><code>display: inline-flex</code> (chỉ chiếm vừa nội dung)</p>
+      <div class="inline-flex-demo">
+        <div class="flex-item">1</div>
+        <div class="flex-item">2</div>
+        <div class="flex-item">3</div>
+      </div>
+    </div>
+
+    <h3>Thuật ngữ Flexbox</h3>
+    <div style="background: #e8f4f8; padding: 15px; border-radius: 4px;">
+      <p><strong>Main Axis</strong>: Trục chính (hướng flex-direction)</p>
+      <p><strong>Cross Axis</strong>: Trục phụ (vuông góc với main axis)</p>
+      <p><strong>Flex Container</strong>: Phần tử cha có <code>display: flex</code></p>
+      <p><strong>Flex Items</strong>: Các phần tử con trực tiếp của container</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: CONTAINER PROPERTIES -->
+  <div class="section">
+    <h2>2. Container Properties (Thuộc Tính Container)</h2>
+
+    <!-- flex-direction -->
+    <h3>2.1 flex-direction (Hướng sắp xếp)</h3>
+    <pre>
+flex-direction: row;            /* → Ngang (mặc định) */
+flex-direction: row-reverse;    /* ← Ngang ngược */
+flex-direction: column;         /* ↓ Dọc */
+flex-direction: column-reverse; /* ↑ Dọc ngược */</pre>
+
+    <div class="demo-box" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div>
+        <p>row (mặc định):</p>
+        <div class="flex-container flex-row">
+          <div class="flex-item">1</div>
+          <div class="flex-item">2</div>
+          <div class="flex-item">3</div>
+        </div>
+      </div>
+      <div>
+        <p>row-reverse:</p>
+        <div class="flex-container flex-row-reverse">
+          <div class="flex-item">1</div>
+          <div class="flex-item">2</div>
+          <div class="flex-item">3</div>
+        </div>
+      </div>
+      <div>
+        <p>column:</p>
+        <div class="flex-container flex-column">
+          <div class="flex-item">1</div>
+          <div class="flex-item">2</div>
+          <div class="flex-item">3</div>
+        </div>
+      </div>
+      <div>
+        <p>column-reverse:</p>
+        <div class="flex-container flex-column-reverse">
+          <div class="flex-item">1</div>
+          <div class="flex-item">2</div>
+          <div class="flex-item">3</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- flex-wrap -->
+    <h3>2.2 flex-wrap (Xuống dòng)</h3>
+    <pre>
+flex-wrap: nowrap;       /* MẶC ĐỊNH - không xuống dòng, có thể tràn */
+flex-wrap: wrap;         /* Xuống dòng khi hết chỗ */
+flex-wrap: wrap-reverse; /* Xuống dòng ngược */</pre>
+
+    <div class="demo-box">
+      <p>nowrap (MẶC ĐỊNH - có thể bị thu nhỏ hoặc tràn):</p>
+      <div class="flex-container flex-nowrap">
+        <div class="flex-item">Item 1</div>
+        <div class="flex-item">Item 2</div>
+        <div class="flex-item">Item 3</div>
+        <div class="flex-item">Item 4</div>
+        <div class="flex-item">Item 5</div>
+      </div>
+
+      <p>wrap (xuống dòng khi hết chỗ):</p>
+      <div class="flex-container flex-wrap-demo">
+        <div class="flex-item" style="min-width: 120px;">Item 1</div>
+        <div class="flex-item" style="min-width: 120px;">Item 2</div>
+        <div class="flex-item" style="min-width: 120px;">Item 3</div>
+        <div class="flex-item" style="min-width: 120px;">Item 4</div>
+        <div class="flex-item" style="min-width: 120px;">Item 5</div>
+      </div>
+    </div>
+
+    <!-- justify-content -->
+    <h3>2.3 justify-content (Căn theo Main Axis)</h3>
+    <pre>
+justify-content: flex-start;    /* Đầu main axis (MẶC ĐỊNH) */
+justify-content: flex-end;      /* Cuối main axis */
+justify-content: center;        /* Giữa main axis */
+justify-content: space-between; /* Đều nhau, sát 2 đầu */
+justify-content: space-around;  /* Đều nhau, có khoảng 2 đầu nhỏ hơn */
+justify-content: space-evenly;  /* Đều nhau hoàn toàn */</pre>
+
+    <div class="demo-box">
+      <p>flex-start:</p>
+      <div class="flex-container jc-start"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+
+      <p>flex-end:</p>
+      <div class="flex-container jc-end"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+
+      <p>center:</p>
+      <div class="flex-container jc-center"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+
+      <p>space-between:</p>
+      <div class="flex-container jc-between"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+
+      <p>space-around:</p>
+      <div class="flex-container jc-around"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+
+      <p>space-evenly:</p>
+      <div class="flex-container jc-evenly"><div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div></div>
+    </div>
+
+    <!-- align-items -->
+    <h3>2.4 align-items (Căn theo Cross Axis)</h3>
+    <pre>
+align-items: stretch;     /* MẶC ĐỊNH - kéo dài hết chiều cao */
+align-items: flex-start;  /* Đầu cross axis (top nếu flex-direction: row) */
+align-items: flex-end;    /* Cuối cross axis */
+align-items: center;      /* Giữa cross axis */
+align-items: baseline;    /* Theo baseline của chữ */</pre>
+
+    <div class="demo-box" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div>
+        <p>stretch (mặc định):</p>
+        <div class="flex-container ai-stretch" style="height: 100px;">
+          <div class="flex-item">A</div>
+          <div class="flex-item" style="font-size: 24px;">B</div>
+          <div class="flex-item">C</div>
+        </div>
+      </div>
+      <div>
+        <p>center:</p>
+        <div class="flex-container ai-center" style="height: 100px;">
+          <div class="flex-item">A</div>
+          <div class="flex-item" style="font-size: 24px;">B</div>
+          <div class="flex-item">C</div>
+        </div>
+      </div>
+      <div>
+        <p>flex-start:</p>
+        <div class="flex-container ai-start" style="height: 100px;">
+          <div class="flex-item">A</div>
+          <div class="flex-item" style="font-size: 24px;">B</div>
+          <div class="flex-item">C</div>
+        </div>
+      </div>
+      <div>
+        <p>flex-end:</p>
+        <div class="flex-container ai-end" style="height: 100px;">
+          <div class="flex-item">A</div>
+          <div class="flex-item" style="font-size: 24px;">B</div>
+          <div class="flex-item">C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- flex-flow shorthand -->
+    <h3>2.5 flex-flow (Shorthand của direction + wrap)</h3>
+    <pre>
+/* flex-flow: flex-direction flex-wrap */
+flex-flow: row nowrap;           /* mặc định */
+flex-flow: column wrap;
+flex-flow: row-reverse wrap;</pre>
+  </div>
+
+  <!-- SECTION 3: ITEM PROPERTIES -->
+  <div class="section">
+    <h2>3. Item Properties (Thuộc Tính Của Từng Item)</h2>
+
+    <!-- flex-grow -->
+    <h3>3.1 flex-grow (Mở rộng)</h3>
+    <pre>
+flex-grow: 0;   /* Không mở rộng (mặc định) */
+flex-grow: 1;   /* Mở rộng chiếm 1 phần không gian còn lại */
+flex-grow: 2;   /* Mở rộng chiếm 2 phần (gấp đôi flex-grow:1) */
+
+/* Ví dụ: 3 items với grow 1, 2, 1 → chia 4 phần → item2 chiếm 2/4 */</pre>
+
+    <div class="demo-box">
+      <p>flex-grow: 1, 2, 1 (chia theo tỉ lệ):</p>
+      <div class="flex-container">
+        <div class="flex-item grow-1">grow:1</div>
+        <div class="flex-item grow-2">grow:2 (gấp đôi)</div>
+        <div class="flex-item grow-1">grow:1</div>
+      </div>
+    </div>
+
+    <!-- flex-shrink -->
+    <h3>3.2 flex-shrink (Thu nhỏ khi không đủ chỗ)</h3>
+    <pre>
+flex-shrink: 0;   /* Không thu nhỏ */
+flex-shrink: 1;   /* Thu nhỏ bình thường (mặc định) */
+flex-shrink: 2;   /* Thu nhỏ nhiều hơn (gấp đôi) */</pre>
+
+    <!-- flex-basis -->
+    <h3>3.3 flex-basis (Kích thước ban đầu)</h3>
+    <pre>
+flex-basis: auto;   /* Theo kích thước nội dung (mặc định) */
+flex-basis: 100px;  /* Kích thước cố định */
+flex-basis: 50%;    /* Phần trăm của container */
+flex-basis: 0;      /* Không có kích thước gốc (cộng với flex-grow) */</pre>
+
+    <!-- flex shorthand -->
+    <h3>3.4 flex shorthand (QUAN TRỌNG!)</h3>
+    <pre>
+/* flex: grow shrink basis */
+flex: 1;          /* = flex: 1 1 0 — phổ biến nhất! chia đều không gian */
+flex: auto;       /* = flex: 1 1 auto */
+flex: none;       /* = flex: 0 0 auto — không thay đổi kích thước */
+flex: 2;          /* gấp đôi flex:1 */
+flex: 0 0 200px;  /* cố định 200px */</pre>
+
+    <div class="demo-box">
+      <p>flex: 1 (chia đều):</p>
+      <div class="flex-container">
+        <div class="flex-item flex-1">flex:1</div>
+        <div class="flex-item flex-1">flex:1</div>
+        <div class="flex-item flex-1">flex:1</div>
+      </div>
+    </div>
+
+    <!-- order -->
+    <h3>3.5 order (Thứ tự hiển thị)</h3>
+    <pre>
+order: 0;    /* mặc định */
+order: -1;   /* Hiển thị trước (thứ tự nhỏ hơn = trước) */
+order: 1;    /* Sau order: 0 */
+order: 2;    /* Cuối cùng */</pre>
+
+    <div class="demo-box">
+      <p>HTML: 1,2,3 | CSS order: 3,1,2 → hiển thị: 1,2,3</p>
+      <div class="flex-container">
+        <div class="flex-item" style="order: 3;">HTML:1 order:3</div>
+        <div class="flex-item" style="order: 1;">HTML:2 order:1</div>
+        <div class="flex-item" style="order: 2;">HTML:3 order:2</div>
+      </div>
+    </div>
+
+    <!-- align-self -->
+    <h3>3.6 align-self (Căn chỉnh từng item riêng lẻ)</h3>
+    <pre>
+align-self: auto;       /* Theo align-items của container (mặc định) */
+align-self: flex-start; /* Đầu cross axis */
+align-self: flex-end;   /* Cuối cross axis */
+align-self: center;     /* Giữa cross axis */
+align-self: stretch;    /* Kéo dài */</pre>
+
+    <div class="demo-box">
+      <div class="flex-container" style="height: 120px; align-items: stretch;">
+        <div class="flex-item as-start">flex-start</div>
+        <div class="flex-item as-center">center</div>
+        <div class="flex-item as-end">flex-end</div>
+        <div class="flex-item as-stretch">stretch</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: PATTERNS PHỔ BIẾN -->
+  <div class="section">
+    <h2>4. Patterns Phổ Biến</h2>
+
+    <h3>Căn giữa hoàn toàn (Horizontal + Vertical)</h3>
+    <pre>
+.container {
+    display: flex;
+    justify-content: center;  /* Căn giữa ngang */
+    align-items: center;      /* Căn giữa dọc */
+    height: 300px;
+}</pre>
+    <div class="demo-box">
+      <div class="flex-container" style="height: 100px; justify-content: center; align-items: center;">
+        <div class="flex-item">Căn giữa hoàn toàn!</div>
+      </div>
+    </div>
+
+    <h3>Navigation Bar</h3>
+    <pre>
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+.logo { flex: 0 0 auto; }  /* Logo không thay đổi */
+.nav-links { flex: 1; }     /* Links chiếm không gian còn lại */</pre>
+    <div class="demo-box">
+      <div class="flex-container" style="justify-content: space-between; align-items: center; background: #2c3e50;">
+        <div class="flex-item" style="margin: 0; background: #e74c3c;">LOGO</div>
+        <div style="display: flex; gap: 10px;">
+          <span style="color: white; padding: 5px 10px; cursor: pointer;">Home</span>
+          <span style="color: white; padding: 5px 10px; cursor: pointer;">About</span>
+          <span style="color: white; padding: 5px 10px; cursor: pointer;">Contact</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Card Layout (Responsive)</h3>
+    <pre>
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.card {
+    flex: 1 1 250px;  /* Tối thiểu 250px, mở rộng đều */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}</pre>
+    <div class="demo-box">
+      <div class="flex-container" style="flex-wrap: wrap; gap: 10px; background: white; border: none; padding: 0;">
+        <div class="flex-item" style="flex: 1 1 120px; border-radius: 8px; padding: 20px;">Card 1</div>
+        <div class="flex-item" style="flex: 1 1 120px; border-radius: 8px; padding: 20px;">Card 2</div>
+        <div class="flex-item" style="flex: 1 1 120px; border-radius: 8px; padding: 20px;">Card 3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION TÓM TẮT -->
+  <div class="section" style="background: #e8f5e9; border-color: #4caf50;">
+    <h2 style="color: #2e7d32;">Tóm Tắt Flexbox</h2>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #4caf50; color: white;">
+        <th style="padding: 8px;">Thuộc tính</th>
+        <th style="padding: 8px;">Áp dụng cho</th>
+        <th style="padding: 8px;">Các giá trị</th>
+      </tr>
+      <tr><td style="padding: 8px;"><code>display</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">flex | inline-flex</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>flex-direction</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">row* | row-reverse | column | column-reverse</td></tr>
+      <tr><td style="padding: 8px;"><code>flex-wrap</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">nowrap* | wrap | wrap-reverse</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>justify-content</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">flex-start* | flex-end | center | space-between | space-around | space-evenly</td></tr>
+      <tr><td style="padding: 8px;"><code>align-items</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">stretch* | flex-start | flex-end | center | baseline</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>align-content</code></td><td style="padding: 8px;">Container</td><td style="padding: 8px;">stretch* | flex-start | flex-end | center | space-between | space-around</td></tr>
+      <tr><td style="padding: 8px;"><code>flex-grow</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">0* | số dương</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>flex-shrink</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">1* | số không âm</td></tr>
+      <tr><td style="padding: 8px;"><code>flex-basis</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">auto* | kích thước</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>flex</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">flex: 1 (phổ biến nhất)</td></tr>
+      <tr><td style="padding: 8px;"><code>order</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">0* | số nguyên</td></tr>
+      <tr style="background: #f9f9f9;"><td style="padding: 8px;"><code>align-self</code></td><td style="padding: 8px;">Item</td><td style="padding: 8px;">auto* | flex-start | flex-end | center | stretch</td></tr>
+    </table>
+    <p style="margin-top: 10px;">* = mặc định</p>
+  </div>
+
+</body>
+</html>

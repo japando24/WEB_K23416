@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>01 - CSS Cơ Bản: Syntax, Types, Units, Comments</title>
+
+  <!-- ===== INTERNAL CSS (Nhúng trong thẻ <style>) ===== -->
+  <style>
+    /* ================================================
+       CSS SYNTAX (Cú pháp CSS)
+       selector { property: value; }
+    ================================================ */
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 { color: #2c3e50; }
+    h2 { color: #e74c3c; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+    h3 { color: #3498db; }
+
+    .section {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .demo-box {
+      padding: 15px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: Consolas, monospace;
+      color: #c0392b;
+    }
+
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    /* ================================================
+       CSS UNITS (Đơn vị CSS)
+    ================================================ */
+
+    /* Absolute Units (Tuyệt đối - cố định) */
+    .unit-px  { font-size: 16px; }    /* px: pixels - phổ biến nhất */
+    .unit-pt  { font-size: 12pt; }    /* pt: points (1pt = 1/72 inch) */
+    .unit-cm  { font-size: 0.5cm; }   /* cm: centimeters */
+    .unit-mm  { font-size: 5mm; }     /* mm: millimeters */
+    .unit-in  { font-size: 0.2in; }   /* in: inches */
+    .unit-pc  { font-size: 1pc; }     /* pc: picas (1pc = 12pt) */
+
+    /* Relative Units (Tương đối - phụ thuộc vào phần tử cha) */
+    .unit-percent { font-size: 120%; }  /* %: phần trăm của phần tử cha */
+    .unit-em  { font-size: 1.2em; }    /* em: nhân với font-size phần tử cha */
+    .unit-rem { font-size: 1.2rem; }   /* rem: nhân với font-size root (html) */
+
+    /* Font-size keywords (Từ khóa kích thước chữ) */
+    .size-xx-small { font-size: xx-small; }  /* rất rất nhỏ */
+    .size-x-small  { font-size: x-small; }   /* rất nhỏ */
+    .size-small    { font-size: small; }      /* nhỏ */
+    .size-medium   { font-size: medium; }     /* trung bình (mặc định) */
+    .size-large    { font-size: large; }      /* lớn */
+    .size-x-large  { font-size: x-large; }   /* rất lớn */
+    .size-xx-large { font-size: xx-large; }  /* rất rất lớn */
+    .size-larger   { font-size: larger; }     /* lớn hơn phần tử cha */
+    .size-smaller  { font-size: smaller; }    /* nhỏ hơn phần tử cha */
+
+    /* ================================================
+       CSS PRIORITY (Độ ưu tiên - QUAN TRỌNG cho thi!)
+       1. Inline style (cao nhất)
+       2. #id selector
+       3. .class selector
+       4. element selector (thấp nhất)
+    ================================================ */
+    #priority-id    { color: blue; }    /* #id: ưu tiên thứ 2 */
+    .priority-class { color: green; }   /* .class: ưu tiên thứ 3 */
+    p.priority-demo { color: orange; }  /* element: ưu tiên thứ 4 */
+  </style>
+</head>
+<body>
+
+  <h1>CSS Cơ Bản: Syntax, Types, Units, Comments</h1>
+
+  <!-- ============================================
+       SECTION 1: CSS SYNTAX
+  ============================================ -->
+  <div class="section">
+    <h2>1. CSS Syntax (Cú pháp CSS)</h2>
+    <pre>
+selector {
+    property: value;
+    property: value;
+}
+
+/* Ví dụ */
+h1 {
+    color: red;
+    font-size: 24px;
+}</pre>
+
+    <p>Thành phần:</p>
+    <ul>
+      <li><code>selector</code>: Chọn phần tử HTML cần style</li>
+      <li><code>property</code>: Thuộc tính CSS (color, font-size, margin...)</li>
+      <li><code>value</code>: Giá trị của thuộc tính</li>
+    </ul>
+  </div>
+
+  <!-- ============================================
+       SECTION 2: CSS TYPES (3 loại)
+  ============================================ -->
+  <div class="section">
+    <h2>2. CSS Types (3 Loại CSS)</h2>
+
+    <h3>A. Inline CSS (CSS trực tiếp)</h3>
+    <p>Viết trong thuộc tính <code>style=""</code> của thẻ HTML</p>
+    <pre>&lt;p style="color: red; font-size: 20px;"&gt;Văn bản đỏ&lt;/p&gt;</pre>
+    <!-- Ví dụ INLINE CSS -->
+    <p style="color: red; font-size: 20px; font-weight: bold;">
+      Đây là Inline CSS (viết thẳng trong thẻ HTML)
+    </p>
+
+    <h3>B. Internal CSS (CSS nhúng)</h3>
+    <p>Viết trong thẻ <code>&lt;style&gt;</code> trong <code>&lt;head&gt;</code></p>
+    <pre>
+&lt;head&gt;
+  &lt;style&gt;
+    p { color: blue; font-size: 16px; }
+  &lt;/style&gt;
+&lt;/head&gt;</pre>
+
+    <h3>C. External CSS (CSS ngoài)</h3>
+    <p>Link đến file .css riêng</p>
+    <pre>
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;</pre>
+
+    <!-- ============================================
+         ĐỘ ƯU TIÊN CSS (QUAN TRỌNG - HỌC THUỘC!)
+    ============================================ -->
+    <h3>Độ ưu tiên CSS (Priority)</h3>
+    <div class="demo-box" style="background: #fff3cd;">
+      <p><strong>Từ cao đến thấp:</strong></p>
+      <ol>
+        <li>Inline style: <code>style="..."</code> (ưu tiên CAO NHẤT)</li>
+        <li>ID selector: <code>#id { }</code></li>
+        <li>Class selector: <code>.class { }</code></li>
+        <li>Element selector: <code>p { }</code> (ưu tiên THẤP NHẤT)</li>
+      </ol>
+    </div>
+
+    <!-- Demo priority: inline > #id > .class > element -->
+    <p id="priority-id" class="priority-class" style="color: crimson;">
+      Inline (crimson) thắng id (blue) thắng class (green) thắng element (orange)
+    </p>
+  </div>
+
+  <!-- ============================================
+       SECTION 3: CSS COMMENTS
+  ============================================ -->
+  <div class="section">
+    <h2>3. CSS Comments (Chú thích CSS)</h2>
+    <pre>
+/* Đây là chú thích CSS - không hiển thị trên trình duyệt */
+
+/* Chú thích 1 dòng */
+
+/*
+  Chú thích
+  nhiều dòng
+*/
+
+p {
+    color: red;  /* comment sau property */
+    font-size: 16px;
+}</pre>
+    <p class="demo-box">Chú thích CSS bắt đầu bằng <code>/*</code> và kết thúc bằng <code>*/</code></p>
+  </div>
+
+  <!-- ============================================
+       SECTION 4: CSS UNITS (Đơn vị)
+  ============================================ -->
+  <div class="section">
+    <h2>4. CSS Units (Đơn vị CSS)</h2>
+
+    <h3>Absolute Units (Tuyệt đối)</h3>
+    <div class="demo-box">
+      <p class="unit-px">font-size: 16px (pixels)</p>
+      <p class="unit-pt">font-size: 12pt (points)</p>
+      <p class="unit-cm">font-size: 0.5cm (centimeters)</p>
+      <p class="unit-mm">font-size: 5mm (millimeters)</p>
+      <p class="unit-pc">font-size: 1pc (pica)</p>
+    </div>
+
+    <h3>Relative Units (Tương đối)</h3>
+    <div class="demo-box">
+      <p class="unit-percent">font-size: 120% (120% của cha)</p>
+      <p class="unit-em">font-size: 1.2em (1.2 lần font-size cha)</p>
+      <p class="unit-rem">font-size: 1.2rem (1.2 lần font-size root)</p>
+    </div>
+
+    <h3>Font-size Keywords</h3>
+    <div class="demo-box">
+      <p class="size-xx-small">xx-small</p>
+      <p class="size-x-small">x-small</p>
+      <p class="size-small">small</p>
+      <p class="size-medium">medium (mặc định)</p>
+      <p class="size-large">large</p>
+      <p class="size-x-large">x-large</p>
+      <p class="size-xx-large">xx-large</p>
+      <p class="size-larger">larger (lớn hơn cha)</p>
+      <p class="size-smaller">smaller (nhỏ hơn cha)</p>
+    </div>
+
+    <h3>Bảng tóm tắt Units</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #3498db; color: white;">
+        <th style="padding: 8px;">Unit</th>
+        <th style="padding: 8px;">Loại</th>
+        <th style="padding: 8px;">Mô tả</th>
+        <th style="padding: 8px;">Ví dụ</th>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>px</code></td>
+        <td style="padding: 8px;">Tuyệt đối</td>
+        <td style="padding: 8px;">Pixels - phổ biến nhất</td>
+        <td style="padding: 8px;"><code>16px</code></td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;"><code>pt</code></td>
+        <td style="padding: 8px;">Tuyệt đối</td>
+        <td style="padding: 8px;">Points (1pt = 1/72 inch)</td>
+        <td style="padding: 8px;"><code>12pt</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>cm/mm/in</code></td>
+        <td style="padding: 8px;">Tuyệt đối</td>
+        <td style="padding: 8px;">Centimeter, Millimeter, Inch</td>
+        <td style="padding: 8px;"><code>2cm</code></td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;"><code>pc</code></td>
+        <td style="padding: 8px;">Tuyệt đối</td>
+        <td style="padding: 8px;">Pica (1pc = 12pt)</td>
+        <td style="padding: 8px;"><code>1pc</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>%</code></td>
+        <td style="padding: 8px;">Tương đối</td>
+        <td style="padding: 8px;">Phần trăm của phần tử cha</td>
+        <td style="padding: 8px;"><code>50%</code></td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;"><code>em</code></td>
+        <td style="padding: 8px;">Tương đối</td>
+        <td style="padding: 8px;">Nhân với font-size của cha</td>
+        <td style="padding: 8px;"><code>1.5em</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>rem</code></td>
+        <td style="padding: 8px;">Tương đối</td>
+        <td style="padding: 8px;">Nhân với font-size của root (html)</td>
+        <td style="padding: 8px;"><code>1.2rem</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ============================================
+       SECTION 5: TÓM TẮT - QUAN TRỌNG CHO THI
+  ============================================ -->
+  <div class="section" style="background: #e8f5e9; border-color: #4caf50;">
+    <h2 style="color: #2e7d32;">5. Tóm Tắt - Quan Trọng Cho Thi</h2>
+    <ul>
+      <li>CSS Syntax: <code>selector { property: value; }</code></li>
+      <li>3 loại CSS: <strong>Inline</strong> (style=""), <strong>Internal</strong> (&lt;style&gt;), <strong>External</strong> (link href)</li>
+      <li>Độ ưu tiên: <strong>Inline > #id > .class > element</strong></li>
+      <li>Comment: <code>/* ... */</code></li>
+      <li>Units phổ biến: <code>px, %, em, rem</code></li>
+    </ul>
+  </div>
+
+</body>
+</html>

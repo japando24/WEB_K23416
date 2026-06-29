@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>03 - Điều Kiện & Vòng Lặp</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 4px; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    th { background: #f7971e; color: #1a0000; padding: 8px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid #333; }
+    tr:nth-child(even) td { background: #16213e; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+    .input-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .inp { background: #0d0d1a; border: 1px solid #f7971e; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 0.9em; width: 80px; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 03 — Điều Kiện & Vòng Lặp</h1>
+
+  <!-- ===== IF/ELSE ===== -->
+  <h2>1. if / else if / else</h2>
+  <div class="code-block">
+// Cú pháp cơ bản
+if (điều_kiện) {
+  // chạy nếu đúng
+} else if (điều_kiện_2) {
+  // chạy nếu điều_kiện_1 sai, điều_kiện_2 đúng
+} else {
+  // chạy nếu tất cả sai
+}
+
+// Ví dụ thực tế: xếp loại học lực
+let score = 85;
+
+if (score >= 90) {
+  console.log("Xuất sắc");
+} else if (score >= 80) {
+  console.log("Giỏi");       // ← sẽ in cái này
+} else if (score >= 70) {
+  console.log("Khá");
+} else if (score >= 50) {
+  console.log("Trung bình");
+} else {
+  console.log("Yếu");
+}
+
+// if ngắn — không cần {} nếu chỉ 1 câu lệnh (không khuyến khích)
+if (score > 50) console.log("Đậu");
+
+// Điều kiện phức hợp
+let age = 20, hasID = true;
+if (age >= 18 && hasID) {
+  console.log("Được vào");
+}</div>
+
+  <div class="demo">
+    <p><strong>Demo if/else — xếp loại điểm:</strong></p>
+    <div class="input-row">
+      <label>Điểm:</label>
+      <input type="number" id="scoreInput" class="inp" value="75" min="0" max="100">
+      <button onclick="classifyScore()">Xếp loại</button>
+    </div>
+    <div class="result" id="scoreResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ===== SWITCH ===== -->
+  <h2>2. switch / case</h2>
+  <div class="code-block">
+// switch so sánh === (strict)
+let day = 3;
+
+switch (day) {
+  case 1:
+    console.log("Thứ Hai");
+    break;  // ⚠️ PHẢI có break, không thì "fall-through"!
+  case 2:
+    console.log("Thứ Ba");
+    break;
+  case 3:
+    console.log("Thứ Tư");  // ← in cái này
+    break;
+  case 6:
+  case 7:  // 2 case chung 1 block
+    console.log("Cuối tuần!");
+    break;
+  default:  // không bắt buộc, chạy khi không khớp case nào
+    console.log("Không xác định");
+}
+
+// ⚠️ Thiếu break → fall-through (chạy cả case tiếp theo!)
+switch (2) {
+  case 1: console.log("1"); // bỏ qua
+  case 2: console.log("2"); // in
+  case 3: console.log("3"); // IN LUÔN vì không có break!
+  default: console.log("d");// IN LUÔN!
+}
+// Kết quả: "2", "3", "d" — đây là bug phổ biến!</div>
+
+  <div class="demo">
+    <p><strong>Demo switch — ngày trong tuần:</strong></p>
+    <div class="input-row">
+      <label>Số ngày (1-7):</label>
+      <input type="number" id="dayInput" class="inp" value="3" min="1" max="7">
+      <button onclick="getDay()">Xem ngày</button>
+    </div>
+    <div class="result" id="dayResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ===== FOR ===== -->
+  <h2>3. Vòng Lặp for</h2>
+  <div class="code-block">
+// Cú pháp: for (khởi tạo; điều kiện; cập nhật)
+for (let i = 0; i < 5; i++) {
+  console.log(i); // 0, 1, 2, 3, 4
+}
+
+// Đếm ngược
+for (let i = 5; i > 0; i--) {
+  console.log(i); // 5, 4, 3, 2, 1
+}
+
+// Duyệt mảng
+const fruits = ["Táo", "Chuối", "Cam"];
+for (let i = 0; i < fruits.length; i++) {
+  console.log(i + ": " + fruits[i]);
+}
+
+// break — thoát vòng lặp
+for (let i = 0; i < 10; i++) {
+  if (i === 5) break;  // dừng ở i=5
+  console.log(i);      // 0, 1, 2, 3, 4
+}
+
+// continue — bỏ qua lần lặp hiện tại
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;  // bỏ qua i=2
+  console.log(i);          // 0, 1, 3, 4
+}</div>
+
+  <!-- ===== FOR...IN và FOR...OF ===== -->
+  <h2>4. for...in và for...of</h2>
+  <div class="code-block">
+// for...in — duyệt KEY (tên thuộc tính) của Object
+const person = { name: "An", age: 20, city: "HCM" };
+for (let key in person) {
+  console.log(key + ": " + person[key]);
+  // "name: An", "age: 20", "city: HCM"
+}
+
+// for...in cũng dùng được với mảng (lấy index)
+const arr = ["a", "b", "c"];
+for (let i in arr) {
+  console.log(i, arr[i]); // "0 a", "1 b", "2 c"
+}
+
+// for...of — duyệt VALUE của iterable (Array, String, Map, Set)
+const colors = ["Đỏ", "Xanh", "Vàng"];
+for (let color of colors) {
+  console.log(color); // "Đỏ", "Xanh", "Vàng"
+}
+
+// for...of với String
+for (let char of "Hello") {
+  console.log(char); // H, e, l, l, o
+}
+
+// So sánh for...in vs for...of với mảng
+const nums = [10, 20, 30];
+for (let i in nums)  console.log(i);       // "0", "1", "2" (index)
+for (let n of nums)  console.log(n);       // 10, 20, 30  (value)
+nums.forEach((n, i) => console.log(i, n)); // 0 10, 1 20, 2 30</div>
+
+  <div class="note">
+    📌 <strong>Nhớ nhanh:</strong><br>
+    • <code>for...in</code> → lấy KEY/INDEX (dùng cho Object)<br>
+    • <code>for...of</code> → lấy VALUE (dùng cho Array/String)
+  </div>
+
+  <!-- ===== WHILE ===== -->
+  <h2>5. while và do...while</h2>
+  <div class="code-block">
+// while — kiểm tra điều kiện TRƯỚC, có thể không chạy lần nào
+let i = 0;
+while (i < 5) {
+  console.log(i); // 0, 1, 2, 3, 4
+  i++;            // ⚠️ Phải cập nhật biến, không sẽ lặp vô tận!
+}
+
+// Vòng lặp đọc input (ví dụ điển hình)
+let password = "";
+while (password !== "1234") {
+  password = prompt("Nhập mật khẩu:");  // lặp đến khi đúng
+}
+console.log("Đúng mật khẩu!");
+
+// do...while — chạy ÍT NHẤT 1 LẦN, kiểm tra sau
+let count = 0;
+do {
+  console.log("Lần " + count);
+  count++;
+} while (count < 3);
+// "Lần 0", "Lần 1", "Lần 2"
+
+// Ví dụ: khi điều kiện sai ngay từ đầu
+let x = 10;
+do {
+  console.log("Chạy 1 lần!"); // in dù điều kiện sai!
+} while (x < 5);
+
+while (x < 5) {
+  console.log("Không bao giờ in!"); // không in
+}</div>
+
+  <div class="demo">
+    <p><strong>Demo vòng lặp — In bảng cửu chương:</strong></p>
+    <div class="input-row">
+      <label>Số (1-9):</label>
+      <input type="number" id="multiInput" class="inp" value="5" min="1" max="9">
+      <button onclick="multiTable()">Bảng cửu chương</button>
+    </div>
+    <div class="result" id="multiResult">Nhấn nút...</div>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo for...in vs for...of:</strong></p>
+    <button onclick="demoForIn()">for...in (Object)</button>
+    <button onclick="demoForOf()">for...of (Array)</button>
+    <div class="result" id="forResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ===== SO SÁNH VÒNG LẶP ===== -->
+  <h2>6. So Sánh Các Vòng Lặp</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Vòng lặp</th><th>Dùng khi nào</th><th>Đặc điểm</th></tr>
+      <tr><td>for (i)</td><td>Biết trước số lần, cần index</td><td>Kiểm soát tốt nhất</td></tr>
+      <tr><td>for...in</td><td>Duyệt key/property của Object</td><td>Trả về key (string)</td></tr>
+      <tr><td>for...of</td><td>Duyệt value của Array/String/iterable</td><td>Trả về value trực tiếp</td></tr>
+      <tr><td>while</td><td>Không biết trước số lần</td><td>Có thể không chạy</td></tr>
+      <tr><td>do...while</td><td>Cần chạy ít nhất 1 lần</td><td>Luôn chạy ít nhất 1 lần</td></tr>
+      <tr><td>forEach</td><td>Duyệt mảng (functional style)</td><td>Không dùng được break</td></tr>
+    </table>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>switch/case phải có <strong>break</strong>, không thì "fall-through" sang case tiếp theo</li>
+      <li><strong>for...in</strong> → KEY (index/tên thuộc tính) | <strong>for...of</strong> → VALUE</li>
+      <li><strong>while</strong>: kiểm tra trước — có thể không chạy lần nào</li>
+      <li><strong>do...while</strong>: kiểm tra sau — luôn chạy ít nhất 1 lần</li>
+      <li><strong>break</strong>: thoát vòng lặp | <strong>continue</strong>: bỏ qua lần lặp hiện tại</li>
+      <li>switch dùng <strong>===</strong> nên <code>case "3":</code> khác <code>case 3:</code></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function classifyScore() {
+    const score = parseInt(document.getElementById("scoreInput").value);
+    let grade;
+    if (score >= 90) grade = "A — Xuất sắc";
+    else if (score >= 80) grade = "B — Giỏi";
+    else if (score >= 70) grade = "C — Khá";
+    else if (score >= 50) grade = "D — Trung bình";
+    else grade = "F — Yếu (rớt)";
+    document.getElementById("scoreResult").innerText = `Điểm ${score}: ${grade}`;
+  }
+
+  function getDay() {
+    const day = parseInt(document.getElementById("dayInput").value);
+    const days = {1:"Thứ Hai",2:"Thứ Ba",3:"Thứ Tư",4:"Thứ Năm",5:"Thứ Sáu",6:"Thứ Bảy",7:"Chủ Nhật"};
+    let result;
+    switch (day) {
+      case 6: case 7: result = days[day] + " — Cuối tuần! 🎉"; break;
+      default: result = days[day] || "Không hợp lệ";
+    }
+    document.getElementById("dayResult").innerText = result;
+  }
+
+  function multiTable() {
+    const n = parseInt(document.getElementById("multiInput").value);
+    let out = `Bảng cửu chương số ${n}:\n`;
+    for (let i = 1; i <= 10; i++) {
+      out += `${n} × ${i} = ${n * i}\n`;
+    }
+    document.getElementById("multiResult").innerText = out;
+  }
+
+  function demoForIn() {
+    const person = { name: "Nguyễn An", age: 20, city: "TP.HCM" };
+    let out = "for...in với Object:\n";
+    for (let key in person) {
+      out += `  ${key}: ${person[key]}\n`;
+    }
+    document.getElementById("forResult").innerText = out;
+  }
+
+  function demoForOf() {
+    const fruits = ["Táo", "Chuối", "Cam", "Xoài"];
+    let out = "for...of với Array:\n";
+    for (let fruit of fruits) {
+      out += `  → ${fruit}\n`;
+    }
+    document.getElementById("forResult").innerText = out;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>XML Ex</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <style>
+        .flex-container{
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;;
+        }
+
+        .item{
+            width:120px;
+            height:150px;
+            background-color:darkorange;
+            color:white;
+            margin: 15px;
+        }
+    </style>
+    <script>
+        function loadXML(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../data/products.xml", false);
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState ==4 && xhr.status==200){
+                    // Xử lý dữ liệu trả về
+                    updateUI(this);
+                } else {
+                    alert("Error !!!!!!!")
+                }
+            }
+            xhr.send();
+        }
+
+        function updateUI(xhr){
+            var xmlDoc=xhr.responseXML;
+            var productElements=xmlDoc.getElementsByTagName("product");
+            // console.log(productElements);
+            var htmlString = "";
+            // C1"
+                // for(let i=0; i<productElements.length;i++){
+                //     htmlString+="<div>";
+                //     // console.log(productElements[i].getElementsByTagName("name")[0].childNodes[0].nodeValue)
+                //     htmlString+=productElements[i].getElementsByTagName("code")[0].childNodes[0].nodeValue+" : ";
+                //     htmlString+=productElements[i].getElementsByTagName("name")[0].childNodes[0].nodeValue+" - ";
+                //     htmlString+=productElements[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+                //     htmlString+="</div>";
+                // }
+            // C2:
+                // for (let p of productElements){
+                //     htmlString+="<div>";
+                //     htmlString+=p.getElementsByTagName("code")[0].childNodes[0].nodeValue +" : ";
+                //     htmlString+=p.getElementsByTagName("name")[0].childNodes[0].nodeValue +" - ";
+                //     htmlString+=p.getElementsByTagName("price")[0].childNodes[0].nodeValue ;
+                //     htmlString+="</div>";
+                // }
+            // C3:
+                htmlString="<div class='flex-container'>";
+                for (let p of productElements){
+                    htmlString+= `
+                        <div class="item">
+                            ${
+                            p.getElementsByTagName("code")[0].childNodes[0].nodeValue+" : " +
+                            p.getElementsByTagName("name")[0].childNodes[0].nodeValue+" - " +
+                            p.getElementsByTagName("price")[0].childNodes[0].nodeValue
+                            }
+                        </div>
+                    `;
+                }
+                htmlString+="</div>"
+            document.getElementById("content").innerHTML=htmlString;
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="m-3">
+        <input type="button" value="Load XML" class="btn btn-primary" onclick="loadXML()">
+        <div id="content"></div>
+    </div>
+</body>
+</html>

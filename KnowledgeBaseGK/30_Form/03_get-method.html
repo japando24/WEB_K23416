@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Template 03 – GET Method (Client → Server)</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; background: #f0f4f8; }
+    h1 { color: #003087; font-size: 20px; margin-bottom: 6px; }
+    .subtitle { color: #5A6070; font-size: 13px; margin-bottom: 24px; }
+
+    /* Phần client */
+    .panel { background: white; border-radius: 10px; padding: 24px; border: 1px solid #D0D7E3; margin-bottom: 20px; }
+    .panel h2 { font-size: 15px; color: #003087; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+    .badge-client { background: #E8F5E9; color: #2E7D32; }
+    .badge-server { background: #E3F0FF; color: #1565C0; }
+
+    .form-row { margin-bottom: 14px; }
+    .form-row label { display: block; font-size: 13px; font-weight: 600; color: #003087; margin-bottom: 5px; }
+    .form-row input { width: 100%; padding: 9px 13px; border: 1px solid #D0D7E3; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-row input:focus { outline: 2px solid #1565C0; }
+
+    .btn-submit { background: #1565C0; color: white; padding: 10px 28px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .btn-submit:hover { background: #0D47A1; }
+
+    /* URL preview */
+    .url-preview { background: #1E2740; color: #CDD9F0; border-radius: 8px; padding: 14px 16px; font-family: monospace; font-size: 13px; margin: 14px 0; line-height: 1.7; }
+    .url-key   { color: #80DEEA; }
+    .url-val   { color: #FFD54F; }
+    .url-sep   { color: #EF9A9A; }
+
+    /* Server nhận */
+    .result-box { background: #F8F9FF; border: 2px dashed #1565C0; border-radius: 8px; padding: 16px 20px; }
+    .result-box h3 { font-size: 14px; color: #1565C0; margin-bottom: 12px; }
+    .result-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; }
+    .result-item .key   { font-weight: 700; color: #003087; min-width: 100px; }
+    .result-item .value { color: #1A1A2E; font-weight: 500; }
+    .note { font-size: 12px; color: #78909C; margin-top: 8px; font-style: italic; }
+    .note-box { background: #FFF3E0; border-left: 4px solid #F57C00; border-radius: 4px; padding: 10px 14px; font-size: 13px; color: #6D4C41; margin: 14px 0; }
+
+    /* Code section */
+    pre { background: #1E2740; color: #CDD9F0; border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 12px; line-height: 1.7; }
+    .attr { color: #80DEEA; }
+    .val  { color: #FFD54F; }
+    .elem { color: #EF9A9A; }
+    .cmt  { color: #78909C; font-style: italic; }
+    .kw   { color: #CE93D8; }
+  </style>
+</head>
+<body>
+
+<h1>📋 Template 03 – Phương thức GET</h1>
+<p class="subtitle">Mô phỏng Client.html → Server.html · Môn Phát triển Web Kinh doanh · UEL</p>
+
+<!-- ════════════════════════════════════════════════
+     PHẦN CLIENT
+     ════════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>
+    <span class="badge badge-client">CLIENT</span>
+    Form gửi bằng method GET
+  </h2>
+
+  <!--
+    ╔═══════════════════════════════════════════════════╗
+    ║  method="get"                                     ║
+    ║  → dữ liệu gắn vào URL sau dấu ?                ║
+    ║  → Ví dụ: server.html?name=JAJA&email=a@b.com    ║
+    ║                                                   ║
+    ║  action="#"  → trang hiện tại (demo)             ║
+    ║  Thực tế:    → action="server.html"              ║
+    ╚═══════════════════════════════════════════════════╝
+  -->
+  <form action="#" method="get" id="clientForm">
+    <div class="form-row">
+      <label for="name">Username</label>
+      <input type="text" id="name" name="name" value="iloveuel"
+             placeholder="Nhập username" />
+      <!-- name="name" → key trong URL: ?name=iloveuel -->
+    </div>
+
+    <div class="form-row">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="iloveuel@uel.edu.vn"
+             placeholder="Nhập email" />
+      <!-- name="email" → key trong URL: &email=iloveuel%40uel.edu.vn -->
+      <!-- @ được mã hóa thành %40 trong URL encoding -->
+    </div>
+
+    <button class="btn-submit" type="button" onclick="simulateGet()">
+      🚀 Submit (Mô phỏng GET)
+    </button>
+  </form>
+
+  <!-- Preview URL được tạo ra -->
+  <div class="url-preview" id="urlPreview">
+    server.html<span class="url-sep">?</span><span class="url-key">name</span>=<span class="url-val">iloveuel</span><span class="url-sep">&amp;</span><span class="url-key">email</span>=<span class="url-val">iloveuel%40uel.edu.vn</span><span class="url-sep">&amp;</span><span class="url-key">submit</span>=<span class="url-val">Submit</span>
+  </div>
+
+  <div class="note-box">
+    ⚠ <strong>Lưu ý bảo mật:</strong> Với GET, dữ liệu hiện trên URL Address bar. Không dùng GET để gửi mật khẩu. Kích thước tối đa của URL là <strong>2048 bytes</strong>.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PHẦN SERVER NHẬN
+     ════════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>
+    <span class="badge badge-server">SERVER</span>
+    server.html nhận và đọc dữ liệu từ URL
+  </h2>
+
+  <div class="result-box" id="resultBox">
+    <h3>📥 Dữ liệu nhận được:</h3>
+    <div class="result-item">
+      <span class="key">Name:</span>
+      <span class="value" id="displayName">iloveuel</span>
+    </div>
+    <div class="result-item">
+      <span class="key">Email:</span>
+      <span class="value" id="displayEmail">iloveuel@uel.edu.vn</span>
+    </div>
+  </div>
+  <p class="note">👆 Nhấn Submit ở trên để xem giá trị thay đổi theo</p>
+
+  <!-- CODE MẪU PHẦN SERVER -->
+  <div style="margin-top:20px;">
+    <p style="font-size:13px;font-weight:700;color:#003087;margin-bottom:8px;">Code đọc URL params trong server.html:</p>
+    <pre><span class="cmt">// ── Cách 1: URLSearchParams (KHUYẾN DÙNG) ─────────────</span>
+<span class="kw">const</span> params = <span class="kw">new</span> URLSearchParams(window.location.search);
+<span class="cmt">// window.location.search = "?name=iloveuel&email=..."</span>
+
+<span class="kw">const</span> name  = params.<span class="attr">get</span>(<span class="val">"name"</span>);   <span class="cmt">// → "iloveuel"</span>
+<span class="kw">const</span> email = params.<span class="attr">get</span>(<span class="val">"email"</span>);  <span class="cmt">// → "iloveuel@uel.edu.vn"</span>
+
+<span class="cmt">// Hiển thị vào DOM</span>
+document.<span class="attr">getElementById</span>(<span class="val">"name"</span>).innerText  = name;
+document.<span class="attr">getElementById</span>(<span class="val">"email"</span>).innerText = email;
+
+<span class="cmt">// ── Cách 2: Regex thủ công (cũ hơn) ──────────────────</span>
+<span class="kw">function</span> getUrlParams() {
+  <span class="kw">var</span> params = {};
+  <span class="kw">var</span> qs = window.location.href
+    .replace(<span class="val">/[?&]+([^=&]+)=([^&]*)/gi</span>, <span class="kw">function</span>(m, key, value) {
+      params[key] = value;
+    });
+  <span class="kw">return</span> params;
+}
+<span class="kw">var</span> name  = unescape(getUrlParams()[<span class="val">"name"</span>]);
+<span class="kw">var</span> email = unescape(getUrlParams()[<span class="val">"email"</span>]);</pre>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SO SÁNH GET vs POST
+     ════════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>⚖ So sánh GET vs POST</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <thead>
+      <tr style="background:#003087;color:white;">
+        <th style="padding:10px;text-align:left;">Tiêu chí</th>
+        <th style="padding:10px;text-align:left;">GET</th>
+        <th style="padding:10px;text-align:left;">POST</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#E8F5E9;">
+        <td style="padding:9px 10px;font-weight:600;">Vị trí data</td>
+        <td style="padding:9px 10px;">Gắn vào URL (?key=val)</td>
+        <td style="padding:9px 10px;">Trong request body (ẩn)</td>
+      </tr>
+      <tr>
+        <td style="padding:9px 10px;font-weight:600;">Giới hạn</td>
+        <td style="padding:9px 10px;">Max 2048 bytes</td>
+        <td style="padding:9px 10px;">Không giới hạn</td>
+      </tr>
+      <tr style="background:#E8F5E9;">
+        <td style="padding:9px 10px;font-weight:600;">Bảo mật</td>
+        <td style="padding:9px 10px;">Thấp – thấy trên URL</td>
+        <td style="padding:9px 10px;">Cao hơn – ẩn trong body</td>
+      </tr>
+      <tr>
+        <td style="padding:9px 10px;font-weight:600;">CRUD</td>
+        <td style="padding:9px 10px;">Read – truy vấn dữ liệu</td>
+        <td style="padding:9px 10px;">Create – lưu mới dữ liệu</td>
+      </tr>
+      <tr style="background:#E8F5E9;">
+        <td style="padding:9px 10px;font-weight:600;">Trang nhận</td>
+        <td style="padding:9px 10px;">HTML tĩnh cũng dùng được</td>
+        <td style="padding:9px 10px;">Cần server backend (PHP, Node…)</td>
+      </tr>
+      <tr>
+        <td style="padding:9px 10px;font-weight:600;">Bookmark</td>
+        <td style="padding:9px 10px;">Có thể bookmark URL kết quả</td>
+        <td style="padding:9px 10px;">Không bookmark được</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // ── Mô phỏng GET trong cùng 1 file (demo) ──────────────────
+  function simulateGet() {
+    // Lấy giá trị từ form
+    const name  = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    // Cập nhật URL preview
+    const encodedEmail = encodeURIComponent(email);
+    document.getElementById('urlPreview').innerHTML =
+      `server.html<span class="url-sep">?</span>` +
+      `<span class="url-key">name</span>=<span class="url-val">${name}</span>` +
+      `<span class="url-sep">&amp;</span>` +
+      `<span class="url-key">email</span>=<span class="url-val">${encodedEmail}</span>`;
+
+    // Mô phỏng phần "server nhận" – đọc từ URL params
+    // (Trong thực tế, server.html tự đọc window.location.search)
+    document.getElementById('displayName').textContent  = name;
+    document.getElementById('displayEmail').textContent = email;
+  }
+</script>
+
+</body>
+</html>

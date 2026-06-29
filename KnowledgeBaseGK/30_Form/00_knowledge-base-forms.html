@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Base – HTML Forms | Phát triển Web Kinh doanh</title>
+  <style>
+    :root {
+      --blue-dark:  #003087;
+      --blue-mid:   #1565C0;
+      --blue-light: #E3F0FF;
+      --accent:     #F57C00;
+      --green:      #2E7D32;
+      --red:        #C62828;
+      --bg:         #F5F7FA;
+      --white:      #FFFFFF;
+      --text:       #1A1A2E;
+      --muted:      #5A6070;
+      --border:     #D0D7E3;
+      --code-bg:    #1E2740;
+      --code-text:  #CDD9F0;
+      --tag-attr:   #80DEEA;
+      --tag-val:    #FFD54F;
+      --tag-elem:   #EF9A9A;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+      color: white;
+      padding: 36px 48px 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .header-badge {
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+    .header h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+    .header p  { opacity: .78; font-size: 14px; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 36px 24px; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 44px; }
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      border-left: 5px solid var(--blue-mid);
+      padding-left: 14px;
+      margin-bottom: 20px;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue-mid);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin: 22px 0 10px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h3 .tag { font-family: monospace; font-size: 13px; color: var(--blue-mid); }
+    .card p  { color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .card ul { color: var(--muted); font-size: 14px; padding-left: 18px; }
+    .card ul li { margin-bottom: 4px; }
+
+    /* ── CODE BLOCK ── */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.7;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      margin: 12px 0;
+    }
+    .attr  { color: var(--tag-attr);  }
+    .val   { color: var(--tag-val);   }
+    .elem  { color: var(--tag-elem);  }
+    .cmt   { color: #78909C; font-style: italic; }
+    .kw    { color: #CE93D8; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead tr { background: var(--blue-dark); color: white; }
+    thead th { padding: 12px 16px; text-align: left; font-weight: 700; }
+    tbody tr:nth-child(even) { background: var(--blue-light); }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* ── CHIPS ── */
+    .chip {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 2px 2px 2px 0;
+    }
+    .chip-blue   { background: var(--blue-light); color: var(--blue-dark); }
+    .chip-orange { background: #FFF3E0; color: #E65100; }
+    .chip-green  { background: #E8F5E9; color: var(--green); }
+    .chip-red    { background: #FFEBEE; color: var(--red); }
+
+    /* ── HIGHLIGHT BOX ── */
+    .box {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .box-blue   { background: var(--blue-light); border-left: 4px solid var(--blue-mid); color: var(--blue-dark); }
+    .box-orange { background: #FFF3E0; border-left: 4px solid var(--accent); color: #6D4C41; }
+    .box-green  { background: #E8F5E9; border-left: 4px solid var(--green); color: #1B5E20; }
+
+    /* ── COMPARE GRID ── */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+
+    .compare-card {
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .compare-card.get  { background: #E8F5E9; border: 2px solid var(--green); }
+    .compare-card.post { background: #E3F2FD; border: 2px solid var(--blue-mid); }
+    .compare-card h3   { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .compare-card.get  h3 { color: var(--green); }
+    .compare-card.post h3 { color: var(--blue-mid); }
+    .compare-card ul   { padding-left: 18px; font-size: 14px; }
+    .compare-card li   { margin-bottom: 6px; }
+
+    /* ── TOC ── */
+    .toc {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .toc a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue-mid);
+      border: 1px solid var(--blue-mid);
+      border-radius: 20px;
+      padding: 4px 14px;
+      transition: background .15s;
+    }
+    .toc a:hover { background: var(--blue-light); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-badge">UEL · Web Dev</div>
+  <div>
+    <h1>Knowledge Base – HTML Forms</h1>
+    <p>Phát triển Web Kinh doanh · ThS. Nguyễn Quang Phúc · Ôn tập giữa kỳ</p>
+  </div>
+</div>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <strong style="font-size:13px;color:var(--text);align-self:center;">Mục lục nhanh:</strong>
+    <a href="#s1">1. Giới thiệu Form</a>
+    <a href="#s2">2. GET / POST / PUT / DELETE</a>
+    <a href="#s3">3. label & input</a>
+    <a href="#s4">4. Các type đặc biệt</a>
+    <a href="#s5">5. select & datalist</a>
+    <a href="#s6">6. textarea, fieldset, output</a>
+    <a href="#s7">7. Bảng tra cứu nhanh</a>
+  </div>
+
+  <!-- ── SECTION 1: GIỚI THIỆU ──────────────────────────────────────── -->
+  <div class="section" id="s1">
+    <div class="section-title">1. Giới thiệu về Form</div>
+
+    <div class="card">
+      <h3>Form là gì?</h3>
+      <p><strong>Form</strong> dùng để <em>thu thập dữ liệu đầu vào của người dùng</em> rồi gửi lên máy chủ (server) để xử lý. Ví dụ điển hình: form đăng nhập Facebook, form tạo tài khoản Google.</p>
+    </div>
+
+    <div class="section-subtitle">Cú pháp cơ bản</div>
+    <pre><span class="elem">&lt;form</span> <span class="attr">action</span>=<span class="val">"url_xu_ly"</span>
+      <span class="attr">method</span>=<span class="val">"get | post"</span>
+      <span class="attr">name</span>=<span class="val">"ten_form"</span>
+      <span class="attr">target</span>=<span class="val">"_blank | _self"</span><span class="elem">&gt;</span>
+
+  <span class="cmt">&lt;!-- Các phần tử nhập liệu bên trong --&gt;</span>
+  <span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"ten"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Gửi"</span><span class="elem">&gt;</span>
+
+<span class="elem">&lt;/form&gt;</span></pre>
+
+    <div class="section-subtitle">Thuộc tính quan trọng của &lt;form&gt;</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Thuộc tính</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
+        <tbody>
+          <tr><td><code>action</code></td><td>URL</td><td>Trang web sẽ nhận và xử lý dữ liệu khi nhấn Submit</td></tr>
+          <tr><td><code>method</code></td><td>get / post</td><td>Phương thức gửi dữ liệu lên server</td></tr>
+          <tr><td><code>name</code></td><td>chuỗi</td><td>Tên định danh của form (dùng trong JavaScript)</td></tr>
+          <tr><td><code>target</code></td><td>_blank / _self</td><td>Mở kết quả ở tab mới hay cùng tab</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: HTTP METHODS ────────────────────────────────────── -->
+  <div class="section" id="s2">
+    <div class="section-title">2. Phương thức GET · POST · PUT · DELETE</div>
+
+    <div class="box box-blue">
+      <strong>CRUD mapping:</strong> POST = Create · GET = Read · PUT = Update/Replace · DELETE = Delete
+    </div>
+
+    <div class="compare-grid" style="margin:16px 0;">
+      <div class="compare-card get">
+        <h3>⬆ GET</h3>
+        <ul>
+          <li>Dữ liệu gắn <strong>trực tiếp vào URL</strong> sau dấu <code>?</code><br><small>Ví dụ: <code>?name=JAJA&email=a@b.com</code></small></li>
+          <li>Giới hạn kích thước: <strong>tối đa 2048 bytes</strong></li>
+          <li>Dữ liệu <strong>hiển thị trên thanh địa chỉ</strong> → không bảo mật</li>
+          <li>Dùng để: <strong>tra cứu / tìm kiếm dữ liệu</strong></li>
+          <li>Phù hợp với trang HTML tĩnh (<code>server.html</code>)</li>
+        </ul>
+      </div>
+      <div class="compare-card post">
+        <h3>⬆ POST</h3>
+        <ul>
+          <li>Dữ liệu truyền <strong>"ngầm"</strong> trong body request</li>
+          <li><strong>Không giới hạn</strong> kích thước dữ liệu</li>
+          <li>Dữ liệu <strong>không hiển thị trên URL</strong> → bảo mật hơn</li>
+          <li>Dùng để: <strong>lưu mới dữ liệu</strong> lên server</li>
+          <li>Cần server-side script (PHP, Node.js…) để xử lý</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-subtitle">Đọc tham số GET trong JavaScript</div>
+    <pre><span class="cmt">// Cách 1: URLSearchParams (đơn giản, hiện đại)</span>
+<span class="kw">const</span> params = <span class="kw">new</span> URLSearchParams(window.location.search);
+<span class="kw">const</span> name  = params.<span class="attr">get</span>(<span class="val">"name"</span>);   <span class="cmt">// lấy giá trị field "name"</span>
+<span class="kw">const</span> email = params.<span class="attr">get</span>(<span class="val">"email"</span>);  <span class="cmt">// lấy giá trị field "email"</span>
+
+<span class="cmt">// Hiển thị ra trang</span>
+document.<span class="attr">getElementById</span>(<span class="val">"name"</span>).innerText  = name;
+document.<span class="attr">getElementById</span>(<span class="val">"email"</span>).innerText = email;</pre>
+
+    <div class="section-subtitle">Bảng HTTP Methods đầy đủ</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>HTTP Verb</th><th>CRUD</th><th>Toàn bộ Collection (/items)</th><th>Item cụ thể (/items/{id})</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip chip-green">POST</span></td><td>Create</td><td>201 Created – trả về ID mới</td><td>404 / 409 nếu đã tồn tại</td></tr>
+          <tr><td><span class="chip chip-blue">GET</span></td><td>Read</td><td>200 – danh sách (có phân trang)</td><td>200 / 404 nếu không tìm thấy</td></tr>
+          <tr><td><span class="chip chip-orange">PUT</span></td><td>Update/Replace</td><td>405 Method Not Allowed</td><td>200 / 204 / 404</td></tr>
+          <tr><td><span class="chip chip-orange">PATCH</span></td><td>Update/Modify</td><td>405 Method Not Allowed</td><td>200 / 204 / 404</td></tr>
+          <tr><td><span class="chip chip-red">DELETE</span></td><td>Delete</td><td>405 – không nên xóa cả collection</td><td>200 / 404</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: LABEL & INPUT ───────────────────────────────────── -->
+  <div class="section" id="s3">
+    <div class="section-title">3. &lt;label&gt; và &lt;input&gt;</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="tag">&lt;label&gt;</span> Nhãn nhập liệu</h3>
+        <ul>
+          <li>Tạo tiêu đề cho control trong form</li>
+          <li><code>for="id_control"</code> — liên kết với control cùng <code>id</code></li>
+          <li>Nhấp vào label → focus vào control tương ứng</li>
+        </ul>
+        <pre style="margin-top:10px;"><span class="elem">&lt;label</span> <span class="attr">for</span>=<span class="val">"username"</span><span class="elem">&gt;</span>Tên đăng nhập:<span class="elem">&lt;/label&gt;</span>
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"username"</span><span class="elem">&gt;</span>
+<span class="cmt">&lt;!-- for="username" ↔ id="username" phải khớp --&gt;</span></pre>
+      </div>
+      <div class="card">
+        <h3><span class="tag">&lt;input&gt;</span> Thuộc tính chung</h3>
+        <ul>
+          <li><code>name</code> — <strong>quan trọng nhất</strong>, là key khi gửi dữ liệu</li>
+          <li><code>type</code> — loại ô nhập liệu</li>
+          <li><code>value</code> — giá trị mặc định</li>
+          <li><code>placeholder</code> — gợi ý văn bản mờ trong ô</li>
+          <li><code>required</code> — bắt buộc nhập, không được để trống</li>
+          <li><code>id</code> — dùng để label liên kết</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: CÁC TYPE ĐẶC BIỆT ───────────────────────────────── -->
+  <div class="section" id="s4">
+    <div class="section-title">4. Các type của &lt;input&gt;</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>type=</th><th>Hiển thị / Chức năng</th><th>Thuộc tính thêm</th><th>Ví dụ code</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>text</code></td>
+            <td>Ô nhập văn bản thường, 1 dòng</td>
+            <td>maxlength, minlength</td>
+            <td><code>&lt;input type="text" name="fname"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>password</code></td>
+            <td>Ô nhập mật khẩu — ký tự bị ẩn (•••)</td>
+            <td>minlength</td>
+            <td><code>&lt;input type="password" name="pwd"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td>Ô nhập email — validate <code>@</code> phía client</td>
+            <td>multiple</td>
+            <td><code>&lt;input type="email" name="email"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>url</code></td>
+            <td>Ô nhập URL — validate định dạng URL</td>
+            <td>—</td>
+            <td><code>&lt;input type="url" name="website"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>number</code></td>
+            <td>Ô nhập số — có nút tăng/giảm</td>
+            <td><strong>min, max, step</strong></td>
+            <td><code>&lt;input type="number" min="0" max="100" step="5"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>range</code></td>
+            <td>Thanh trượt chọn số trong khoảng</td>
+            <td>min, max, step</td>
+            <td><code>&lt;input type="range" min="1" max="10"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>submit</code></td>
+            <td>Nút tự động gửi form lên server</td>
+            <td>value (text nút)</td>
+            <td><code>&lt;input type="submit" value="Đăng ký"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>reset</code></td>
+            <td>Nút đặt lại tất cả về giá trị mặc định</td>
+            <td>value</td>
+            <td><code>&lt;input type="reset" value="Xóa"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>button</code></td>
+            <td>Nút thông thường — lập trình viên tự xử lý JS</td>
+            <td>onclick</td>
+            <td><code>&lt;input type="button" value="Click Me"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>checkbox</code></td>
+            <td>Ô tick — <strong>chọn nhiều</strong> trong nhóm</td>
+            <td><strong>checked</strong> (mặc định chọn)</td>
+            <td><code>&lt;input type="checkbox" name="agree" value="yes"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>radio</code></td>
+            <td>Ô tròn — <strong>chọn một</strong> trong nhóm cùng <code>name</code></td>
+            <td>checked</td>
+            <td><code>&lt;input type="radio" name="gender" value="male"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>file</code></td>
+            <td>Nút "Choose File" để upload tập tin</td>
+            <td>accept, multiple</td>
+            <td><code>&lt;input type="file" name="avatar"&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>hidden</code></td>
+            <td>Lưu giá trị ẩn, không hiển thị trên trình duyệt</td>
+            <td>value</td>
+            <td><code>&lt;input type="hidden" name="userId" value="42"&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-subtitle">Phân biệt checkbox vs radio</div>
+    <div class="compare-grid">
+      <div class="card">
+        <h3>☑ checkbox — Chọn nhiều</h3>
+        <pre><span class="cmt">&lt;!-- Mỗi checkbox có name KHÁC nhau --&gt;</span>
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"checkbox"</span> <span class="attr">name</span>=<span class="val">"clip"</span>  <span class="attr">value</span>=<span class="val">"clip"</span><span class="elem">&gt;</span>  ClipTV
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"checkbox"</span> <span class="attr">name</span>=<span class="val">"film"</span>  <span class="attr">value</span>=<span class="val">"film"</span><span class="elem">&gt;</span>  Film+
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"checkbox"</span> <span class="attr">name</span>=<span class="val">"fpt"</span>   <span class="attr">value</span>=<span class="val">"fpt"</span> <span class="attr">checked</span><span class="elem">&gt;</span> FPT Play</pre>
+        <p style="margin-top:8px;font-size:13px;color:var(--muted);">→ Mỗi checkbox <strong>name khác nhau</strong> để nhận nhiều giá trị độc lập</p>
+      </div>
+      <div class="card">
+        <h3>● radio — Chọn một</h3>
+        <pre><span class="cmt">&lt;!-- Cùng name="gender" → chỉ chọn được 1 --&gt;</span>
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"radio"</span> <span class="attr">name</span>=<span class="val">"gender"</span> <span class="attr">value</span>=<span class="val">"male"</span>   <span class="attr">checked</span><span class="elem">&gt;</span> Nam
+<span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"radio"</span> <span class="attr">name</span>=<span class="val">"gender"</span> <span class="attr">value</span>=<span class="val">"female"</span><span class="elem">&gt;</span> Nữ</pre>
+        <p style="margin-top:8px;font-size:13px;color:var(--muted);">→ Các radio <strong>cùng name</strong> thì chỉ chọn được 1 trong nhóm đó</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: SELECT & DATALIST ───────────────────────────────── -->
+  <div class="section" id="s5">
+    <div class="section-title">5. &lt;select&gt; và &lt;datalist&gt;</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="tag">&lt;select&gt;</span> Danh sách thả xuống</h3>
+        <ul>
+          <li><code>name</code> — tên field</li>
+          <li><code>multiple</code> — cho phép chọn nhiều (giữ Ctrl/Cmd)</li>
+          <li><code>size="3"</code> — hiện 3 dòng trực tiếp</li>
+        </ul>
+        <pre><span class="elem">&lt;select</span> <span class="attr">name</span>=<span class="val">"car"</span> <span class="attr">id</span>=<span class="val">"car"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"vol"</span><span class="elem">&gt;</span>Volvo<span class="elem">&lt;/option&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"audi"</span> <span class="attr">selected</span><span class="elem">&gt;</span>Audi<span class="elem">&lt;/option&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"bmw"</span><span class="elem">&gt;</span>BMW<span class="elem">&lt;/option&gt;</span>
+<span class="elem">&lt;/select&gt;</span>
+<span class="cmt">&lt;!-- selected = tùy chọn mặc định --&gt;</span></pre>
+      </div>
+      <div class="card">
+        <h3><span class="tag">&lt;optgroup&gt;</span> Nhóm tùy chọn</h3>
+        <ul>
+          <li><code>label</code> — tên nhóm (không chọn được)</li>
+          <li><code>disabled</code> — tắt cả tùy chọn trong nhóm</li>
+        </ul>
+        <pre><span class="elem">&lt;select</span> <span class="attr">name</span>=<span class="val">"car"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;optgroup</span> <span class="attr">label</span>=<span class="val">"Nhóm 1"</span><span class="elem">&gt;</span>
+    <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"vol"</span><span class="elem">&gt;</span>Volvo<span class="elem">&lt;/option&gt;</span>
+    <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"aud"</span><span class="elem">&gt;</span>Audi<span class="elem">&lt;/option&gt;</span>
+  <span class="elem">&lt;/optgroup&gt;</span>
+  <span class="elem">&lt;optgroup</span> <span class="attr">label</span>=<span class="val">"Nhóm 2"</span> <span class="attr">disabled</span><span class="elem">&gt;</span>
+    <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"bmw"</span><span class="elem">&gt;</span>BMW<span class="elem">&lt;/option&gt;</span>
+  <span class="elem">&lt;/optgroup&gt;</span>
+<span class="elem">&lt;/select&gt;</span></pre>
+      </div>
+      <div class="card">
+        <h3><span class="tag">&lt;datalist&gt;</span> Gợi ý tự động hoàn thành</h3>
+        <ul>
+          <li>Kết hợp ô nhập text + danh sách gợi ý</li>
+          <li><code>&lt;input list="id"&gt;</code> liên kết với <code>&lt;datalist id="id"&gt;</code></li>
+          <li>Người dùng vẫn có thể gõ giá trị không có trong list</li>
+        </ul>
+        <pre><span class="elem">&lt;input</span> <span class="attr">list</span>=<span class="val">"browsers"</span> <span class="attr">name</span>=<span class="val">"browser"</span><span class="elem">&gt;</span>
+<span class="elem">&lt;datalist</span> <span class="attr">id</span>=<span class="val">"browsers"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"Chrome"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"Firefox"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;option</span> <span class="attr">value</span>=<span class="val">"Safari"</span><span class="elem">&gt;</span>
+<span class="elem">&lt;/datalist&gt;</span>
+<span class="cmt">&lt;!-- list= phải khớp với id= của datalist --&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 6: TEXTAREA, FIELDSET, OUTPUT ──────────────────────── -->
+  <div class="section" id="s6">
+    <div class="section-title">6. &lt;textarea&gt; · &lt;fieldset&gt; / &lt;legend&gt; · &lt;output&gt;</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="tag">&lt;textarea&gt;</span> Nhập văn bản nhiều dòng</h3>
+        <ul>
+          <li><code>rows="5"</code> — chiều cao (số dòng hiển thị)</li>
+          <li><code>cols="30"</code> — chiều rộng (số ký tự mỗi hàng)</li>
+          <li><code>name</code> — tên field gửi lên server</li>
+          <li>Nội dung mặc định đặt <strong>giữa 2 thẻ</strong></li>
+        </ul>
+        <pre><span class="elem">&lt;textarea</span> <span class="attr">name</span>=<span class="val">"message"</span>
+          <span class="attr">rows</span>=<span class="val">"5"</span> <span class="attr">cols</span>=<span class="val">"30"</span>
+          <span class="attr">placeholder</span>=<span class="val">"Nhập nội dung..."</span><span class="elem">&gt;</span>
+<span class="elem">&lt;/textarea&gt;</span></pre>
+      </div>
+      <div class="card">
+        <h3><span class="tag">&lt;fieldset&gt;</span> + <span class="tag">&lt;legend&gt;</span> Nhóm controls</h3>
+        <ul>
+          <li><code>&lt;fieldset&gt;</code> — vẽ đường viền nhóm các input</li>
+          <li><code>&lt;legend&gt;</code> — tiêu đề cho nhóm (hiện ở viền trên)</li>
+        </ul>
+        <pre><span class="elem">&lt;fieldset&gt;</span>
+  <span class="elem">&lt;legend&gt;</span>Thông tin cá nhân<span class="elem">&lt;/legend&gt;</span>
+  <span class="elem">&lt;label&gt;</span>Họ tên:
+    <span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"fullname"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;/label&gt;</span>
+<span class="elem">&lt;/fieldset&gt;</span></pre>
+      </div>
+      <div class="card">
+        <h3><span class="tag">&lt;output&gt;</span> Hiển thị kết quả tính toán</h3>
+        <ul>
+          <li><code>for="a b"</code> — tham chiếu các input đầu vào</li>
+          <li>Dùng với event <code>oninput</code> trên form</li>
+        </ul>
+        <pre><span class="elem">&lt;form</span> <span class="attr">oninput</span>=<span class="val">"x.value=parseInt(a.value)
+  +parseInt(b.value)"</span><span class="elem">&gt;</span>
+  <span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"range"</span> <span class="attr">id</span>=<span class="val">"a"</span> <span class="attr">name</span>=<span class="val">"a"</span> <span class="attr">value</span>=<span class="val">"50"</span><span class="elem">&gt;</span>+
+  <span class="elem">&lt;input</span> <span class="attr">type</span>=<span class="val">"number"</span> <span class="attr">id</span>=<span class="val">"b"</span> <span class="attr">name</span>=<span class="val">"b"</span> <span class="attr">value</span>=<span class="val">"50"</span><span class="elem">&gt;</span> =
+  <span class="elem">&lt;output</span> <span class="attr">name</span>=<span class="val">"x"</span> <span class="attr">for</span>=<span class="val">"a b"</span><span class="elem">&gt;&lt;/output&gt;</span>
+<span class="elem">&lt;/form&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 7: QUICK REFERENCE ────────────────────────────────── -->
+  <div class="section" id="s7">
+    <div class="section-title">7. Bảng tra cứu nhanh – Tất cả Form Elements</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element / Type</th><th>Mục đích</th><th>Thuộc tính đáng nhớ</th><th>Khi nào dùng</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;form&gt;</code></td><td>Container chứa toàn bộ form</td><td>action, method, name</td><td>Luôn cần bao ngoài</td></tr>
+          <tr><td><code>&lt;label&gt;</code></td><td>Nhãn cho control</td><td><strong>for</strong> = id của input</td><td>Mỗi input nên có 1 label</td></tr>
+          <tr><td><code>input type="text"</code></td><td>Nhập văn bản 1 dòng</td><td>name, value, placeholder, required</td><td>Họ tên, địa chỉ…</td></tr>
+          <tr><td><code>input type="password"</code></td><td>Ẩn ký tự nhập</td><td>minlength</td><td>Mật khẩu</td></tr>
+          <tr><td><code>input type="email"</code></td><td>Validate email phía client</td><td>—</td><td>Ô email</td></tr>
+          <tr><td><code>input type="number"</code></td><td>Nhập số, có nút tăng giảm</td><td><strong>min, max, step</strong></td><td>Số lượng, tuổi…</td></tr>
+          <tr><td><code>input type="range"</code></td><td>Thanh trượt</td><td>min, max, step</td><td>Rating, slider…</td></tr>
+          <tr><td><code>input type="checkbox"</code></td><td>Tick nhiều ô</td><td>name (KHÁC nhau), value, <strong>checked</strong></td><td>Sở thích, chọn nhiều mục</td></tr>
+          <tr><td><code>input type="radio"</code></td><td>Chọn 1 trong nhóm</td><td>name (GIỐNG nhau), value, checked</td><td>Giới tính, loại hình…</td></tr>
+          <tr><td><code>input type="submit"</code></td><td>Gửi form</td><td>value (text nút)</td><td>Nút Đăng ký / Gửi</td></tr>
+          <tr><td><code>input type="reset"</code></td><td>Xóa sạch form</td><td>value</td><td>Nút Xóa / Reset</td></tr>
+          <tr><td><code>input type="file"</code></td><td>Upload file</td><td>accept, multiple</td><td>Ảnh đại diện, tài liệu…</td></tr>
+          <tr><td><code>input type="hidden"</code></td><td>Lưu giá trị ẩn</td><td>name, value</td><td>userId, token nội bộ</td></tr>
+          <tr><td><code>&lt;select&gt;</code></td><td>Dropdown / listbox</td><td>name, multiple, size</td><td>Tỉnh/thành, ngành nghề…</td></tr>
+          <tr><td><code>&lt;option&gt;</code></td><td>Mỗi lựa chọn trong select</td><td>value, <strong>selected</strong></td><td>Bên trong &lt;select&gt;</td></tr>
+          <tr><td><code>&lt;optgroup&gt;</code></td><td>Nhóm các option</td><td>label, disabled</td><td>Phân nhóm danh sách dài</td></tr>
+          <tr><td><code>&lt;datalist&gt;</code></td><td>Gợi ý autocomplete</td><td>id (khớp với list= của input)</td><td>Search box có gợi ý</td></tr>
+          <tr><td><code>&lt;textarea&gt;</code></td><td>Nhập văn bản nhiều dòng</td><td>name, rows, cols</td><td>Nội dung dài, bình luận…</td></tr>
+          <tr><td><code>&lt;fieldset&gt;</code></td><td>Nhóm controls có viền</td><td>—</td><td>Chia section trong form</td></tr>
+          <tr><td><code>&lt;legend&gt;</code></td><td>Tiêu đề của fieldset</td><td>—</td><td>Bên trong &lt;fieldset&gt;</td></tr>
+          <tr><td><code>&lt;output&gt;</code></td><td>Hiển thị kết quả tính</td><td>name, for</td><td>Kết quả realtime</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-orange" style="margin-top:18px;">
+      <strong>⚠ Những điểm thường bị sai khi thi / kiểm tra:</strong><br>
+      1. <code>for</code> của label phải <strong>khớp đúng</strong> với <code>id</code> của input (không phải <code>name</code>).<br>
+      2. Radio buttons cùng nhóm phải có <code>name</code> <strong>giống nhau</strong>; checkbox cùng nhóm thường có <code>name</code> <strong>khác nhau</strong>.<br>
+      3. <code>&lt;datalist&gt;</code> liên kết với <code>&lt;input list="..."&gt;</code> qua <strong>id</strong>, không phải name.<br>
+      4. GET gắn data vào URL → không dùng cho mật khẩu. POST ẩn data trong body → cần server backend.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phát triển Web Kinh doanh · UEL – University of Economics and Law · Knowledge Base ôn tập giữa kỳ
+</div>
+
+</body>
+</html>

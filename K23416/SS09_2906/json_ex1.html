@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <style>
+        .flex-container{
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .item{
+            width:120px;
+            height:150px;
+            background-color:darkgreen;
+            color:white;
+            margin: 15px;
+        }
+    </style>
+
+    <script>
+        function loadJson(){
+            let beers =[
+                {code:1 , name: "Heniken", price: 18000},
+                {code:1 , name: "SaigonXanh", price: 15000},
+                {code:1 , name: "Hanoi", price: 19000},
+                {code:1 , name: "Sapporo", price: 22000}
+            ];
+            
+            let htmlString =' <div class="flex-container">';
+                for (let b of beers){
+                    htmlString+=`
+                        <div class="item">${b.code + " : " + b.name +" >> " + b.price}</div>
+                        `;
+
+                }
+                htmlString+="</div>";
+                document.getElementById("content").innerHTML=htmlString;
+
+        }
+    </script>
+</head>
+<body>
+    <div class="m-3">
+        <input type="button" value="Load data" class="btn btn-outline-primary" onclick="loadJson()">
+        <!-- Demo mẫu -->
+        <!-- <div class="flex-container">
+            <div class="item">Content</div>
+            <div class="item">Content</div>
+            <div class="item">Content</div>
+            <div class="item">Content</div>
+        </div> -->
+        <div id="content"></div>
+    </div>
+</body>
+</html>

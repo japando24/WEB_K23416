@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>05 - CSS Position, Float, Overflow</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #2c3e50; }
+    h2 { color: #e74c3c; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+    h3 { color: #3498db; }
+    .section { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .demo-box { padding: 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; background: #fafafa; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; color: #c0392b; }
+    pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+
+    /* ================================================
+       POSITION: static (mặc định)
+    ================================================ */
+    .pos-static {
+      position: static;  /* Mặc định - nằm theo flow bình thường */
+      background: #d6eaf8;
+      padding: 10px;
+    }
+
+    /* ================================================
+       POSITION: relative
+       - Nằm theo flow bình thường
+       - top/left/right/bottom: dịch chuyển so với VỊ TRÍ GỐC của chính nó
+       - Vẫn chiếm không gian ở vị trí gốc
+    ================================================ */
+    .pos-relative-container {
+      position: relative;  /* Quan trọng: làm gốc cho absolute con */
+      background: #d5f5e3;
+      height: 150px;
+      padding: 10px;
+      border: 2px solid #27ae60;
+    }
+
+    .pos-relative {
+      position: relative;
+      top: 20px;     /* dịch xuống 20px so với vị trí gốc */
+      left: 30px;    /* dịch phải 30px so với vị trí gốc */
+      background: #a9cce3;
+      padding: 8px;
+      display: inline-block;
+    }
+
+    /* ================================================
+       POSITION: absolute
+       - THOÁT KHỎI flow bình thường (không chiếm không gian)
+       - top/left/right/bottom: tính từ phần tử cha CÓ position (không phải static)
+       - Nếu không có cha có position → tính từ <body>
+    ================================================ */
+    .pos-absolute {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e74c3c;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+
+    /* ================================================
+       POSITION: fixed
+       - Cố định so với CỬA SỔ TRÌNH DUYỆT
+       - Không cuộn theo trang
+    ================================================ */
+    .pos-fixed-demo {
+      /* position: fixed; */   /* Demo: bỏ comment để xem hiệu ứng */
+      /* top: 20px; */
+      /* right: 20px; */
+      position: relative;  /* dùng relative cho demo, thực tế là fixed */
+      background: #9b59b6;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+    }
+
+    /* ================================================
+       POSITION: sticky
+       - Như relative, nhưng "dính" khi cuộn đến vị trí
+    ================================================ */
+    .pos-sticky-demo {
+      position: sticky;
+      top: 0;
+      background: #f39c12;
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+    }
+
+    /* ================================================
+       Z-INDEX (Thứ tự xếp chồng)
+       - Chỉ hoạt động khi có position (không phải static)
+       - Số lớn hơn = ở trên cùng
+    ================================================ */
+    .z-container {
+      position: relative;
+      height: 120px;
+      margin: 10px 0;
+    }
+
+    .z-box1 {
+      position: absolute;
+      top: 0; left: 0;
+      width: 120px; height: 80px;
+      background: rgba(52, 152, 219, 0.85);
+      z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold;
+    }
+
+    .z-box2 {
+      position: absolute;
+      top: 20px; left: 40px;
+      width: 120px; height: 80px;
+      background: rgba(231, 76, 60, 0.85);
+      z-index: 2;   /* Nằm trên box1 */
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold;
+    }
+
+    .z-box3 {
+      position: absolute;
+      top: 40px; left: 80px;
+      width: 120px; height: 80px;
+      background: rgba(39, 174, 96, 0.85);
+      z-index: 3;   /* Nằm trên box2 */
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold;
+    }
+
+    /* ================================================
+       OVERFLOW (Nội dung tràn)
+    ================================================ */
+    .overflow-visible {
+      width: 200px; height: 80px;
+      border: 2px solid #3498db;
+      overflow: visible;  /* MẶC ĐỊNH - nội dung tràn ra ngoài */
+      background: #d6eaf8;
+      padding: 5px;
+    }
+
+    .overflow-hidden {
+      width: 200px; height: 80px;
+      border: 2px solid #e74c3c;
+      overflow: hidden;  /* Cắt bỏ nội dung tràn */
+      background: #fadbd8;
+      padding: 5px;
+    }
+
+    .overflow-scroll {
+      width: 200px; height: 80px;
+      border: 2px solid #27ae60;
+      overflow: scroll;  /* Luôn có thanh cuộn */
+      background: #d5f5e3;
+      padding: 5px;
+    }
+
+    .overflow-auto {
+      width: 200px; height: 80px;
+      border: 2px solid #f39c12;
+      overflow: auto;    /* Tự động thêm thanh cuộn khi cần */
+      background: #fef9e7;
+      padding: 5px;
+    }
+
+    /* ================================================
+       FLOAT (Nổi)
+    ================================================ */
+    .float-container {
+      border: 2px solid #9b59b6;
+      padding: 10px;
+      overflow: hidden; /* clearfix đơn giản */
+      background: #f8f9fa;
+    }
+
+    .float-left {
+      float: left;
+      width: 120px;
+      height: 80px;
+      background: #3498db;
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 15px 10px 0;
+      border-radius: 4px;
+    }
+
+    .float-right {
+      float: right;
+      width: 120px;
+      height: 80px;
+      background: #e74c3c;
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 0 10px 15px;
+      border-radius: 4px;
+    }
+
+    /* CLEAR - xóa float */
+    .clear-both { clear: both; }
+    .clear-left { clear: left; }
+    .clear-right { clear: right; }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Position, Float, Overflow, Z-index</h1>
+
+  <!-- SECTION 1: POSITION -->
+  <div class="section">
+    <h2>1. CSS Position (Vị Trí)</h2>
+
+    <h3>1.1 position: static (Mặc định)</h3>
+    <pre>
+position: static;  /* Mặc định - theo flow bình thường */
+/* top, left, right, bottom KHÔNG có tác dụng */</pre>
+
+    <h3>1.2 position: relative</h3>
+    <pre>
+position: relative;
+top: 20px;    /* dịch xuống 20px so với VỊ TRÍ GỐC */
+left: 30px;   /* dịch phải 30px so với vị trí gốc */
+/* Vẫn chiếm không gian ở vị trí gốc */
+/* Quan trọng: dùng làm "gốc" cho absolute bên trong */</pre>
+    <div class="demo-box">
+      <div style="background: #eee; padding: 5px; border: 1px dashed #999;">
+        Phần tử trước
+        <div class="pos-relative">
+          relative: dịch xuống 20px, phải 30px
+        </div>
+        Phần tử sau (vẫn ở vị trí cũ)
+      </div>
+    </div>
+
+    <h3>1.3 position: absolute</h3>
+    <pre>
+/* Container cha phải có position != static */
+.parent {
+    position: relative;  /* làm gốc tham chiếu */
+}
+
+.child {
+    position: absolute;
+    top: 10px;    /* cách top của cha 10px */
+    right: 10px;  /* cách right của cha 10px */
+}
+/* THOÁT KHỎI flow - không chiếm không gian */</pre>
+    <div class="demo-box">
+      <div class="pos-relative-container">
+        Đây là container (position: relative)
+        <br>Phần tử absolute sẽ bám vào container này
+        <div class="pos-absolute">ABSOLUTE (góc trên phải)</div>
+      </div>
+    </div>
+
+    <h3>1.4 position: fixed</h3>
+    <pre>
+position: fixed;
+top: 20px;    /* cách top CỬA SỔ TRÌNH DUYỆT 20px */
+right: 20px;
+/* Không cuộn theo trang - cố định với viewport */
+/* Dùng cho: navbar, back-to-top button, chat widget */</pre>
+    <div class="demo-box">
+      <div class="pos-fixed-demo">
+        fixed (demo với relative) - thực tế cố định với viewport
+      </div>
+      <p>Ví dụ thực tế:</p>
+      <pre>
+/* Nút Back to Top */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}</pre>
+    </div>
+
+    <h3>1.5 position: sticky</h3>
+    <pre>
+position: sticky;
+top: 0;   /* Dính vào top=0 khi scroll đến đây */
+/* Như relative bình thường, nhưng "dính" khi cuộn */
+/* Dùng cho: sticky header, sticky sidebar */</pre>
+
+    <h3>Bảng So Sánh Position</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #2c3e50; color: white;">
+        <th style="padding: 8px;">Position</th>
+        <th style="padding: 8px;">Flow bình thường</th>
+        <th style="padding: 8px;">Tham chiếu top/left</th>
+        <th style="padding: 8px;">Cuộn trang</th>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>static</code></td>
+        <td style="padding: 8px;">✓ Có</td>
+        <td style="padding: 8px;">N/A</td>
+        <td style="padding: 8px;">✓ Cuộn</td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;"><code>relative</code></td>
+        <td style="padding: 8px;">✓ Có (giữ chỗ)</td>
+        <td style="padding: 8px;">Vị trí gốc của chính nó</td>
+        <td style="padding: 8px;">✓ Cuộn</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>absolute</code></td>
+        <td style="padding: 8px;">✗ Thoát flow</td>
+        <td style="padding: 8px;">Cha gần nhất có position</td>
+        <td style="padding: 8px;">✓ Cuộn</td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;"><code>fixed</code></td>
+        <td style="padding: 8px;">✗ Thoát flow</td>
+        <td style="padding: 8px;">Viewport (cửa sổ trình duyệt)</td>
+        <td style="padding: 8px;">✗ Cố định</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;"><code>sticky</code></td>
+        <td style="padding: 8px;">✓ Có (giữ chỗ)</td>
+        <td style="padding: 8px;">Viewport khi scroll đến</td>
+        <td style="padding: 8px;">Hybrid</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 2: Z-INDEX -->
+  <div class="section">
+    <h2>2. Z-index (Thứ Tự Xếp Chồng)</h2>
+    <pre>
+/* z-index chỉ hoạt động khi position != static */
+.box1 { position: absolute; z-index: 1; }   /* dưới cùng */
+.box2 { position: absolute; z-index: 2; }   /* giữa */
+.box3 { position: absolute; z-index: 3; }   /* trên cùng */
+
+/* Số LỚN HƠN = ở TRÊN */
+/* Có thể dùng số âm */</pre>
+    <div class="demo-box">
+      <div class="z-container">
+        <div class="z-box1">z-index: 1</div>
+        <div class="z-box2">z-index: 2</div>
+        <div class="z-box3">z-index: 3 (trên)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: OVERFLOW -->
+  <div class="section">
+    <h2>3. CSS Overflow (Nội Dung Tràn)</h2>
+    <pre>
+overflow: visible;  /* MẶC ĐỊNH: tràn ra ngoài */
+overflow: hidden;   /* Cắt bỏ nội dung tràn */
+overflow: scroll;   /* Thanh cuộn luôn hiển thị */
+overflow: auto;     /* Thanh cuộn khi cần thiết */
+
+/* Từng chiều */
+overflow-x: hidden;  /* ẩn tràn ngang */
+overflow-y: scroll;  /* cuộn dọc */</pre>
+
+    <div class="demo-box" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+      <div>
+        <p><strong>visible</strong> (mặc định):</p>
+        <div class="overflow-visible">
+          Nội dung dài hơn container. Tràn ra ngoài vì overflow: visible là mặc định. Text tiếp tục...
+        </div>
+      </div>
+      <div>
+        <p><strong>hidden</strong>:</p>
+        <div class="overflow-hidden">
+          Nội dung dài hơn container. Bị cắt khi overflow: hidden. Text tiếp tục...
+        </div>
+      </div>
+      <div>
+        <p><strong>scroll</strong>:</p>
+        <div class="overflow-scroll">
+          Nội dung dài hơn container. Có thanh cuộn luôn hiển thị dù không cần. Text tiếp tục...
+        </div>
+      </div>
+      <div>
+        <p><strong>auto</strong>:</p>
+        <div class="overflow-auto">
+          Nội dung dài hơn container. Tự động thêm thanh cuộn khi cần. Text tiếp tục...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: FLOAT -->
+  <div class="section">
+    <h2>4. CSS Float (Nổi)</h2>
+    <pre>
+float: left;   /* Phần tử nổi sang trái, text bao quanh bên phải */
+float: right;  /* Phần tử nổi sang phải, text bao quanh bên trái */
+float: none;   /* Không nổi (mặc định) */
+
+/* CLEAR: xóa ảnh hưởng float */
+clear: both;   /* Không cho phần tử nằm cạnh float bên nào */
+clear: left;   /* Không nằm cạnh float-left */
+clear: right;  /* Không nằm cạnh float-right */</pre>
+
+    <div class="demo-box">
+      <p><strong>float: left</strong></p>
+      <div class="float-container">
+        <div class="float-left">float: left</div>
+        <p>Nội dung text sẽ tự động bao quanh phần tử float left này. Bạn có thể thấy text chạy sang phải của hình.</p>
+        <p>Dòng text thứ hai cũng tiếp tục bao quanh.</p>
+        <div class="clear-both"></div>
+      </div>
+
+      <p style="margin-top: 15px;"><strong>float: right</strong></p>
+      <div class="float-container">
+        <div class="float-right">float: right</div>
+        <p>Nội dung text sẽ tự động bao quanh phần tử float right này. Text chạy sang trái của hình.</p>
+        <p>Dòng text thứ hai cũng tiếp tục bao quanh.</p>
+        <div class="clear-both"></div>
+      </div>
+
+      <p style="margin-top: 15px;"><strong>Clearfix (xóa float ảnh hưởng)</strong></p>
+      <pre>
+/* Cách 1: Thêm phần tử rỗng */
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+/* Cách 2: overflow: hidden trên container */
+.container { overflow: hidden; }
+
+/* Cách 3: Clearfix hiện đại (dùng ::after) */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}</pre>
+    </div>
+  </div>
+
+  <!-- SECTION TÓM TẮT -->
+  <div class="section" style="background: #e8f5e9; border-color: #4caf50;">
+    <h2 style="color: #2e7d32;">Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>Position: <strong>static</strong> (mặc định), <strong>relative</strong> (dịch so với gốc), <strong>absolute</strong> (bám cha có position), <strong>fixed</strong> (bám viewport)</li>
+      <li>Absolute cần cha <code>position: relative</code> để tham chiếu đúng</li>
+      <li>Z-index chỉ hoạt động khi <code>position != static</code></li>
+      <li>Z-index lớn hơn = ở trên</li>
+      <li>Overflow: <code>visible</code>, <code>hidden</code>, <code>scroll</code>, <code>auto</code></li>
+      <li>Float: <code>left</code>, <code>right</code> → cần <code>clear: both</code> sau đó</li>
+    </ul>
+  </div>
+
+</body>
+</html>

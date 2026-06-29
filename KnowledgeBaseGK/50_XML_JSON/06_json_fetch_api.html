@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>06 - Fetch API: Đọc JSON từ API Online</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 950px; margin: 20px auto; padding: 0 20px; }
+        h2 { color: #1a5276; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h3 { color: #2471a3; }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; overflow-x: auto; margin: 10px 0; line-height: 1.8;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .num { color: #b5cea8; }
+        .prop { color: #9cdcfe; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        button {
+            background: #c0392b; color: white; border: none;
+            padding: 10px 22px; border-radius: 4px; cursor: pointer; font-size: 15px; margin: 5px 5px 5px 0;
+        }
+        button:hover { background: #922b21; }
+        ul#myList { list-style: none; padding: 0; }
+        ul#myList li {
+            background: #e67e22; color: white;
+            padding: 10px 16px; margin: 6px 0; border-radius: 5px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        ul#myList li strong:first-child {
+            background: rgba(0,0,0,0.2); padding: 2px 8px;
+            border-radius: 3px; min-width: 24px; text-align: center;
+        }
+        .email { background: #2c3e50; padding: 2px 10px; border-radius: 3px; margin-left: auto; font-size: 13px; }
+        #status { color: #888; font-style: italic; margin: 8px 0; }
+        .api-url {
+            background: #2c3e50; color: #27ae60;
+            padding: 8px 14px; border-radius: 4px;
+            font-family: monospace; font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>06 - Fetch API: Đọc JSON từ API Online</h2>
+
+<!-- ================================================ -->
+<h3>1. API công khai dùng để test (từ slide)</h3>
+
+<div class="note">
+    <b>JSONPlaceholder</b> — API giả lập miễn phí để thực hành:<br>
+    <div class="api-url" style="margin-top:8px;">
+        https://jsonplaceholder.typicode.com/users<br>
+        https://jsonplaceholder.typicode.com/todos<br>
+        https://jsonplaceholder.typicode.com/albums<br>
+        https://jsonplaceholder.typicode.com/posts
+    </div>
+</div>
+
+<!-- ================================================ -->
+<h3>2. Code mẫu: Fetch từ API → hiển thị danh sách users</h3>
+
+<div class="code-block">
+<span class="comment">// ====== TEMPLATE: FETCH JSON TỪ API ONLINE ======</span><br><br>
+<span class="keyword">function</span> <span class="func">loadJson</span>() {<br>
+&nbsp;&nbsp;<span class="keyword">var</span> myList = document.<span class="func">querySelector</span>(<span class="string">'ul'</span>);<br><br>
+&nbsp;&nbsp;<span class="comment">// URL của API (thay bằng API thật của bạn)</span><br>
+&nbsp;&nbsp;<span class="func">fetch</span>(<span class="string">"https://jsonplaceholder.typicode.com/users"</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.<span class="func">then</span>(<span class="keyword">function</span>(response) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!response.ok) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">throw new</span> <span class="func">Error</span>(<span class="string">"HTTP error, status = "</span> + response.status);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> response.<span class="func">json</span>();    <span class="comment">// API trả về Array trực tiếp (không bọc trong object)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.<span class="func">then</span>(<span class="keyword">function</span>(users) {      <span class="comment">// users là Array các user object</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> user <span class="keyword">of</span> users) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> listItem = document.<span class="func">createElement</span>(<span class="string">'li'</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listItem.innerHTML = <span class="string">'&lt;strong&gt;'</span> + user.id + <span class="string">'&lt;/strong&gt;'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listItem.innerHTML += user.name;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listItem.innerHTML += <span class="string">' &gt;&gt; &lt;strong&gt;'</span> + user.email + <span class="string">'&lt;/strong&gt;'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myList.<span class="func">appendChild</span>(listItem);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.<span class="func">catch</span>(<span class="keyword">function</span>(error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">alert</span>(error.message);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+}
+</div>
+
+<!-- ================================================ -->
+<h3>3. Phân biệt cấu trúc response JSON</h3>
+
+<div class="code-block">
+<span class="comment">// Trường hợp 1: API trả về ARRAY trực tiếp</span><br>
+<span class="comment">// Response: [ {id:1, name:"A"}, {id:2, name:"B"} ]</span><br>
+.<span class="func">then</span>(<span class="keyword">function</span>(users) {<br>
+&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> user <span class="keyword">of</span> users) { ... }   <span class="comment">// Dùng trực tiếp</span><br>
+})<br><br>
+<span class="comment">// Trường hợp 2: API trả về OBJECT bọc ngoài</span><br>
+<span class="comment">// Response: { "products": [ {id:1}, {id:2} ] }</span><br>
+.<span class="func">then</span>(<span class="keyword">function</span>(json) {<br>
+&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">of</span> json.products) { ... }  <span class="comment">// Phải lấy json.products</span><br>
+})
+</div>
+
+<!-- ================================================ -->
+<h3>4. Demo: Fetch Users từ JSONPlaceholder</h3>
+<p id="status"></p>
+<button onclick="loadUsers()">Get list of users</button>
+<ul id="myList"></ul>
+
+<!-- ================================================ -->
+<h3>5. Demo: Fetch Todos từ JSONPlaceholder</h3>
+<button onclick="loadTodos()">Get todos (10 mục đầu)</button>
+<div id="todosContent" style="margin-top:10px;"></div>
+
+<script>
+    function loadUsers() {
+        var myList = document.getElementById('myList');
+        myList.innerHTML = '';
+        document.getElementById('status').textContent = 'Đang tải...';
+
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error("HTTP error, status = " + response.status);
+                }
+                return response.json();
+            })
+            .then(function(users) {
+                document.getElementById('status').textContent = 'Đã tải ' + users.length + ' users';
+                for (let user of users) {
+                    var listItem = document.createElement('li');
+                    listItem.innerHTML = '<strong>' + user.id + '</strong>' +
+                                         user.name +
+                                         '<span class="email">' + user.email + '</span>';
+                    myList.appendChild(listItem);
+                }
+            })
+            .catch(function(error) {
+                document.getElementById('status').textContent = 'Lỗi: ' + error.message;
+            });
+    }
+
+    function loadTodos() {
+        var container = document.getElementById('todosContent');
+        container.innerHTML = 'Đang tải...';
+
+        fetch("https://jsonplaceholder.typicode.com/todos")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(todos) {
+                var html = '<table style="border-collapse:collapse;width:100%">';
+                html += '<tr style="background:#1a5276;color:white"><th style="padding:8px">ID</th><th style="padding:8px">Title</th><th style="padding:8px">Completed</th></tr>';
+                // Chỉ lấy 10 mục đầu
+                for (let i = 0; i < Math.min(10, todos.length); i++) {
+                    var t = todos[i];
+                    html += '<tr style="' + (i % 2 === 0 ? 'background:#eaf2ff' : '') + '">' +
+                        '<td style="padding:8px;border:1px solid #ccc">' + t.id + '</td>' +
+                        '<td style="padding:8px;border:1px solid #ccc">' + t.title + '</td>' +
+                        '<td style="padding:8px;border:1px solid #ccc;color:' + (t.completed ? 'green' : 'red') + '">' +
+                        (t.completed ? 'Hoàn thành' : 'Chưa xong') + '</td></tr>';
+                }
+                html += '</table>';
+                container.innerHTML = html;
+            })
+            .catch(function(error) {
+                container.innerHTML = 'Lỗi: ' + error.message;
+            });
+    }
+</script>
+
+</body>
+</html>

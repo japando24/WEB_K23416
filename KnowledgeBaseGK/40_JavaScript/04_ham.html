@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>04 - Hàm (Function)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 4px; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    th { background: #f7971e; color: #1a0000; padding: 8px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid #333; }
+    tr:nth-child(even) td { background: #16213e; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+    .inp { background: #0d0d1a; border: 1px solid #f7971e; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 0.9em; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 04 — Hàm (Function)</h1>
+
+  <!-- ===== FUNCTION DECLARATION ===== -->
+  <h2>1. Function Declaration (Khai Báo Hàm)</h2>
+  <div class="code-block">
+// Cú pháp cơ bản
+function tênHàm(thamSố1, thamSố2) {
+  // code
+  return kếtQuả;  // return là tuỳ chọn
+}
+
+// Ví dụ
+function greet(name) {
+  return "Xin chào, " + name + "!";
+}
+console.log(greet("An")); // "Xin chào, An!"
+
+// Hàm có nhiều tham số và giá trị mặc định (ES6)
+function power(base, exponent = 2) {  // mặc định exponent = 2
+  return Math.pow(base, exponent);
+}
+console.log(power(3));    // 9  (3^2)
+console.log(power(2, 8)); // 256 (2^8)
+
+// Hoisting — function declaration được hoisted!
+console.log(add(2, 3));  // 5 — gọi TRƯỚC khi khai báo vẫn được!
+function add(a, b) { return a + b; }
+
+// Hàm không return — trả về undefined
+function sayHi(name) {
+  console.log("Hi " + name); // không có return
+}
+let result = sayHi("Bình");
+console.log(result); // undefined</div>
+
+  <!-- ===== FUNCTION EXPRESSION ===== -->
+  <h2>2. Function Expression (Biểu Thức Hàm)</h2>
+  <div class="code-block">
+// Gán hàm vào biến
+const multiply = function(a, b) {
+  return a * b;
+};
+console.log(multiply(3, 4)); // 12
+
+// ⚠️ Function expression KHÔNG được hoisted!
+// console.log(multiply(2,3)); // LỖI nếu gọi trước khai báo
+
+// Named function expression
+const factorial = function fact(n) {
+  if (n <= 1) return 1;
+  return n * fact(n - 1);  // gọi đệ quy bằng tên
+};
+console.log(factorial(5)); // 120</div>
+
+  <!-- ===== ARROW FUNCTION ===== -->
+  <h2>3. Arrow Function (Hàm Mũi Tên — ES6)</h2>
+  <div class="code-block">
+// Cú pháp đầy đủ
+const add = (a, b) => {
+  return a + b;
+};
+
+// Rút gọn: nếu body chỉ có 1 biểu thức → bỏ {} và return
+const add2 = (a, b) => a + b;        // return ngầm định
+const square = x => x * x;           // 1 tham số: bỏ ()
+const greet = () => "Hello World!";   // không tham số: giữ ()
+
+console.log(add2(3, 4));   // 7
+console.log(square(5));    // 25
+console.log(greet());      // "Hello World!"
+
+// Return object literal — phải bọc trong ()
+const makePerson = (name, age) => ({ name, age }); // ← dùng ()
+console.log(makePerson("An", 20)); // {name: "An", age: 20}
+
+// Arrow function dùng nhiều với array methods
+const nums = [1, 2, 3, 4, 5];
+const doubled = nums.map(n => n * 2);     // [2, 4, 6, 8, 10]
+const evens = nums.filter(n => n % 2 === 0); // [2, 4]
+const sum = nums.reduce((acc, n) => acc + n, 0); // 15</div>
+
+  <div class="note">
+    ⚠️ Arrow function <strong>không có this riêng</strong> — this của arrow function = this của scope bên ngoài. Không dùng arrow function làm method của object.
+  </div>
+
+  <!-- ===== CALLBACK ===== -->
+  <h2>4. Callback Function</h2>
+  <div class="code-block">
+// Callback = hàm được truyền vào hàm khác như tham số
+function doMath(a, b, operation) {
+  return operation(a, b);  // gọi callback
+}
+
+// Truyền hàm vào
+function add(a, b) { return a + b; }
+function multiply(a, b) { return a * b; }
+
+console.log(doMath(5, 3, add));      // 8
+console.log(doMath(5, 3, multiply)); // 15
+
+// Truyền anonymous function (hàm vô danh)
+console.log(doMath(5, 3, function(a, b) { return a - b; })); // 2
+
+// Truyền arrow function
+console.log(doMath(5, 3, (a, b) => a ** b)); // 125
+
+// Ví dụ phổ biến: addEventListener
+document.getElementById("btn").addEventListener("click", function() {
+  console.log("Đã click!"); // đây là callback
+});
+
+// Array methods dùng callback
+const names = ["Châu", "An", "Bình"];
+names.forEach(function(name, index) {   // callback nhận (item, index)
+  console.log(index + ": " + name);
+});</div>
+
+  <!-- ===== BUILT-IN FUNCTIONS ===== -->
+  <h2>5. Hàm Built-in Quan Trọng</h2>
+
+  <h3>Chuyển đổi số</h3>
+  <div class="code-block">
+// Number() — chuyển sang number (strict)
+Number("42")      // 42
+Number("3.14")    // 3.14
+Number("")        // 0
+Number("abc")     // NaN
+Number(true)      // 1
+Number(false)     // 0
+Number(null)      // 0
+Number(undefined) // NaN
+
+// parseInt() — chuyển sang số nguyên (dừng khi gặp ký tự không hợp lệ)
+parseInt("42px")     // 42 (lấy phần đầu!)
+parseInt("3.9")      // 3 (cắt phần thập phân)
+parseInt("abc")      // NaN
+parseInt("0xFF", 16) // 255 (parse hex)
+parseInt("10", 2)    // 2 (parse binary)
+
+// parseFloat() — chuyển sang số thực
+parseFloat("3.14px") // 3.14
+parseFloat("3.9")    // 3.9
+parseFloat("abc")    // NaN
+
+// isNaN() — kiểm tra có phải NaN không
+isNaN("abc")    // true (không phải số)
+isNaN(42)       // false
+isNaN("42")     // false ("42" ép được sang số)
+isNaN(NaN)      // true
+Number.isNaN(NaN)  // true (chặt hơn — không ép kiểu)</div>
+
+  <h3>setTimeout và setInterval</h3>
+  <div class="code-block">
+// setTimeout — chạy 1 lần sau X milliseconds
+const timerId = setTimeout(function() {
+  console.log("Chạy sau 2 giây!");
+}, 2000); // 2000ms = 2 giây
+
+// Dùng arrow function
+setTimeout(() => alert("Hello sau 3 giây!"), 3000);
+
+// clearTimeout — huỷ trước khi chạy
+clearTimeout(timerId);
+
+// setInterval — chạy lặp lại mỗi X milliseconds
+let count = 0;
+const intervalId = setInterval(() => {
+  count++;
+  console.log("Lần " + count);
+  if (count >= 5) {
+    clearInterval(intervalId); // dừng sau 5 lần
+  }
+}, 1000); // mỗi 1 giây
+
+// clearInterval — dừng setInterval
+clearInterval(intervalId);</div>
+
+  <div class="demo">
+    <p><strong>Demo hàm — Calculator:</strong></p>
+    <input type="number" id="calcA" class="inp" value="10"> &nbsp;
+    <input type="number" id="calcB" class="inp" value="3"> <br><br>
+    <button onclick="demoFn('+')">+ Cộng</button>
+    <button onclick="demoFn('-')">- Trừ</button>
+    <button onclick="demoFn('*')">× Nhân</button>
+    <button onclick="demoFn('/')">÷ Chia</button>
+    <button onclick="demoFn('**')">^ Luỹ thừa</button>
+    <div class="result" id="fnResult">Nhấn nút...</div>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo parseInt / parseFloat / isNaN:</strong></p>
+    <input type="text" id="parseInput" class="inp" value="42px" style="width:120px">
+    <button onclick="demoConvert()">Chuyển đổi</button>
+    <div class="result" id="parseResult">Nhấn nút...</div>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo setTimeout:</strong></p>
+    <button onclick="startTimer()">Bắt đầu đếm ngược 3s</button>
+    <button onclick="stopTimer()">Dừng</button>
+    <div class="result" id="timerResult">Chưa bắt đầu</div>
+  </div>
+
+  <!-- ===== SO SÁNH ===== -->
+  <h2>6. So Sánh Các Loại Hàm</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Đặc điểm</th><th>Function Declaration</th><th>Function Expression</th><th>Arrow Function</th></tr>
+      <tr><td>Hoisting</td><td>✅ Có</td><td>❌ Không</td><td>❌ Không</td></tr>
+      <tr><td>Cú pháp</td><td><code>function f(){}</code></td><td><code>const f = function(){}</code></td><td><code>const f = () => {}</code></td></tr>
+      <tr><td>this riêng</td><td>✅ Có</td><td>✅ Có</td><td>❌ Kế thừa từ ngoài</td></tr>
+      <tr><td>Dùng khi nào</td><td>Hàm tổng quát</td><td>Gán vào biến</td><td>Callback, array methods</td></tr>
+    </table>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>Function declaration được <strong>hoisted</strong> — có thể gọi trước khi khai báo</li>
+      <li>Arrow function rút gọn: <code>const fn = x => x * 2</code> (return ngầm định)</li>
+      <li>Callback = hàm truyền vào hàm khác, rất phổ biến trong event, array methods</li>
+      <li><code>parseInt("12px")</code> = 12 | <code>Number("12px")</code> = NaN</li>
+      <li><code>setTimeout(fn, ms)</code> = 1 lần sau ms | <code>setInterval(fn, ms)</code> = lặp mỗi ms</li>
+      <li>Luôn lưu ID để <code>clearTimeout(id)</code> / <code>clearInterval(id)</code> khi cần dừng</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function demoFn(op) {
+    const a = parseFloat(document.getElementById("calcA").value);
+    const b = parseFloat(document.getElementById("calcB").value);
+    const ops = {
+      '+': (a,b) => a + b,
+      '-': (a,b) => a - b,
+      '*': (a,b) => a * b,
+      '/': (a,b) => b !== 0 ? a / b : "Lỗi: chia 0",
+      '**': (a,b) => Math.pow(a, b)
+    };
+    const result = ops[op](a, b);
+    document.getElementById("fnResult").innerText =
+      `Kết quả: ${a} ${op} ${b} = ${result}\n(Dùng arrow function: (a,b) => a ${op} b)`;
+  }
+
+  function demoConvert() {
+    const val = document.getElementById("parseInput").value;
+    const lines = [
+      `Giá trị gốc: "${val}"`,
+      `Number("${val}")    = ${Number(val)}`,
+      `parseInt("${val}")  = ${parseInt(val)}`,
+      `parseFloat("${val}")= ${parseFloat(val)}`,
+      `isNaN("${val}")     = ${isNaN(val)}`,
+    ];
+    document.getElementById("parseResult").innerText = lines.join("\n");
+  }
+
+  let timerRef = null;
+  function startTimer() {
+    let sec = 3;
+    document.getElementById("timerResult").innerText = `Còn ${sec} giây...`;
+    timerRef = setInterval(() => {
+      sec--;
+      if (sec > 0) {
+        document.getElementById("timerResult").innerText = `Còn ${sec} giây...`;
+      } else {
+        clearInterval(timerRef);
+        document.getElementById("timerResult").innerText = "⏰ Hết giờ! (setTimeout/setInterval xong)";
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerRef) {
+      clearInterval(timerRef);
+      document.getElementById("timerResult").innerText = "Đã dừng bởi clearInterval()";
+    }
+  }
+</script>
+</body>
+</html>

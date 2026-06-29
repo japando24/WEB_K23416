@@ -1,0 +1,24 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Heineken",
+            "price": 19000
+        },
+        {
+            "id": 2,
+            "name": "Tiger",
+            "price": 18000
+        },
+        {
+            "id": 3,
+            "name": "Sapporo",
+            "price": 21000
+        },
+        {
+            "id": 4,
+            "name": "Corona Extra",
+            "price": 22000
+        }
+    ]
+}

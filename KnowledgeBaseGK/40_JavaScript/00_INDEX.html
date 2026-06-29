@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Knowledge Base - Index</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f7971e 0%, #ffd200 50%, #f7971e 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 {
+      color: #2c1a00;
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.4);
+    }
+    .subtitle {
+      color: rgba(0,0,0,0.6);
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+    }
+    .cards { display: flex; flex-wrap: wrap; gap: 20px; }
+    .card {
+      flex: 1 1 calc(50% - 10px);
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: block;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.25); }
+    .card-num { font-size: 2em; margin-bottom: 10px; }
+    .card-title { font-size: 1.2em; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
+    .card-topics { font-size: 0.85em; color: #7f8c8d; line-height: 1.8; }
+    .card-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: bold;
+      margin-top: 10px;
+      color: white;
+    }
+    .tip {
+      background: rgba(0,0,0,0.15);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      color: #1a0a00;
+    }
+    .tip h3 { margin-bottom: 12px; font-size: 1.1em; }
+    .tip ul { padding-left: 20px; line-height: 2.2; }
+    .tip code {
+      background: rgba(0,0,0,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    @media (max-width: 600px) {
+      .card { flex: 1 1 100%; }
+      h1 { font-size: 1.8em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚡ JavaScript Knowledge Base</h1>
+    <p class="subtitle">Môn Phát Triển Web Kinh Doanh — Kiến thức thi giữa kỳ</p>
+
+    <div class="cards">
+
+      <a class="card" href="01_js_co_ban.html">
+        <div class="card-num">01</div>
+        <div class="card-title">JS Cơ Bản & Biến</div>
+        <div class="card-topics">
+          • Script tag: head/body, src, async, defer<br>
+          • Display: innerHTML, alert(), console.log()<br>
+          • var vs let vs const (scope, hoisting)<br>
+          • Cú pháp: semicolons, case-sensitive, camelCase<br>
+          • Keywords: if, for, function, return, try...
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Quan trọng</div>
+      </a>
+
+      <a class="card" href="02_toan_tu.html">
+        <div class="card-num">02</div>
+        <div class="card-title">Toán Tử</div>
+        <div class="card-topics">
+          • Số học: +, -, *, **, /, %, ++, --<br>
+          • Gán: =, +=, -=, *=, /=, %=, **=<br>
+          • Nối chuỗi: "Hello" + " World"<br>
+          • So sánh: ==, ===, !=, !==, >, <, >=, <=<br>
+          • Logic: &&, ||, ! | Ternary: điều_kiện ? A : B
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Quan trọng</div>
+      </a>
+
+      <a class="card" href="03_dieu_kien_vong_lap.html">
+        <div class="card-num">03</div>
+        <div class="card-title">Điều Kiện & Vòng Lặp</div>
+        <div class="card-topics">
+          • if / else if / else<br>
+          • switch / case / break / default<br>
+          • for, while, do...while<br>
+          • for...in (key của object)<br>
+          • for...of (value của iterable)
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Quan trọng</div>
+      </a>
+
+      <a class="card" href="04_ham.html">
+        <div class="card-num">04</div>
+        <div class="card-title">Hàm (Function)</div>
+        <div class="card-topics">
+          • Function declaration vs expression<br>
+          • Callback function (hàm truyền vào hàm khác)<br>
+          • Arrow function: () => { } hoặc () => giá_trị<br>
+          • setTimeout(), setInterval()<br>
+          • isNaN(), Number(), parseInt(), parseFloat()
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Quan trọng</div>
+      </a>
+
+      <a class="card" href="05_string_array.html">
+        <div class="card-num">05</div>
+        <div class="card-title">String & Array</div>
+        <div class="card-topics">
+          • String: length, toUpperCase, trim, indexOf, slice, split...<br>
+          • Array: [], push, pop, shift, unshift, splice<br>
+          • sort, reverse, forEach, map, filter, reduce<br>
+          • find, findIndex, includes, some, every<br>
+          • Array.from(), keys()
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Rất quan trọng</div>
+      </a>
+
+      <a class="card" href="06_object_date_math.html">
+        <div class="card-num">06</div>
+        <div class="card-title">Object, Date & Math</div>
+        <div class="card-topics">
+          • Object: {key: value}, dot/bracket access<br>
+          • Class: constructor, method, new instance<br>
+          • Date: new Date(), getFullYear(), getMonth()...<br>
+          • Math: PI, round, pow, sqrt, abs, ceil, floor<br>
+          • Math.min(), Math.max(), Math.random()
+        </div>
+        <div class="card-badge" style="background:#3498db;">📖 Tham khảo</div>
+      </a>
+
+      <a class="card" href="07_dom.html">
+        <div class="card-num">07</div>
+        <div class="card-title">DOM & Events</div>
+        <div class="card-topics">
+          • DOM tree: document → html → head/body<br>
+          • getElementById, querySelector, querySelectorAll<br>
+          • innerHTML, innerText, setAttribute, style<br>
+          • appendChild, removeChild, createElement<br>
+          • onclick, onmouseover, addEventListener()
+        </div>
+        <div class="card-badge" style="background:#e74c3c;">⭐ Rất quan trọng</div>
+      </a>
+
+    </div>
+
+    <div class="tip">
+      <h3>💡 Ghi Nhớ Nhanh Cho Thi JavaScript</h3>
+      <ul>
+        <li><strong>var</strong> = function scope + hoisting | <strong>let/const</strong> = block scope, không hoisting</li>
+        <li><code>==</code> so sánh giá trị (tự ép kiểu) | <code>===</code> so sánh giá trị VÀ kiểu</li>
+        <li>Arrow function: <code>const fn = (x) => x * 2;</code> — tự động return nếu không có {}</li>
+        <li>Array destructive: <code>push/pop</code> (đuôi) | <code>unshift/shift</code> (đầu) | <code>splice</code> (giữa)</li>
+        <li><code>forEach</code> không return | <code>map</code> return array mới | <code>filter</code> lọc phần tử</li>
+        <li>DOM: <code>document.getElementById("id")</code> → 1 element | <code>querySelectorAll</code> → NodeList</li>
+        <li>Event: <code>element.addEventListener("click", function)</code></li>
+        <li><code>parseInt("12px")</code> → 12 | <code>Number("12px")</code> → NaN</li>
+        <li>Template literal: <code>`Hello ${name}`</code> thay vì cộng chuỗi</li>
+        <li><code>typeof</code> kiểm tra kiểu: "number", "string", "boolean", "object", "undefined", "function"</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

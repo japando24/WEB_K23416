@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>03 - AJAX + XML: Hiển thị bảng CD Catalog</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        h2 { color: #1a5276; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h3 { color: #2471a3; }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; overflow-x: auto; margin: 10px 0; line-height: 1.8;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .num { color: #b5cea8; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        button {
+            background: #2471a3; color: white; border: none;
+            padding: 10px 22px; border-radius: 4px; cursor: pointer; font-size: 15px; margin: 10px 0;
+        }
+        button:hover { background: #1a5276; }
+        #content table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        #content th { background: #2471a3; color: white; padding: 10px 14px; }
+        #content td { padding: 9px 14px; border: 1px solid #ccc; }
+        #content tr:nth-child(even) { background: #eaf2ff; }
+        #content tr:hover { background: #d6eaf8; }
+        .diff-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .diff-table th { background: #1a5276; color: white; padding: 8px; }
+        .diff-table td { padding: 8px; border: 1px solid #ccc; vertical-align: top; }
+    </style>
+</head>
+<body>
+
+<h2>03 - AJAX + XML: Hiển thị Bảng (CD Catalog)</h2>
+
+<!-- ================================================ -->
+<h3>So sánh 2 cách gửi Request</h3>
+
+<table class="diff-table">
+    <tr>
+        <th>GET Request</th>
+        <th>POST Request</th>
+    </tr>
+    <tr>
+        <td>
+            <pre style="margin:0; font-size:13px;">xhr.open("GET", "products.xml", true);
+xhr.send();</pre>
+        </td>
+        <td>
+            <pre style="margin:0; font-size:13px;">xhr.open("POST", "demo.asp", true);
+xhr.setRequestHeader(
+  "Content-type",
+  "application/x-www-form-urlencoded"
+);
+xhr.send("fname=Henry&lname=Ford");</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>Đọc dữ liệu từ server, không gửi body</td>
+        <td>Gửi dữ liệu lên server (form data)</td>
+    </tr>
+</table>
+
+<!-- ================================================ -->
+<h3>Code mẫu: AJAX load XML → hiển thị Table</h3>
+
+<div class="code-block">
+<span class="comment">// ====== LOAD FILE XML → HIỂN THỊ DẠNG BẢNG ======</span><br><br>
+<span class="keyword">function</span> <span class="func">loadDoc</span>() {<br>
+&nbsp;&nbsp;<span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="func">XMLHttpRequest</span>();<br>
+&nbsp;&nbsp;xhr.<span class="func">open</span>(<span class="string">"GET"</span>, <span class="string">"./data/cd_catalog.xml"</span>, <span class="keyword">false</span>);<br>
+&nbsp;&nbsp;xhr.onreadystatechange = <span class="keyword">function</span>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (xhr.readyState == <span class="num">4</span> && xhr.status == <span class="num">200</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">updatePage</span>(<span class="keyword">this</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">alert</span>(<span class="string">"Không lấy được dữ liệu"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;xhr.<span class="func">send</span>();<br>
+}<br><br>
+
+<span class="keyword">function</span> <span class="func">updatePage</span>(xhr) {<br>
+&nbsp;&nbsp;<span class="keyword">var</span> xmlDoc = xhr.responseXML;  <span class="comment">// Lấy XML Document</span><br><br>
+&nbsp;&nbsp;<span class="comment">// Khởi tạo bảng với header row</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> table = <span class="string">"&lt;tr&gt;&lt;th&gt;Artist&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;/tr&gt;"</span>;<br><br>
+&nbsp;&nbsp;<span class="comment">// Lấy tất cả phần tử &lt;cd&gt;</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> cds = xmlDoc.<span class="func">getElementsByTagName</span>(<span class="string">"cd"</span>);<br><br>
+&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="num">0</span>; i &lt; cds.length; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;table += <span class="string">"&lt;tr&gt;&lt;td&gt;"</span> +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cds[i].<span class="func">getElementsByTagName</span>(<span class="string">"artist"</span>)[<span class="num">0</span>].childNodes[<span class="num">0</span>].nodeValue +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"&lt;/td&gt;&lt;td&gt;"</span> +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cds[i].<span class="func">getElementsByTagName</span>(<span class="string">"title"</span>)[<span class="num">0</span>].childNodes[<span class="num">0</span>].nodeValue +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;<br>
+&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;<span class="comment">// Gán vào element có id="content"</span><br>
+&nbsp;&nbsp;document.<span class="func">getElementById</span>(<span class="string">"content"</span>).innerHTML = table;<br>
+}
+</div>
+
+<!-- ================================================ -->
+<h3>Demo</h3>
+<div class="note">
+    File <code>data/cd_catalog.xml</code> cần chạy qua Live Server.
+    Demo dưới dùng dữ liệu inline để xem ngay.
+</div>
+
+<button onclick="loadDoc()">Get my CD collection</button>
+<div id="content"></div>
+
+<script>
+    function loadDoc() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "./data/cd_catalog.xml", false);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                updatePage(this);
+            } else if (xhr.readyState == 4) {
+                demoFallback();
+            }
+        };
+        xhr.send();
+    }
+
+    function updatePage(xhr) {
+        var xmlDoc = xhr.responseXML;
+        var table = "<tr><th>Artist</th><th>Title</th><th>Country</th><th>Price</th><th>Year</th></tr>";
+        var cds = xmlDoc.getElementsByTagName("cd");
+
+        for (var i = 0; i < cds.length; i++) {
+            table += "<tr><td>" +
+                cds[i].getElementsByTagName("artist")[0].childNodes[0].nodeValue + "</td><td>" +
+                cds[i].getElementsByTagName("title")[0].childNodes[0].nodeValue + "</td><td>" +
+                cds[i].getElementsByTagName("country")[0].childNodes[0].nodeValue + "</td><td>" +
+                cds[i].getElementsByTagName("price")[0].childNodes[0].nodeValue + "</td><td>" +
+                cds[i].getElementsByTagName("year")[0].childNodes[0].nodeValue +
+                "</td></tr>";
+        }
+        document.getElementById("content").innerHTML = table;
+    }
+
+    function demoFallback() {
+        var xmlStr = '<?xml version="1.0" encoding="UTF-8"?><catalog>' +
+            '<cd><title>Empire Burlesque</title><artist>Bob Dylan</artist><country>USA</country><company>Columbia</company><price>10.90</price><year>1985</year></cd>' +
+            '<cd><title>Hide your heart</title><artist>Bonnie Tyler</artist><country>UK</country><company>CBS Records</company><price>9.90</price><year>1988</year></cd>' +
+            '<cd><title>Greatest Hits</title><artist>Dolly Parton</artist><country>USA</country><company>RCA</company><price>9.90</price><year>1982</year></cd>' +
+            '<cd><title>Still got the blues</title><artist>Gary Moore</artist><country>UK</country><company>Virgin records</company><price>10.20</price><year>1990</year></cd>' +
+            '<cd><title>Eros</title><artist>Eros Ramazzotti</artist><country>EU</country><company>BMG</company><price>9.90</price><year>1997</year></cd>' +
+            '</catalog>';
+
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(xmlStr, "text/xml");
+        updatePage({ responseXML: xmlDoc });
+    }
+</script>
+
+</body>
+</html>

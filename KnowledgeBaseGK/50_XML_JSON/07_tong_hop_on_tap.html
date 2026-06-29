@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>07 - Tổng Hợp Ôn Tập: XML & JSON</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; padding: 0 20px; background: #f5f6fa; }
+        h1 { color: #1a5276; text-align: center; padding: 20px; background: white; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        h2 { color: white; background: #2471a3; padding: 10px 16px; border-radius: 6px; margin-top: 30px; }
+        h3 { color: #1a5276; border-left: 4px solid #2471a3; padding-left: 12px; }
+        .card {
+            background: white; border-radius: 8px;
+            padding: 18px 22px; margin: 14px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 14px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px; overflow-x: auto; margin: 8px 0; line-height: 1.7;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .num { color: #b5cea8; }
+        .tag { color: #569cd6; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 14px; margin: 8px 0; border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+        .warn {
+            background: #fef9e7; border-left: 4px solid #f39c12;
+            padding: 10px 14px; margin: 8px 0; font-size: 14px;
+        }
+        .ok {
+            background: #e9f7ef; border-left: 4px solid #27ae60;
+            padding: 10px 14px; margin: 8px 0; font-size: 14px;
+        }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+        th { background: #1a5276; color: white; padding: 9px 12px; text-align: left; }
+        td { padding: 8px 12px; border: 1px solid #ccc; }
+        tr:nth-child(even) { background: #eaf2ff; }
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .label { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: white; }
+        .label-xml { background: #e74c3c; }
+        .label-json { background: #27ae60; }
+        .label-ajax { background: #8e44ad; }
+        .label-fetch { background: #2471a3; }
+        ul.checklist { list-style: none; padding: 0; }
+        ul.checklist li { padding: 6px 0; }
+        ul.checklist li::before { content: "✓ "; color: #27ae60; font-weight: bold; }
+        .formula {
+            background: #2c3e50; color: #f1c40f;
+            padding: 10px 16px; border-radius: 6px;
+            font-family: monospace; font-size: 14px; margin: 8px 0;
+        }
+        .tab-nav { display: flex; gap: 0; margin-bottom: 0; }
+        .tab-nav button {
+            padding: 10px 20px; border: 2px solid #2471a3; background: white; color: #2471a3;
+            cursor: pointer; font-size: 14px; border-right: none; font-weight: bold;
+        }
+        .tab-nav button:last-child { border-right: 2px solid #2471a3; }
+        .tab-nav button.active { background: #2471a3; color: white; }
+        .tab-content { display: none; background: white; border: 2px solid #2471a3; border-top: none; padding: 16px; border-radius: 0 0 6px 6px; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+<h1>Ôn Tập Giữa Kỳ: XML & JSON</h1>
+
+<!-- ================================================ -->
+<h2>PHẦN 1: XML</h2>
+
+<div class="card">
+    <h3>1.1 Khái niệm XML</h3>
+    <div class="note">
+        <b>XML</b> (eXtensible Markup Language) = Ngôn ngữ đánh dấu "mở rộng", dùng để <b>lưu trữ và truyền tải dữ liệu</b>.<br>
+        Khác HTML: XML tự định nghĩa thẻ, không hiển thị dữ liệu, chỉ mô tả dữ liệu.
+    </div>
+    <div class="warn">
+        <b>4 quy tắc bắt buộc:</b><br>
+        1. Thẻ mở phải có thẻ đóng: <code>&lt;name&gt;...&lt;/name&gt;</code><br>
+        2. Phân biệt chữ HOA/thường: <code>&lt;Name&gt; ≠ &lt;name&gt;</code><br>
+        3. Phải có đúng 1 root element<br>
+        4. Giá trị thuộc tính phải trong nháy kép/đơn
+    </div>
+
+    <b>XML DOM = 3 thành phần:</b>
+    <table>
+        <tr><th>Thành phần</th><th>Ví dụ</th><th>Mô tả</th></tr>
+        <tr><td>Element</td><td><code>&lt;name&gt;</code></td><td>Thẻ XML</td></tr>
+        <tr><td>Attribute</td><td><code>category="cooking"</code></td><td>Thuộc tính của thẻ</td></tr>
+        <tr><td>Text</td><td><code>Heineken</code></td><td>Nội dung văn bản trong thẻ</td></tr>
+    </table>
+</div>
+
+<div class="card">
+    <h3>1.2 Công thức lấy giá trị từ XML DOM</h3>
+
+    <div class="formula">
+        xmlDoc.getElementsByTagName("tên_thẻ")[chỉ_số].childNodes[0].nodeValue
+    </div>
+
+    <div class="code-block">
+<span class="comment">// Parse chuỗi → XML Document</span><br>
+<span class="keyword">var</span> parser = <span class="keyword">new</span> <span class="func">DOMParser</span>();<br>
+<span class="keyword">var</span> xmlDoc = parser.<span class="func">parseFromString</span>(xmlString, <span class="string">"text/xml"</span>);<br><br>
+<span class="comment">// Lấy tất cả phần tử &lt;product&gt;</span><br>
+<span class="keyword">var</span> products = xmlDoc.<span class="func">getElementsByTagName</span>(<span class="string">"product"</span>);<br><br>
+<span class="comment">// Lấy text của &lt;name&gt; trong product đầu tiên</span><br>
+<span class="keyword">var</span> ten = products[0].<span class="func">getElementsByTagName</span>(<span class="string">"name"</span>)[0].childNodes[0].nodeValue;
+    </div>
+</div>
+
+<!-- ================================================ -->
+<h2>PHẦN 2: AJAX (XMLHttpRequest)</h2>
+
+<div class="card">
+    <h3>2.1 Khái niệm AJAX</h3>
+    <div class="note">
+        <b>AJAX</b> = Asynchronous JavaScript And XML<br>
+        Cho phép <b>cập nhật trang web mà không cần tải lại</b>, bằng cách gửi request HTTP từ JavaScript.
+    </div>
+
+    <h3>2.2 Template AJAX đầy đủ (5 bước)</h3>
+    <div class="code-block">
+<span class="comment">// BƯỚC 1: Tạo đối tượng</span><br>
+<span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="func">XMLHttpRequest</span>();<br><br>
+<span class="comment">// BƯỚC 2: Cấu hình — open(method, url, async)</span><br>
+xhr.<span class="func">open</span>(<span class="string">"GET"</span>, <span class="string">"./data/products.xml"</span>, <span class="keyword">false</span>);<br><br>
+<span class="comment">// BƯỚC 3: Đăng ký callback</span><br>
+xhr.onreadystatechange = <span class="keyword">function</span>() {<br>
+&nbsp;&nbsp;<span class="keyword">if</span> (xhr.readyState == <span class="num">4</span> && xhr.status == <span class="num">200</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thành công: xử lý dữ liệu</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> xmlDoc = xhr.responseXML;  <span class="comment">// Lấy XML doc</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> items = xmlDoc.<span class="func">getElementsByTagName</span>(<span class="string">"product"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="num">0</span>; i &lt; items.length; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> name = items[i].<span class="func">getElementsByTagName</span>(<span class="string">"name"</span>)[0].childNodes[0].nodeValue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Dùng name để build HTML...</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">alert</span>(<span class="string">"Không lấy được dữ liệu"</span>);<br>
+&nbsp;&nbsp;}<br>
+};<br><br>
+<span class="comment">// BƯỚC 4: Gửi request</span><br>
+xhr.<span class="func">send</span>();
+    </div>
+
+    <h3>2.3 Bảng thuộc tính quan trọng</h3>
+    <table>
+        <tr><th>Thuộc tính</th><th>Giá trị cần nhớ</th></tr>
+        <tr><td><code>readyState</code></td><td><b>4</b> = Hoàn thành</td></tr>
+        <tr><td><code>status</code></td><td><b>200</b> = OK; 404 = Not Found</td></tr>
+        <tr><td><code>responseXML</code></td><td>Trả về XML Document (dùng được DOM)</td></tr>
+        <tr><td><code>responseText</code></td><td>Trả về chuỗi text</td></tr>
+    </table>
+</div>
+
+<!-- ================================================ -->
+<h2>PHẦN 3: JSON</h2>
+
+<div class="card">
+    <h3>3.1 Khái niệm JSON</h3>
+    <div class="note">
+        <b>JSON</b> = JavaScript Object Notation. Định dạng <b>key:value</b>, phổ biến để trao đổi dữ liệu trên web.
+    </div>
+
+    <div class="grid2">
+        <div>
+            <b>JSON Object</b> <code>{ }</code>
+            <div class="code-block">
+{<br>
+&nbsp;&nbsp;<span class="string">"id"</span>: <span class="num">1</span>,<br>
+&nbsp;&nbsp;<span class="string">"name"</span>: <span class="string">"Heineken"</span>,<br>
+&nbsp;&nbsp;<span class="string">"price"</span>: <span class="num">19000</span><br>
+}
+            </div>
+            Truy cập: <code>obj.name</code>
+        </div>
+        <div>
+            <b>JSON Array</b> <code>[ ]</code>
+            <div class="code-block">
+[<br>
+&nbsp;&nbsp;{ <span class="string">"id"</span>: <span class="num">1</span>, ... },<br>
+&nbsp;&nbsp;{ <span class="string">"id"</span>: <span class="num">2</span>, ... }<br>
+]
+            </div>
+            Truy cập: <code>arr[0].name</code>
+        </div>
+    </div>
+
+    <h3>3.2 Hàm JSON quan trọng</h3>
+    <table>
+        <tr><th>Hàm</th><th>Tác dụng</th><th>Ví dụ</th></tr>
+        <tr>
+            <td><code>JSON.parse(string)</code></td>
+            <td>Chuỗi → Object JS</td>
+            <td><code>JSON.parse('{"a":1}')</code> → <code>{a:1}</code></td>
+        </tr>
+        <tr>
+            <td><code>JSON.stringify(obj)</code></td>
+            <td>Object JS → Chuỗi</td>
+            <td><code>JSON.stringify({a:1})</code> → <code>'{"a":1}'</code></td>
+        </tr>
+    </table>
+
+    <h3>3.3 Template Fetch API (đọc JSON từ file hoặc API)</h3>
+    <div class="code-block">
+<span class="func">fetch</span>(<span class="string">"url_hoac_duong_dan_file"</span>)<br>
+&nbsp;&nbsp;.<span class="func">then</span>(<span class="keyword">function</span>(response) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!response.ok) { <span class="keyword">throw new</span> <span class="func">Error</span>(<span class="string">"Error: "</span> + response.status); }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> response.<span class="func">json</span>();             <span class="comment">// Parse body → JSON object</span><br>
+&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;.<span class="func">then</span>(<span class="keyword">function</span>(json) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Trường hợp 1: json là Array → dùng trực tiếp</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> json) { ... }<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Trường hợp 2: json là Object bọc ngoài → truy cập property</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> json.products) { ... }<br>
+&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;.<span class="func">catch</span>(<span class="keyword">function</span>(error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">alert</span>(error.message);<br>
+&nbsp;&nbsp;});
+    </div>
+</div>
+
+<!-- ================================================ -->
+<h2>PHẦN 4: So Sánh Tổng Hợp</h2>
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Tiêu chí</th>
+            <th>XML + AJAX (XHR)</th>
+            <th>JSON + Fetch API</th>
+        </tr>
+        <tr>
+            <td>Đọc dữ liệu</td>
+            <td><code>responseXML</code> + <code>getElementsByTagName</code></td>
+            <td><code>response.json()</code> → truy cập trực tiếp</td>
+        </tr>
+        <tr>
+            <td>Kiểm tra thành công</td>
+            <td><code>readyState == 4 && status == 200</code></td>
+            <td><code>response.ok</code></td>
+        </tr>
+        <tr>
+            <td>Xử lý lỗi</td>
+            <td>Trong else của if</td>
+            <td><code>.catch(function(error) {...})</code></td>
+        </tr>
+        <tr>
+            <td>Cú pháp</td>
+            <td>Phức tạp hơn, nhiều bước</td>
+            <td>Gọn hơn, chuỗi .then()</td>
+        </tr>
+        <tr>
+            <td>Dùng trong slide</td>
+            <td>Phần XML (AJAX)</td>
+            <td>Phần JSON (Fetch)</td>
+        </tr>
+    </table>
+</div>
+
+<!-- ================================================ -->
+<h2>PHẦN 5: Checklist Ôn Tập</h2>
+
+<div class="card">
+    <ul class="checklist">
+        <li>XML là gì, khác HTML ở điểm nào</li>
+        <li>4 quy tắc cú pháp XML phải nhớ</li>
+        <li>XML DOM: Element, Attribute, Text node</li>
+        <li>Cách dùng DOMParser để parse chuỗi XML</li>
+        <li>Công thức lấy nodeValue: <code>getElementsByTagName("x")[0].childNodes[0].nodeValue</code></li>
+        <li>AJAX là gì, 5 bước thực hiện AJAX với XHR</li>
+        <li>readyState: 4 = xong | status: 200 = OK</li>
+        <li>responseXML vs responseText</li>
+        <li>JSON Object <code>{ }</code> vs JSON Array <code>[ ]</code></li>
+        <li>JSON.parse() và JSON.stringify()</li>
+        <li>Template Fetch API: fetch → .then(response.json()) → .then(data) → .catch()</li>
+        <li>Khi nào dùng <code>json.products</code> vs <code>json</code> trực tiếp</li>
+    </ul>
+
+    <div class="ok">
+        <b>Ghi nhớ nhanh:</b><br>
+        • XML + AJAX: dùng <code>new XMLHttpRequest()</code>, kiểm tra <code>readyState==4 && status==200</code>, đọc <code>responseXML</code><br>
+        • JSON + Fetch: dùng <code>fetch(url).then(r => r.json()).then(data => ...)</code>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <script>
+function loadData(){
+            let apiUrl="https://fakestoreapi.com/products";
+            fetch(apiUrl)
+            .then(function(res){
+                if(!res.ok){
+                    throw new Error ("Error: " + res.status);
+                }
+                return res.json();
+            })
+            .then (function(data){
+                // nhận dữ liệu từ api trả về
+                // console.log(data);
+                let htmlString="";
+                for(let p of data){
+                    htmlString+= `
+                        <div>${p.title}</div>
+                        <div><img src ="${p.image}"</div>
+
+                    `;
+                }
+                document.getElementById("content").innerHTML=htmlString;
+            })
+            .catch(function(err){
+                alert("Error: " + err.message);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="m-3">
+        <button class="btn btn-primary" onclick="loadData()">Load Data</button>
+        <div id="content"></div>
+    </div>
+</body>
+</html>

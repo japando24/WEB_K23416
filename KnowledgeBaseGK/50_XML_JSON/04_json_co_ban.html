@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>04 - JSON Cơ Bản: Object & Array</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        h2 { color: #1a5276; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h3 { color: #2471a3; }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; overflow-x: auto; margin: 10px 0; line-height: 1.8;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .num { color: #b5cea8; }
+        .prop { color: #9cdcfe; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        .warn {
+            background: #fef9e7; border-left: 4px solid #f39c12;
+            padding: 10px 15px; margin: 10px 0;
+        }
+        .grid { display: flex; gap: 20px; }
+        .grid > div { flex: 1; }
+        button {
+            background: #1abc9c; color: white; border: none;
+            padding: 10px 22px; border-radius: 4px; cursor: pointer; font-size: 15px; margin: 5px 5px 5px 0;
+        }
+        button:hover { background: #16a085; }
+        .item-card {
+            background: #27ae60; color: white;
+            padding: 12px 18px; border-radius: 6px;
+            text-align: center; display: inline-block;
+            margin: 6px; min-width: 120px;
+        }
+        .item-card b { font-size: 16px; display: block; margin: 4px 0; }
+        #output1, #output2, #output3 {
+            background: #f4f6f7; border: 1px solid #ccc;
+            padding: 12px; border-radius: 6px; margin-top: 8px; min-height: 40px;
+        }
+        table { border-collapse: collapse; width: 100%; }
+        th { background: #1a5276; color: white; padding: 8px 12px; }
+        td { padding: 8px 12px; border: 1px solid #ccc; }
+        tr:nth-child(even) { background: #eaf2ff; }
+    </style>
+</head>
+<body>
+
+<h2>04 - JSON Cơ Bản: Object & Array</h2>
+
+<!-- ================================================ -->
+<h3>1. JSON là gì?</h3>
+
+<div class="note">
+    <b>JSON</b> (JavaScript Object Notation): Định dạng dữ liệu phổ biến dạng <b>key:value</b>.<br>
+    Dùng để <b>trao đổi dữ liệu</b> giữa server và client trên web.<br>
+    Nhẹ hơn XML, dễ đọc hơn, được hỗ trợ trực tiếp trong JavaScript.
+</div>
+
+<!-- ================================================ -->
+<h3>2. JSON Object vs JSON Array</h3>
+
+<div class="grid">
+    <div>
+        <b>JSON Object</b> — dùng <code>{ }</code>
+        <div class="code-block">
+{<br>
+&nbsp;&nbsp;<span class="string">"id"</span>: <span class="num">1</span>,<br>
+&nbsp;&nbsp;<span class="string">"name"</span>: <span class="string">"Heineken"</span>,<br>
+&nbsp;&nbsp;<span class="string">"price"</span>: <span class="num">19000</span><br>
+}
+        </div>
+        Truy cập: <code>obj.name</code> hoặc <code>obj["name"]</code>
+    </div>
+    <div>
+        <b>JSON Array</b> — dùng <code>[ ]</code>
+        <div class="code-block">
+[<br>
+&nbsp;&nbsp;{ <span class="string">"id"</span>: <span class="num">1</span>, <span class="string">"name"</span>: <span class="string">"Heineken"</span> },<br>
+&nbsp;&nbsp;{ <span class="string">"id"</span>: <span class="num">2</span>, <span class="string">"name"</span>: <span class="string">"Tiger"</span> },<br>
+&nbsp;&nbsp;{ <span class="string">"id"</span>: <span class="num">3</span>, <span class="string">"name"</span>: <span class="string">"Sapporo"</span> }<br>
+]
+        </div>
+        Truy cập: <code>arr[0].name</code>
+    </div>
+</div>
+
+<!-- ================================================ -->
+<h3>3. Các hàm JSON quan trọng</h3>
+
+<table>
+    <tr><th>Hàm</th><th>Ý nghĩa</th><th>Ví dụ</th></tr>
+    <tr>
+        <td><code>JSON.parse(string)</code></td>
+        <td>Chuyển <b>chuỗi JSON → Object JS</b></td>
+        <td><code>JSON.parse('{"name":"A"}')</code> → Object</td>
+    </tr>
+    <tr>
+        <td><code>JSON.stringify(obj)</code></td>
+        <td>Chuyển <b>Object JS → chuỗi JSON</b></td>
+        <td><code>JSON.stringify({name:"A"})</code> → String</td>
+    </tr>
+</table>
+
+<!-- ================================================ -->
+<h3>4. Code mẫu: Đọc JSON Array (dữ liệu inline)</h3>
+
+<div class="code-block">
+<span class="comment">// ====== TEMPLATE ĐỌC JSON ARRAY INLINE ======</span><br><br>
+<span class="keyword">function</span> <span class="func">loadJson</span>() {<br>
+&nbsp;&nbsp;<span class="keyword">let</span> htmlString = <span class="string">''</span>;<br><br>
+&nbsp;&nbsp;<span class="comment">// Dữ liệu JSON Array khai báo trực tiếp trong JS</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> products = [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="prop">"id"</span>: <span class="num">1</span>, <span class="prop">"name"</span>: <span class="string">"Heineken"</span>, <span class="prop">"price"</span>: <span class="num">19000</span> },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="prop">"id"</span>: <span class="num">2</span>, <span class="prop">"name"</span>: <span class="string">"Tiger"</span>,    <span class="prop">"price"</span>: <span class="num">18000</span> },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="prop">"id"</span>: <span class="num">3</span>, <span class="prop">"name"</span>: <span class="string">"Sapporo"</span>,  <span class="prop">"price"</span>: <span class="num">21000</span> }<br>
+&nbsp;&nbsp;];<br><br>
+&nbsp;&nbsp;<span class="comment">// Duyệt mảng bằng for...of (cú pháp mới)</span><br>
+&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">of</span> products) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;htmlString += <span class="string">'&lt;div class="item-card"&gt;'</span> +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.id + <span class="string">'&lt;br&gt;&lt;b&gt;'</span> + p.name + <span class="string">'&lt;/b&gt;&lt;br&gt;'</span> + p.price +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'&lt;/div&gt;'</span>;<br>
+&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;<span class="comment">// Gán vào DOM</span><br>
+&nbsp;&nbsp;document.<span class="func">getElementById</span>(<span class="string">"content"</span>).innerHTML = htmlString;<br>
+}
+</div>
+
+<button onclick="demo1()">Demo: JSON Array inline</button>
+<div id="output1"></div>
+
+<!-- ================================================ -->
+<h3>5. Code mẫu: JSON.parse() - Chuyển chuỗi thành Object</h3>
+
+<div class="code-block">
+<span class="comment">// Kịch bản: nhận dữ liệu từ server dưới dạng chuỗi, cần parse thành object</span><br><br>
+<span class="keyword">var</span> jsonString = <span class="string">'{"id":1,"name":"Heineken","price":19000}'</span>; <span class="comment">// chuỗi JSON</span><br>
+<span class="keyword">var</span> obj = JSON.<span class="func">parse</span>(jsonString);  <span class="comment">// parse → object</span><br><br>
+console.<span class="func">log</span>(obj.name);   <span class="comment">// → "Heineken"</span><br>
+console.<span class="func">log</span>(obj.price);  <span class="comment">// → 19000</span><br><br>
+<span class="comment">// Ngược lại: object → chuỗi</span><br>
+<span class="keyword">var</span> str = JSON.<span class="func">stringify</span>(obj); <span class="comment">// → '{"id":1,"name":"Heineken","price":19000}'</span>
+</div>
+
+<button onclick="demo2()">Demo: JSON.parse()</button>
+<div id="output2"></div>
+
+<!-- ================================================ -->
+<h3>6. Code mẫu: JSON Object lồng nhau (nested)</h3>
+
+<div class="code-block">
+<span class="comment">// JSON có thể lồng nhau: object chứa array, array chứa object</span><br>
+<span class="keyword">var</span> data = {<br>
+&nbsp;&nbsp;<span class="prop">"store"</span>: <span class="string">"Bia Shop"</span>,<br>
+&nbsp;&nbsp;<span class="prop">"products"</span>: [                    <span class="comment">// property "products" là một Array</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="prop">"id"</span>: <span class="num">1</span>, <span class="prop">"name"</span>: <span class="string">"Heineken"</span> },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="prop">"id"</span>: <span class="num">2</span>, <span class="prop">"name"</span>: <span class="string">"Tiger"</span> }<br>
+&nbsp;&nbsp;]<br>
+};<br><br>
+console.<span class="func">log</span>(data.store);              <span class="comment">// → "Bia Shop"</span><br>
+console.<span class="func">log</span>(data.products[<span class="num">0</span>].name); <span class="comment">// → "Heineken"</span><br>
+console.<span class="func">log</span>(data.products.length);   <span class="comment">// → 2</span>
+</div>
+
+<button onclick="demo3()">Demo: Nested JSON</button>
+<div id="output3"></div>
+
+<script>
+    // Demo 1: JSON Array inline với for...of
+    function demo1() {
+        let htmlString = '';
+        var products = [
+            { "id": 1, "name": "Heineken",    "price": 19000 },
+            { "id": 2, "name": "Tiger",       "price": 18000 },
+            { "id": 3, "name": "Sapporo",     "price": 21000 },
+            { "id": 4, "name": "Corona Extra","price": 25000 }
+        ];
+
+        for (let p of products) {
+            htmlString += '<div class="item-card">' + p.id + '<br><b>' + p.name + '</b><br>' + p.price + ' đ</div>';
+        }
+        document.getElementById("output1").innerHTML = htmlString;
+    }
+
+    // Demo 2: JSON.parse và JSON.stringify
+    function demo2() {
+        var jsonString = '{"id":1,"name":"Heineken","price":19000}';
+        var obj = JSON.parse(jsonString);
+
+        var html = '<b>Chuỗi gốc:</b> ' + jsonString + '<br>';
+        html += '<b>Sau parse → obj.name:</b> ' + obj.name + '<br>';
+        html += '<b>Sau parse → obj.price:</b> ' + obj.price + '<br>';
+        html += '<b>JSON.stringify lại:</b> ' + JSON.stringify(obj);
+
+        document.getElementById("output2").innerHTML = html;
+    }
+
+    // Demo 3: Nested JSON
+    function demo3() {
+        var data = {
+            "store": "Bia Shop",
+            "products": [
+                { "id": 1, "name": "Heineken" },
+                { "id": 2, "name": "Tiger" }
+            ]
+        };
+
+        var html = '<b>data.store:</b> ' + data.store + '<br>';
+        html += '<b>data.products[0].name:</b> ' + data.products[0].name + '<br>';
+        html += '<b>data.products.length:</b> ' + data.products.length + '<br>';
+        html += '<b>Full JSON:</b> ' + JSON.stringify(data, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+
+        document.getElementById("output3").innerHTML = html;
+    }
+</script>
+
+</body>
+</html>

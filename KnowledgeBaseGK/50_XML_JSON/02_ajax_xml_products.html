@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>02 - AJAX + XML: Load Danh Sách Sản Phẩm</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        h2 { color: #1a5276; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h3 { color: #2471a3; }
+        .code-block {
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px; overflow-x: auto; margin: 10px 0; line-height: 1.7;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #c586c0; }
+        .string { color: #ce9178; }
+        .func { color: #dcdcaa; }
+        .num { color: #b5cea8; }
+        .note {
+            background: #eaf2ff; border-left: 4px solid #2471a3;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        .step {
+            background: #e8f8f5; border-left: 4px solid #1abc9c;
+            padding: 10px 15px; margin: 10px 0; border-radius: 0 4px 4px 0;
+        }
+        .warn {
+            background: #fef9e7; border-left: 4px solid #f39c12;
+            padding: 10px 15px; margin: 10px 0;
+        }
+        button {
+            background: #2471a3; color: white; border: none;
+            padding: 10px 22px; border-radius: 4px; cursor: pointer; font-size: 15px; margin: 10px 0;
+        }
+        button:hover { background: #1a5276; }
+        #content {
+            display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; min-height: 60px;
+        }
+        .wrap__item {
+            background: #e67e22; color: white;
+            padding: 12px 18px; border-radius: 6px;
+            text-align: center; min-width: 120px;
+            font-size: 14px;
+        }
+        .wrap__item b { font-size: 16px; display: block; margin: 4px 0; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background: #2471a3; color: white; padding: 8px 12px; }
+        td { padding: 8px 12px; border: 1px solid #ccc; }
+        tr:nth-child(even) { background: #eaf2ff; }
+        .props-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .props-table th { background: #1a5276; color: white; padding: 8px; }
+        .props-table td { padding: 8px; border: 1px solid #ccc; }
+        .props-table tr:nth-child(even) { background: #f0f4f8; }
+    </style>
+</head>
+<body>
+
+<h2>02 - AJAX + XML: Load Sản Phẩm từ File XML</h2>
+
+<!-- ================================================ -->
+<h3>Lý thuyết: AJAX là gì?</h3>
+
+<div class="note">
+    <b>AJAX</b> (Asynchronous JavaScript And XML): Kỹ thuật giúp trang web <b>gửi/nhận dữ liệu từ server</b> mà <b>không cần tải lại trang</b>.<br><br>
+    Dùng đối tượng <code>XMLHttpRequest</code> (XHR) tích hợp sẵn trong trình duyệt.
+</div>
+
+<!-- ================================================ -->
+<h3>Các bước thực hiện AJAX (Luồng hoạt động)</h3>
+
+<div class="step">
+    <b>1.</b> Tạo đối tượng XMLHttpRequest → <code>let xhr = new XMLHttpRequest();</code><br>
+    <b>2.</b> Cấu hình request → <code>xhr.open("GET", "url", true/false);</code><br>
+    <b>3.</b> Đăng ký hàm xử lý response → <code>xhr.onreadystatechange = function() { ... }</code><br>
+    <b>4.</b> Gửi request → <code>xhr.send();</code><br>
+    <b>5.</b> Trong hàm callback: kiểm tra <code>readyState == 4 && status == 200</code> → xử lý dữ liệu
+</div>
+
+<!-- ================================================ -->
+<h3>Bảng thuộc tính XMLHttpRequest quan trọng</h3>
+
+<table class="props-table">
+    <tr><th>Thuộc tính</th><th>Ý nghĩa</th></tr>
+    <tr><td><code>onreadystatechange</code></td><td>Hàm callback gọi khi readyState thay đổi</td></tr>
+    <tr><td><code>readyState</code></td><td>0: chưa khởi tạo | 1: đang kết nối | 2: đã nhận request | 3: đang xử lý | <b>4: hoàn thành</b></td></tr>
+    <tr><td><code>status</code></td><td><b>200</b>: OK | 403: Forbidden | <b>404</b>: Not Found</td></tr>
+    <tr><td><code>responseText</code></td><td>Trả về dữ liệu dạng <b>chuỗi text</b></td></tr>
+    <tr><td><code>responseXML</code></td><td>Trả về dữ liệu dạng <b>XML Document</b> (có thể dùng DOM)</td></tr>
+</table>
+
+<!-- ================================================ -->
+<h3>Code mẫu AJAX - Template đầy đủ</h3>
+
+<div class="code-block">
+<span class="comment">// ====== TEMPLATE AJAX ĐỌC FILE XML ======</span><br><br>
+<span class="keyword">function</span> <span class="func">loadDoc</span>() {<br>
+&nbsp;&nbsp;<span class="comment">// BƯỚC 1: Tạo đối tượng XMLHttpRequest</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="func">XMLHttpRequest</span>();<br><br>
+&nbsp;&nbsp;<span class="comment">// BƯỚC 2: Cấu hình request</span><br>
+&nbsp;&nbsp;<span class="comment">// open(method, url, async)</span><br>
+&nbsp;&nbsp;<span class="comment">//   method: "GET" hoặc "POST"</span><br>
+&nbsp;&nbsp;<span class="comment">//   url: đường dẫn đến file/API</span><br>
+&nbsp;&nbsp;<span class="comment">//   async: true (bất đồng bộ) | false (đồng bộ - dùng trong slide)</span><br>
+&nbsp;&nbsp;xhr.<span class="func">open</span>(<span class="string">"GET"</span>, <span class="string">"./data/products.xml"</span>, <span class="keyword">false</span>);<br><br>
+&nbsp;&nbsp;<span class="comment">// BƯỚC 3: Đăng ký hàm xử lý khi có response</span><br>
+&nbsp;&nbsp;xhr.onreadystatechange = <span class="keyword">function</span>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (xhr.readyState == <span class="num">4</span> && xhr.status == <span class="num">200</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thành công → xử lý dữ liệu</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">updatePage</span>(<span class="keyword">this</span>);  <span class="comment">// this = đối tượng xhr</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thất bại</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="func">alert</span>(<span class="string">"Không lấy được dữ liệu"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;};<br><br>
+&nbsp;&nbsp;<span class="comment">// BƯỚC 4: Gửi request</span><br>
+&nbsp;&nbsp;xhr.<span class="func">send</span>();<br>
+}<br><br>
+<span class="comment">// ====== HÀM XỬ LÝ DỮ LIỆU XML ======</span><br>
+<span class="keyword">function</span> <span class="func">updatePage</span>(xhr) {<br>
+&nbsp;&nbsp;<span class="comment">// Lấy XML Document từ response</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> xmlDoc = xhr.responseXML;<br><br>
+&nbsp;&nbsp;<span class="comment">// Lấy tất cả phần tử &lt;product&gt;</span><br>
+&nbsp;&nbsp;<span class="keyword">var</span> products = xmlDoc.<span class="func">getElementsByTagName</span>(<span class="string">"product"</span>);<br><br>
+&nbsp;&nbsp;<span class="keyword">var</span> itemLayout = <span class="string">""</span>;<br>
+&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="num">0</span>; i &lt; products.length; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy giá trị từng field: tên_thẻ → [0] → childNodes[0] → nodeValue</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> id    = products[i].<span class="func">getElementsByTagName</span>(<span class="string">"id"</span>)[<span class="num">0</span>].childNodes[<span class="num">0</span>].nodeValue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> name  = products[i].<span class="func">getElementsByTagName</span>(<span class="string">"name"</span>)[<span class="num">0</span>].childNodes[<span class="num">0</span>].nodeValue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> price = products[i].<span class="func">getElementsByTagName</span>(<span class="string">"price"</span>)[<span class="num">0</span>].childNodes[<span class="num">0</span>].nodeValue;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;itemLayout += <span class="string">'&lt;div class="wrap__item"&gt;'</span> + id + <span class="string">'&lt;br&gt;&lt;b&gt;'</span> +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name + <span class="string">'&lt;/b&gt;&lt;br&gt;'</span> + price + <span class="string">'&lt;/div&gt;'</span>;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;document.<span class="func">getElementById</span>(<span class="string">"content"</span>).innerHTML = itemLayout;<br>
+}
+</div>
+
+<!-- ================================================ -->
+<h3>Demo thực tế</h3>
+<div class="warn">
+    <b>Lưu ý:</b> Cần chạy qua Live Server (VS Code) hoặc local server vì AJAX không chạy được trực tiếp từ file:// do chính sách CORS.
+</div>
+
+<button onclick="loadDoc()">Get list of products</button>
+<div id="content"></div>
+
+<script>
+    function loadDoc() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "./data/products.xml", false);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                updatePage(this);
+            } else if (xhr.readyState == 4) {
+                // Fallback: nếu không load được file (chạy local không có server)
+                demoFallback();
+            }
+        };
+        xhr.send();
+    }
+
+    function updatePage(xhr) {
+        var xmlDoc = xhr.responseXML;
+        var products = xmlDoc.getElementsByTagName("product");
+        var itemLayout = "";
+
+        for (var i = 0; i < products.length; i++) {
+            var id    = products[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+            var name  = products[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            var price = products[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+
+            itemLayout += '<div class="wrap__item">' + id + '<br><b>' +
+                          name + '</b><br>' + price + ' đ</div>';
+        }
+        document.getElementById("content").innerHTML = itemLayout;
+    }
+
+    // Demo fallback khi không có server (parse XML từ chuỗi)
+    function demoFallback() {
+        var xmlStr = '<?xml version="1.0" encoding="UTF-8"?><products>' +
+            '<product><id>1</id><name>Heineken</name><price>19000</price></product>' +
+            '<product><id>2</id><name>Tiger</name><price>18000</price></product>' +
+            '<product><id>3</id><name>Sapporo</name><price>21000</price></product>' +
+            '<product><id>4</id><name>Corona Extra</name><price>19000</price></product>' +
+            '</products>';
+
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(xmlStr, "text/xml");
+        updatePage({ responseXML: xmlDoc });
+    }
+</script>
+
+</body>
+</html>
