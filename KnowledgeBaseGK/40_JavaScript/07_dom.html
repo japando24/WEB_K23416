@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>07 - DOM & Events</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 4px; font-size: 0.85em; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; font-size: 0.9em; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    th { background: #f7971e; color: #1a0000; padding: 7px 10px; text-align: left; }
+    td { padding: 7px 10px; border-bottom: 1px solid #333; }
+    tr:nth-child(even) td { background: #16213e; }
+    td:nth-child(2) { font-family: monospace; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+    .dom-tree {
+      background: #0d0d1a; border: 1px solid #333; border-radius: 6px;
+      padding: 15px; margin: 10px 0; font-family: monospace; line-height: 2;
+    }
+    .tree-el { color: #f7971e; }
+    .tree-attr { color: #00ff88; }
+    .tree-text { color: #888; }
+    /* Demo interactive elements */
+    #demoBox {
+      background: #0f3460; border: 2px solid #f7971e; border-radius: 8px;
+      padding: 20px; text-align: center; margin: 10px 0;
+      transition: all 0.3s;
+      min-height: 60px;
+    }
+    #demoList { list-style: none; padding: 0; }
+    #demoList li {
+      background: #0f3460; margin: 4px 0; padding: 8px 15px;
+      border-radius: 4px; border-left: 3px solid #f7971e;
+      cursor: pointer;
+    }
+    #demoList li:hover { background: #1a5a8a; }
+    .inp { background: #0d0d1a; border: 1px solid #f7971e; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 0.9em; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 07 — DOM & Events</h1>
+
+  <!-- ===== DOM TREE ===== -->
+  <h2>1. DOM là gì? (Document Object Model)</h2>
+  <p>DOM là <strong>cây đối tượng</strong> biểu diễn cấu trúc HTML. JavaScript dùng DOM để đọc và thay đổi nội dung, cấu trúc, style của trang.</p>
+
+  <div class="dom-tree">
+<span class="tree-el">document</span>
+└── <span class="tree-el">&lt;html&gt;</span>
+    ├── <span class="tree-el">&lt;head&gt;</span>
+    │   ├── <span class="tree-el">&lt;title&gt;</span> <span class="tree-text">"My Page"</span>
+    │   └── <span class="tree-el">&lt;meta charset="UTF-8"&gt;</span>
+    └── <span class="tree-el">&lt;body&gt;</span>
+        ├── <span class="tree-el">&lt;h1 <span class="tree-attr">id="title"</span>&gt;</span> <span class="tree-text">"Hello"</span>
+        ├── <span class="tree-el">&lt;p <span class="tree-attr">class="text"</span>&gt;</span> <span class="tree-text">"World"</span>
+        └── <span class="tree-el">&lt;ul&gt;</span>
+            ├── <span class="tree-el">&lt;li&gt;</span> <span class="tree-text">"Item 1"</span>
+            └── <span class="tree-el">&lt;li&gt;</span> <span class="tree-text">"Item 2"</span>
+  </div>
+
+  <!-- ===== CHỌN PHẦN TỬ ===== -->
+  <h2>2. Chọn Phần Tử (Selectors)</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method</th><th>Mô tả</th><th>Trả về</th></tr>
+      <tr><td>getElementById("id")</td><td>Tìm theo id</td><td>1 Element (hoặc null)</td></tr>
+      <tr><td>getElementsByTagName("div")</td><td>Tìm theo tag</td><td>HTMLCollection (live)</td></tr>
+      <tr><td>getElementsByClassName("cls")</td><td>Tìm theo class</td><td>HTMLCollection (live)</td></tr>
+      <tr><td>querySelector("#id .cls")</td><td>CSS selector — phần tử ĐẦU TIÊN</td><td>1 Element (hoặc null)</td></tr>
+      <tr><td>querySelectorAll("p.text")</td><td>CSS selector — TẤT CẢ</td><td>NodeList (static)</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+// getElementById — nhanh nhất cho 1 element
+const title = document.getElementById("myTitle");
+
+// getElementsByTagName — trả về HTMLCollection
+const allDivs = document.getElementsByTagName("div");
+console.log(allDivs.length); // số lượng div
+console.log(allDivs[0]);     // div đầu tiên
+
+// getElementsByClassName
+const items = document.getElementsByClassName("item");
+
+// querySelector / querySelectorAll — linh hoạt nhất (dùng CSS selector)
+const first = document.querySelector(".card");          // phần tử đầu tiên
+const all   = document.querySelectorAll(".card");       // NodeList tất cả
+const btn   = document.querySelector("#submitBtn");     // theo id
+const input = document.querySelector("form input[type='text']"); // phức tạp
+
+// Chuyển NodeList → Array để dùng array methods
+const arr = Array.from(document.querySelectorAll("li"));
+arr.forEach(li => console.log(li.textContent));</div>
+
+  <!-- ===== THUỘC TÍNH ===== -->
+  <h2>3. Thuộc Tính & Nội Dung Element</h2>
+  <div class="code-block">
+const el = document.getElementById("myDiv");
+
+// Đọc / Ghi nội dung
+el.innerHTML  = "&lt;b&gt;Bold&lt;/b&gt;";  // parse HTML tags
+el.innerText  = "Plain text &lt;b&gt;";     // hiển thị text thuần
+el.textContent = "Text content";            // text content (kể cả hidden)
+
+// Thuộc tính ID, tagName, className
+el.id          // "myDiv"
+el.tagName     // "DIV"
+el.className   // "card active"
+el.classList   // DOMTokenList — dùng add/remove/toggle/contains
+
+// classList
+el.classList.add("active");         // thêm class
+el.classList.remove("active");      // xoá class
+el.classList.toggle("active");      // toggle (thêm nếu chưa có, xoá nếu có)
+el.classList.contains("active");    // kiểm tra có class không → true/false
+
+// getAttribute / setAttribute / removeAttribute
+el.getAttribute("href")             // lấy giá trị attribute
+el.setAttribute("href", "/home")    // đặt attribute
+el.removeAttribute("disabled")      // xoá attribute
+
+// Style trực tiếp
+el.style.color = "red";
+el.style.fontSize = "18px";
+el.style.backgroundColor = "#fff";
+el.style.display = "none";  // ẩn phần tử
+
+// Node navigation
+el.parentNode           // node cha
+el.parentElement        // element cha
+el.children             // HTMLCollection các con trực tiếp
+el.childNodes           // NodeList gồm cả text node
+el.firstElementChild    // con đầu tiên
+el.lastElementChild     // con cuối cùng
+el.nextElementSibling   // anh/chị tiếp theo
+el.previousElementSibling // anh/chị trước</div>
+
+  <!-- ===== TẠO VÀ XOÁ ELEMENT ===== -->
+  <h2>4. Tạo, Thêm & Xoá Element</h2>
+  <div class="code-block">
+// Tạo element mới
+const newDiv = document.createElement("div");
+const newLi  = document.createElement("li");
+const newText = document.createTextNode("Hello");
+
+// Gán nội dung và thuộc tính
+newDiv.innerHTML = "&lt;strong&gt;Mới tạo!&lt;/strong&gt;";
+newDiv.className = "card";
+newDiv.id = "newCard";
+
+// Thêm vào DOM
+const container = document.getElementById("container");
+container.appendChild(newDiv);              // thêm vào cuối
+container.insertBefore(newDiv, container.firstChild); // thêm vào đầu
+
+// insertAdjacentHTML — linh hoạt hơn
+el.insertAdjacentHTML("beforeend", "&lt;li&gt;Item mới&lt;/li&gt;");
+// Positions: "beforebegin", "afterbegin", "beforeend", "afterend"
+
+// Xoá element
+const item = document.getElementById("itemToRemove");
+item.remove();                         // ES5+: xoá trực tiếp
+item.parentNode.removeChild(item);     // cách cũ hơn
+
+// Clone element
+const copy = el.cloneNode(true);  // true = clone cả children
+container.appendChild(copy);</div>
+
+  <!-- ===== EVENTS ===== -->
+  <h2>5. HTML DOM Events (Sự Kiện)</h2>
+
+  <h3>Các event phổ biến</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Loại</th><th>Event</th><th>Khi nào xảy ra</th></tr>
+      <tr><td>Mouse</td><td>click</td><td>Click chuột</td></tr>
+      <tr><td>Mouse</td><td>dblclick</td><td>Double click</td></tr>
+      <tr><td>Mouse</td><td>mouseover</td><td>Di chuột vào</td></tr>
+      <tr><td>Mouse</td><td>mouseout</td><td>Di chuột ra</td></tr>
+      <tr><td>Mouse</td><td>mousemove</td><td>Di chuyển chuột</td></tr>
+      <tr><td>Keyboard</td><td>keydown</td><td>Nhấn phím (trước khi nhả)</td></tr>
+      <tr><td>Keyboard</td><td>keyup</td><td>Nhả phím</td></tr>
+      <tr><td>Keyboard</td><td>keypress</td><td>Nhấn phím (deprecated)</td></tr>
+      <tr><td>Form</td><td>submit</td><td>Submit form</td></tr>
+      <tr><td>Form</td><td>change</td><td>Giá trị thay đổi (sau blur)</td></tr>
+      <tr><td>Form</td><td>input</td><td>Giá trị thay đổi (real-time)</td></tr>
+      <tr><td>Form</td><td>focus / blur</td><td>Focus vào / rời khỏi input</td></tr>
+      <tr><td>Document</td><td>DOMContentLoaded</td><td>HTML đã parse xong</td></tr>
+      <tr><td>Window</td><td>load</td><td>Trang đã load hoàn toàn</td></tr>
+      <tr><td>Window</td><td>resize</td><td>Thay đổi kích thước cửa sổ</td></tr>
+      <tr><td>Window</td><td>scroll</td><td>Cuộn trang</td></tr>
+    </table>
+  </div>
+
+  <h3>3 cách gắn event</h3>
+  <div class="code-block">
+// CÁCH 1: HTML attribute (inline) — đơn giản nhưng không tách biệt
+&lt;button onclick="myFunction()"&gt;Click&lt;/button&gt;
+&lt;input onchange="handleChange(this.value)"&gt;
+
+// CÁCH 2: DOM property — ghi đè nếu gán nhiều lần
+const btn = document.getElementById("myBtn");
+btn.onclick = function() {
+  alert("Clicked!");
+};
+// Chỉ giữ handler cuối cùng:
+btn.onclick = handler1; // bị ghi đè bởi dòng dưới
+btn.onclick = handler2; // chỉ handler2 chạy
+
+// CÁCH 3: addEventListener — KHUYẾN KHÍCH NHẤT
+btn.addEventListener("click", function(event) {
+  console.log("Clicked!", event);
+  console.log(event.target);       // element kích hoạt event
+  console.log(event.target.id);    // id của element đó
+});
+
+// Gắn nhiều handler cho cùng 1 event
+btn.addEventListener("click", handler1);
+btn.addEventListener("click", handler2); // cả hai đều chạy!
+
+// Xoá event
+btn.removeEventListener("click", handler1);
+
+// Event object — thông tin về sự kiện
+btn.addEventListener("click", function(e) {
+  e.preventDefault();   // ngăn hành vi mặc định (vd: submit form)
+  e.stopPropagation();  // ngăn event bubble lên cha
+  console.log(e.target);        // element gốc kích hoạt
+  console.log(e.currentTarget); // element đang xử lý
+  console.log(e.type);          // loại event: "click"
+  console.log(e.clientX, e.clientY); // toạ độ chuột
+});
+
+// Event Delegation — gắn event ở cha, xử lý từ con
+document.getElementById("list").addEventListener("click", function(e) {
+  if (e.target.tagName === "LI") {
+    console.log("Click vào:", e.target.textContent);
+  }
+});
+
+// DOMContentLoaded — đảm bảo HTML đã sẵn sàng
+document.addEventListener("DOMContentLoaded", function() {
+  // code ở đây chạy sau khi DOM đã parse xong
+  const el = document.getElementById("myEl"); // an toàn
+});</div>
+
+  <!-- ===== DEMO TƯƠNG TÁC ===== -->
+  <h2>6. Demo Thực Tế</h2>
+
+  <div class="demo">
+    <p><strong>Demo DOM manipulation:</strong></p>
+    <div id="demoBox">Hộp demo — Nhấn nút bên dưới để thay đổi!</div>
+    <br>
+    <button onclick="changeText()">Đổi nội dung</button>
+    <button onclick="changeColor()">Đổi màu</button>
+    <button onclick="toggleClass()">Toggle class</button>
+    <button onclick="addAttr()">Thêm attribute</button>
+    <button onclick="readInfo()">Đọc thông tin</button>
+    <div class="result" id="domInfo">Nhấn "Đọc thông tin"...</div>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo thêm/xoá phần tử:</strong></p>
+    <input type="text" id="newItemInput" class="inp" placeholder="Nhập item mới..." style="width:200px">
+    <button onclick="addItem()">Thêm</button>
+    <ul id="demoList">
+      <li onclick="removeItem(this)">Item 1 (click để xoá)</li>
+      <li onclick="removeItem(this)">Item 2 (click để xoá)</li>
+      <li onclick="removeItem(this)">Item 3 (click để xoá)</li>
+    </ul>
+    <p style="color:#888;font-size:0.8em;margin-top:5px">← Click vào item để xoá</p>
+  </div>
+
+  <div class="demo">
+    <p><strong>Demo Events:</strong></p>
+    <input type="text" id="eventInput" class="inp" placeholder="Gõ vào đây..." style="width:250px"
+      oninput="logEvent('input')"
+      onfocus="logEvent('focus')"
+      onblur="logEvent('blur')"
+      onkeydown="logEvent('keydown: ' + event.key)">
+    <button id="eventBtn" style="margin-left:8px">Hover / Click vào đây</button>
+    <div class="result" id="eventLog">Tương tác với các phần tử trên để thấy event...</div>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li><code>getElementById</code> → 1 element | <code>querySelectorAll</code> → NodeList tất cả</li>
+      <li><code>innerHTML</code> parse HTML | <code>innerText</code> chỉ text | <code>textContent</code> text kể cả hidden</li>
+      <li><code>classList.add/remove/toggle/contains</code> để quản lý class</li>
+      <li>Tạo element: <code>createElement → setAttribute → appendChild</code></li>
+      <li>Xoá: <code>element.remove()</code> hoặc <code>parent.removeChild(el)</code></li>
+      <li><strong>addEventListener</strong> là cách tốt nhất — gắn được nhiều handler</li>
+      <li><code>event.preventDefault()</code> ngăn hành vi mặc định (form submit, link...)</li>
+      <li>Event Delegation: gắn event ở cha, check <code>e.target</code> để xác định con</li>
+      <li>Wrap code trong <code>DOMContentLoaded</code> nếu script đặt trong head</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Demo DOM manipulation
+  let colorIndex = 0;
+  const colors = ["#0f3460","#1a472a","#4a1942","#1a1a1a","#2c1654"];
+  const bgs = ["#f7971e","#00ff88","#ff6b6b","#4fc3f7","#ce93d8"];
+
+  function changeText() {
+    const box = document.getElementById("demoBox");
+    box.innerHTML = "<strong>Nội dung đã thay đổi!</strong> <em>Bằng innerHTML</em>";
+  }
+
+  function changeColor() {
+    const box = document.getElementById("demoBox");
+    colorIndex = (colorIndex + 1) % colors.length;
+    box.style.backgroundColor = colors[colorIndex];
+    box.style.color = bgs[colorIndex];
+  }
+
+  function toggleClass() {
+    const box = document.getElementById("demoBox");
+    box.classList.toggle("active");
+    if (box.classList.contains("active")) {
+      box.style.border = "3px solid #00ff88";
+      box.style.transform = "scale(1.02)";
+    } else {
+      box.style.border = "2px solid #f7971e";
+      box.style.transform = "scale(1)";
+    }
+  }
+
+  function addAttr() {
+    const box = document.getElementById("demoBox");
+    box.setAttribute("data-status", "modified");
+    box.setAttribute("title", "Tooltip: tôi đã được setAttribute!");
+    document.getElementById("domInfo").innerText = "setAttribute thêm data-status='modified' và title. Di chuột vào hộp để thấy tooltip!";
+  }
+
+  function readInfo() {
+    const box = document.getElementById("demoBox");
+    const info = [
+      `id: "${box.id}"`,
+      `tagName: "${box.tagName}"`,
+      `className: "${box.className}"`,
+      `classList: [${[...box.classList].map(c=>`"${c}"`).join(", ")}]`,
+      `innerHTML length: ${box.innerHTML.length}`,
+      `data-status: "${box.getAttribute("data-status") || "(chưa có)"}"`,
+    ];
+    document.getElementById("domInfo").innerText = info.join("\n");
+  }
+
+  function addItem() {
+    const input = document.getElementById("newItemInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const li = document.createElement("li");
+    li.textContent = text + " (click để xoá)";
+    li.onclick = function() { removeItem(this); };
+
+    document.getElementById("demoList").appendChild(li);
+    input.value = "";
+    input.focus();
+  }
+
+  function removeItem(el) {
+    el.style.backgroundColor = "#e74c3c";
+    setTimeout(() => el.remove(), 300);
+  }
+
+  // Event demo
+  const eventLog = document.getElementById("eventLog");
+  const eventBtn = document.getElementById("eventBtn");
+
+  eventBtn.addEventListener("mouseover", () => logEvent("mouseover"));
+  eventBtn.addEventListener("mouseout", () => logEvent("mouseout"));
+  eventBtn.addEventListener("click", () => logEvent("click"));
+  eventBtn.addEventListener("dblclick", () => logEvent("dblclick"));
+
+  const logs = [];
+  function logEvent(name) {
+    const now = new Date();
+    const time = `${now.getHours().toString().padStart(2,"0")}:${now.getMinutes().toString().padStart(2,"0")}:${now.getSeconds().toString().padStart(2,"0")}`;
+    logs.unshift(`[${time}] ${name}`);
+    if (logs.length > 8) logs.pop();
+    eventLog.innerText = logs.join("\n");
+  }
+</script>
+</body>
+</html>

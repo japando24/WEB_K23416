@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1</id>
+        <name>Heineken</name>
+        <price>19000</price>
+    </product>
+    <product>
+        <id>2</id>
+        <name>Tiger</name>
+        <price>18000</price>
+    </product>
+    <product>
+        <id>3</id>
+        <name>Sapporo</name>
+        <price>21000</price>
+    </product>
+    <product>
+        <id>4</id>
+        <name>Corona Extra</name>
+        <price>19000</price>
+    </product>
+</products>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>05 - String & Array</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a; border: 1px solid #333; border-left: 4px solid #f7971e;
+      border-radius: 6px; padding: 15px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8;
+      overflow-x: auto; white-space: pre;
+    }
+    .demo { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .demo button { background: #f7971e; color: #1a0000; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 3px; font-size: 0.85em; }
+    .demo button:hover { background: #ffd200; }
+    .result { margin-top: 10px; padding: 10px; background: #0d0d1a; border-radius: 4px; font-family: monospace; min-height: 30px; color: #00ff88; white-space: pre; font-size: 0.9em; }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+    th { background: #f7971e; color: #1a0000; padding: 7px 10px; text-align: left; }
+    td { padding: 7px 10px; border-bottom: 1px solid #333; }
+    td:nth-child(3) { font-family: monospace; color: #00ff88; }
+    tr:nth-child(even) td { background: #16213e; }
+    code { background: rgba(247,151,30,0.15); padding: 1px 5px; border-radius: 3px; font-family: monospace; }
+    .note { background: rgba(247,151,30,0.1); border-left: 3px solid #f7971e; padding: 10px 15px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 0.9em; }
+    .inp { background: #0d0d1a; border: 1px solid #f7971e; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 0.9em; }
+    .summary { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0000; border-radius: 10px; padding: 20px; margin-top: 30px; }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 05 — String & Array</h1>
+
+  <!-- ========== STRING ========== -->
+  <h2>PHẦN A — STRING (Chuỗi)</h2>
+
+  <h3>Khai báo và truy cập</h3>
+  <div class="code-block">
+let str = "Hello World";
+str[0]        // "H"  (truy cập ký tự theo index)
+str.length    // 11   (số ký tự)
+str[str.length - 1] // "d" (ký tự cuối)</div>
+
+  <h3>Bảng các method String quan trọng</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method</th><th>Mô tả</th><th>Ví dụ</th></tr>
+      <tr><td>length</td><td>Số ký tự</td><td>"Hello".length → 5</td></tr>
+      <tr><td>toUpperCase()</td><td>Chuyển hoa</td><td>"hello".toUpperCase() → "HELLO"</td></tr>
+      <tr><td>toLowerCase()</td><td>Chuyển thường</td><td>"HELLO".toLowerCase() → "hello"</td></tr>
+      <tr><td>trim()</td><td>Xoá khoảng trắng 2 đầu</td><td>"  hi  ".trim() → "hi"</td></tr>
+      <tr><td>trimStart()</td><td>Xoá khoảng trắng đầu</td><td>"  hi".trimStart() → "hi"</td></tr>
+      <tr><td>trimEnd()</td><td>Xoá khoảng trắng cuối</td><td>"hi  ".trimEnd() → "hi"</td></tr>
+      <tr><td>indexOf(str)</td><td>Vị trí đầu tiên (−1 nếu không có)</td><td>"hello".indexOf("l") → 2</td></tr>
+      <tr><td>lastIndexOf(str)</td><td>Vị trí cuối cùng</td><td>"hello".lastIndexOf("l") → 3</td></tr>
+      <tr><td>includes(str)</td><td>Có chứa không? (true/false)</td><td>"hello".includes("ell") → true</td></tr>
+      <tr><td>startsWith(str)</td><td>Bắt đầu bằng?</td><td>"hello".startsWith("he") → true</td></tr>
+      <tr><td>endsWith(str)</td><td>Kết thúc bằng?</td><td>"hello".endsWith("lo") → true</td></tr>
+      <tr><td>search(str/regex)</td><td>Tìm kiếm, trả về index</td><td>"hello".search("ll") → 2</td></tr>
+      <tr><td>charAt(i)</td><td>Ký tự tại vị trí i</td><td>"hello".charAt(1) → "e"</td></tr>
+      <tr><td>slice(start, end)</td><td>Cắt chuỗi [start, end)</td><td>"Hello".slice(1,3) → "el"</td></tr>
+      <tr><td>substring(start, end)</td><td>Như slice (không nhận âm)</td><td>"Hello".substring(1,3) → "el"</td></tr>
+      <tr><td>substr(start, len)</td><td>Cắt từ start, lấy len ký tự</td><td>"Hello".substr(1,3) → "ell"</td></tr>
+      <tr><td>replace(old, new)</td><td>Thay thế lần đầu</td><td>"aa".replace("a","b") → "ba"</td></tr>
+      <tr><td>replaceAll(old, new)</td><td>Thay thế tất cả</td><td>"aa".replaceAll("a","b") → "bb"</td></tr>
+      <tr><td>concat(str)</td><td>Nối chuỗi</td><td>"He".concat("llo") → "Hello"</td></tr>
+      <tr><td>split(sep)</td><td>Tách thành mảng</td><td>"a,b,c".split(",") → ["a","b","c"]</td></tr>
+      <tr><td>repeat(n)</td><td>Lặp lại n lần</td><td>"ab".repeat(3) → "ababab"</td></tr>
+      <tr><td>padStart(len,str)</td><td>Độn đầu chuỗi</td><td>"5".padStart(3,"0") → "005"</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+let s = "Hello World JavaScript";
+
+// Tìm kiếm
+s.indexOf("o")         // 4 (vị trí đầu tiên)
+s.lastIndexOf("o")     // 7 (vị trí cuối)
+s.includes("World")    // true
+s.startsWith("Hello")  // true
+
+// Cắt chuỗi
+s.slice(6, 11)         // "World"
+s.slice(-10)           // "JavaScript" (âm = đếm từ cuối)
+s.substring(6, 11)     // "World"
+s.substr(6, 5)         // "World" (bắt đầu tại 6, lấy 5 ký tự)
+
+// Tách và nối
+"An,Bình,Châu".split(",")          // ["An", "Bình", "Châu"]
+["An", "Bình", "Châu"].join(" - ") // "An - Bình - Châu"
+"Hello".split("")                   // ["H","e","l","l","o"]
+
+// Hay dùng: kiểm tra và chuyển đổi
+let email = "  User@Example.COM  ";
+email = email.trim().toLowerCase(); // "user@example.com"
+
+// Đảo chuỗi (không có method trực tiếp)
+"Hello".split("").reverse().join(""); // "olleH"</div>
+
+  <div class="demo">
+    <p><strong>Demo String Methods:</strong></p>
+    <input type="text" id="strInput" class="inp" value="Hello World" style="width:220px">
+    <br><br>
+    <button onclick="strMethod('length')">length</button>
+    <button onclick="strMethod('upper')">toUpperCase</button>
+    <button onclick="strMethod('lower')">toLowerCase</button>
+    <button onclick="strMethod('trim')">trim</button>
+    <button onclick="strMethod('reverse')">reverse</button>
+    <button onclick="strMethod('split')">split(" ")</button>
+    <button onclick="strMethod('slice')">slice(0,5)</button>
+    <div class="result" id="strResult">Nhấn nút...</div>
+  </div>
+
+  <!-- ========== ARRAY ========== -->
+  <h2>PHẦN B — ARRAY (Mảng)</h2>
+
+  <h3>Khai báo</h3>
+  <div class="code-block">
+// Cách 1: array literal (phổ biến)
+const fruits = ["Táo", "Chuối", "Cam"];
+const nums   = [1, 2, 3, 4, 5];
+const mixed  = [1, "hello", true, null, {name: "An"}]; // mảng hỗn hợp
+
+// Cách 2: new Array()
+const arr = new Array(3);      // [undefined, undefined, undefined]
+const arr2 = new Array(1,2,3); // [1, 2, 3]
+
+// Truy cập
+fruits[0]   // "Táo"
+fruits[fruits.length - 1]  // "Cam" (phần tử cuối)
+
+// Kiểm tra là mảng
+Array.isArray(fruits) // true
+Array.isArray("str")  // false</div>
+
+  <h3>Method thêm/xoá phần tử</h3>
+  <div class="code-block">
+let arr = ["a", "b", "c"];
+
+// THÊM VÀO CUỐI — push() — trả về độ dài mới
+arr.push("d");         // arr = ["a","b","c","d"]
+arr.push("e", "f");    // thêm nhiều phần tử
+
+// XOÁ Ở CUỐI — pop() — trả về phần tử bị xoá
+let last = arr.pop();  // last = "f", arr = ["a","b","c","d","e"]
+
+// THÊM VÀO ĐẦU — unshift() — trả về độ dài mới
+arr.unshift("X");      // arr = ["X","a","b","c","d","e"]
+
+// XOÁ Ở ĐẦU — shift() — trả về phần tử bị xoá
+let first = arr.shift(); // first = "X", arr = ["a","b","c","d","e"]
+
+// THÊM/XOÁ Ở GIỮA — splice(index, deleteCount, ...newItems)
+arr.splice(2, 0, "Z");   // Thêm "Z" tại index 2: ["a","b","Z","c","d","e"]
+arr.splice(2, 1);         // Xoá 1 phần tử tại index 2: ["a","b","c","d","e"]
+arr.splice(1, 2, "X","Y");// Xoá 2, thêm X,Y tại index 1: ["a","X","Y","d","e"]
+
+// NỐI MẢNG — concat()
+let a = [1, 2];
+let b = [3, 4];
+let c = a.concat(b);  // [1, 2, 3, 4] (a,b không đổi)
+
+// CẮT MẢNG — slice(start, end) — không sửa mảng gốc
+let nums = [0,1,2,3,4,5];
+nums.slice(2, 5);  // [2, 3, 4] (từ index 2 đến trước 5)
+nums.slice(3);     // [3, 4, 5] (từ index 3 đến cuối)</div>
+
+  <h3>Method duyệt mảng (Functional)</h3>
+  <div class="code-block">
+const nums = [1, 2, 3, 4, 5];
+
+// forEach — duyệt không return
+nums.forEach((n, i) => console.log(i, n));
+
+// map — biến đổi, trả về mảng mới cùng độ dài
+const doubled = nums.map(n => n * 2);     // [2, 4, 6, 8, 10]
+
+// filter — lọc, trả về mảng con
+const evens = nums.filter(n => n % 2 === 0); // [2, 4]
+const gt3   = nums.filter(n => n > 3);        // [4, 5]
+
+// reduce — gộp thành 1 giá trị
+const sum = nums.reduce((acc, n) => acc + n, 0);  // 15
+const max = nums.reduce((acc, n) => n > acc ? n : acc, nums[0]); // 5
+
+// find — tìm phần tử đầu tiên thoả điều kiện
+const found = nums.find(n => n > 3);       // 4 (phần tử đầu tiên > 3)
+
+// findIndex — index của phần tử tìm được
+const idx = nums.findIndex(n => n > 3);   // 3
+
+// some — TỒN TẠI ít nhất 1 phần tử thoả điều kiện?
+nums.some(n => n > 4);   // true
+
+// every — TẤT CẢ thoả điều kiện?
+nums.every(n => n > 0);  // true
+nums.every(n => n > 3);  // false
+
+// includes — có chứa giá trị không?
+nums.includes(3);  // true
+nums.includes(9);  // false
+
+// indexOf — vị trí đầu tiên (-1 nếu không có)
+nums.indexOf(3);   // 2
+nums.lastIndexOf(3); // 2</div>
+
+  <h3>Sort, Reverse, ToString</h3>
+  <div class="code-block">
+const arr = [3, 1, 4, 1, 5, 9];
+
+// sort() — sắp xếp mảng gốc (cẩn thận với số!)
+arr.sort();           // [1, 1, 3, 4, 5, 9] — đúng cho string!
+// Với số: sort mặc định so sánh string "10" < "9"!
+[10, 9, 100].sort()             // [10, 100, 9] — SAI!
+[10, 9, 100].sort((a,b) => a-b) // [9, 10, 100] — ĐÚNG (tăng dần)
+[10, 9, 100].sort((a,b) => b-a) // [100, 10, 9] — giảm dần
+
+// reverse() — đảo ngược mảng gốc
+[1,2,3].reverse() // [3, 2, 1]
+
+// toString() — chuyển mảng sang chuỗi
+[1,2,3].toString() // "1,2,3"
+
+// join() — nối với ký tự phân cách tùy chọn
+[1,2,3].join(" - ")  // "1 - 2 - 3"
+[1,2,3].join("")     // "123"
+
+// Array.from() — tạo mảng từ iterable
+Array.from("Hello")        // ["H","e","l","l","o"]
+Array.from({length: 5}, (_, i) => i) // [0, 1, 2, 3, 4]
+
+// Spread operator (ES6) — copy/nối mảng
+const copy = [...arr];         // copy mảng
+const merged = [...arr, ...copy]; // nối mảng</div>
+
+  <div class="demo">
+    <p><strong>Demo Array Methods — nhập mảng số:</strong></p>
+    <input type="text" id="arrInput" class="inp" value="3,1,4,1,5,9,2,6" style="width:200px">
+    <br><br>
+    <button onclick="arrMethod('sort')">sort tăng dần</button>
+    <button onclick="arrMethod('sortDesc')">sort giảm dần</button>
+    <button onclick="arrMethod('reverse')">reverse</button>
+    <button onclick="arrMethod('sum')">sum (reduce)</button>
+    <button onclick="arrMethod('map')">×2 (map)</button>
+    <button onclick="arrMethod('filter')">lọc >3 (filter)</button>
+    <button onclick="arrMethod('find')">tìm >4 (find)</button>
+    <button onclick="arrMethod('every')">every >0</button>
+    <button onclick="arrMethod('some')">some >8</button>
+    <div class="result" id="arrResult">Nhấn nút...</div>
+  </div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>String: <code>slice(start, end)</code> (âm OK) | <code>substring</code> (không âm) | <code>substr(start, length)</code></li>
+      <li>Đảo chuỗi: <code>"abc".split("").reverse().join("")</code></li>
+      <li>Array thêm/xoá: <code>push/pop</code> (cuối) | <code>unshift/shift</code> (đầu) | <code>splice</code> (giữa)</li>
+      <li><code>map</code> trả về array mới | <code>forEach</code> không return | <code>filter</code> lọc phần tử</li>
+      <li><code>reduce</code> gộp thành 1 giá trị (sum, max, group...)</li>
+      <li>Sort số: PHẢI dùng <code>sort((a,b) => a-b)</code> — sort mặc định sai với số!</li>
+      <li><code>slice</code> không thay đổi mảng gốc | <code>splice</code> thay đổi mảng gốc</li>
+      <li><code>find</code> → phần tử | <code>findIndex</code> → index | <code>includes</code> → boolean</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function strMethod(type) {
+    const s = document.getElementById("strInput").value;
+    let res;
+    switch(type) {
+      case 'length': res = `"${s}".length = ${s.length}`; break;
+      case 'upper': res = `toUpperCase: "${s.toUpperCase()}"`; break;
+      case 'lower': res = `toLowerCase: "${s.toLowerCase()}"`; break;
+      case 'trim': res = `trim: "${s.trim()}"`; break;
+      case 'reverse': res = `reverse: "${s.split('').reverse().join('')}"`; break;
+      case 'split': res = `split(" "): ${JSON.stringify(s.split(" "))}`; break;
+      case 'slice': res = `slice(0,5): "${s.slice(0,5)}"`; break;
+    }
+    document.getElementById("strResult").innerText = res;
+  }
+
+  function arrMethod(type) {
+    const raw = document.getElementById("arrInput").value;
+    const arr = raw.split(",").map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+    let res;
+    switch(type) {
+      case 'sort': res = `sort tăng dần: [${[...arr].sort((a,b)=>a-b).join(", ")}]`; break;
+      case 'sortDesc': res = `sort giảm dần: [${[...arr].sort((a,b)=>b-a).join(", ")}]`; break;
+      case 'reverse': res = `reverse: [${[...arr].reverse().join(", ")}]`; break;
+      case 'sum': res = `sum (reduce): ${arr.reduce((a,b)=>a+b,0)}`; break;
+      case 'map': res = `map(x*2): [${arr.map(n=>n*2).join(", ")}]`; break;
+      case 'filter': res = `filter(>3): [${arr.filter(n=>n>3).join(", ")}]`; break;
+      case 'find': res = `find(>4): ${arr.find(n=>n>4)}`; break;
+      case 'every': res = `every(>0): ${arr.every(n=>n>0)}`; break;
+      case 'some': res = `some(>8): ${arr.some(n=>n>8)}`; break;
+    }
+    document.getElementById("arrResult").innerText = `Mảng gốc: [${arr.join(", ")}]\n${res}`;
+  }
+</script>
+</body>
+</html>

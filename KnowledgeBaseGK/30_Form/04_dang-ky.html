@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Template 04 – Form Đăng Ký Người Dùng (Bài tập 1)</title>
+  <style>
+    /* ── Reset & base ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #EEF2F7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    /* ── Card ── */
+    .card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,48,135,.12);
+    }
+
+    /* ── Header ── */
+    .card-header {
+      background: linear-gradient(135deg, #003087 0%, #1565C0 100%);
+      color: white;
+      text-align: center;
+      padding: 22px 24px;
+    }
+    .card-header h1 { font-size: 18px; font-weight: 800; letter-spacing: .04em; }
+
+    /* ── Form body ── */
+    .card-body { padding: 28px 32px; }
+
+    /* ── Section dividers ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1565C0;
+      font-style: italic;
+      margin: 24px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #E3F0FF;
+    }
+
+    /* ── Form rows ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      align-items: start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      text-align: right;
+      padding-top: 9px;
+    }
+    .form-label .req { color: #C62828; font-size: 14px; margin-left: 3px; }
+    .form-note {
+      font-size: 12px;
+      color: #78909C;
+      padding-top: 9px;
+    }
+
+    /* ── Controls ── */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 11px;
+      border: 1px solid #C5CAD5;
+      border-radius: 5px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1565C0;
+      box-shadow: 0 0 0 3px rgba(21,101,192,.12);
+    }
+
+    /* Inline inputs (ngày sinh) */
+    .inline-group { display: flex; align-items: center; gap: 6px; }
+    .inline-group select { width: auto; flex: 1; }
+    .inline-group input  { width: 70px; }
+    .inline-group input.year { width: 90px; }
+    .inline-group .sep { color: #999; font-size: 16px; }
+
+    /* Radio / Checkbox inline */
+    .radio-inline, .check-grid {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 6px;
+    }
+    .radio-inline label, .check-grid label {
+      display: flex; align-items: center; gap: 5px; font-size: 14px; cursor: pointer;
+    }
+    .radio-inline input, .check-grid input {
+      width: auto; margin: 0;
+    }
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    /* Horizontal divider */
+    .divider { border: none; border-top: 1px solid #E8ECF2; margin: 20px 0; }
+
+    /* ── Button row ── */
+    .btn-row { display: flex; justify-content: center; gap: 12px; margin-top: 28px; }
+    .btn {
+      padding: 10px 32px; border: none; border-radius: 6px;
+      font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-primary { background: #1565C0; color: white; }
+    .btn-secondary { background: #ddd; color: #444; }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-label { text-align: left; padding-top: 0; }
+      .card-body { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!--
+  ╔═══════════════════════════════════════════════════════════╗
+  ║  TEMPLATE 04 – FORM ĐĂNG KÝ NGƯỜI DÙNG                   ║
+  ║  Tương đương Bài tập 1 trong slide                        ║
+  ║                                                           ║
+  ║  Mục tiêu:                                                ║
+  ║  • Dùng nhiều loại input: text, password, select, radio   ║
+  ║  • Chia form thành các section có ý nghĩa                 ║
+  ║  • Có required field đánh dấu bằng *                      ║
+  ╚═══════════════════════════════════════════════════════════╝
+-->
+
+<div class="card">
+
+  <!-- Tiêu đề form -->
+  <div class="card-header">
+    <h1>.: ĐĂNG KÝ NGƯỜI DÙNG :.</h1>
+  </div>
+
+  <div class="card-body">
+    <!--
+      method="post"  → dùng POST vì đây là tạo mới tài khoản (Create)
+      action="#"     → thực tế sẽ trỏ đến server xử lý (PHP, Node.js…)
+    -->
+    <form action="#" method="post" id="registerForm">
+
+      <!-- ═══════════════════════════════════════════
+           PHẦN 1: THÔNG TIN ĐĂNG NHẬP
+           ═══════════════════════════════════════════ -->
+
+      <!-- Tên đăng nhập -->
+      <div class="form-row">
+        <div class="form-label">Tên đăng nhập <span class="req">*</span></div>
+        <!--
+          type="text" → ô văn bản 1 dòng
+          required    → bắt buộc nhập (không gửi nếu trống)
+        -->
+        <input type="text" id="username" name="username"
+               placeholder="" required />
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Mật khẩu -->
+      <div class="form-row">
+        <div class="form-label">Mật khẩu <span class="req">*</span></div>
+        <!--
+          type="password" → ký tự bị ẩn
+          minlength="5"   → tối thiểu 5 ký tự
+        -->
+        <input type="password" id="password" name="password"
+               minlength="5" required />
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Hint bên dưới mật khẩu -->
+      <div class="form-row">
+        <div class="form-label"></div>
+        <div style="font-size:12px;color:#78909C;font-style:italic;">(Tối thiểu 5 ký tự)</div>
+        <div></div>
+      </div>
+
+      <!-- Gõ lại mật khẩu -->
+      <div class="form-row">
+        <div class="form-label">Gõ lại mật khẩu <span class="req">*</span></div>
+        <!--
+          name="confirm_password" → khác name="password" để phân biệt
+        -->
+        <input type="password" id="confirm_password" name="confirm_password"
+               minlength="5" required />
+        <div class="form-note"></div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ═══════════════════════════════════════════
+           PHẦN 2: LẤY LẠI MẬT KHẨU
+           ═══════════════════════════════════════════ -->
+      <div class="section-label">:: Nhập thông tin để lấy lại mật khẩu khi quên</div>
+
+      <!-- Câu hỏi bí mật -->
+      <div class="form-row">
+        <div class="form-label">Câu hỏi bí mật</div>
+        <!--
+          <select> với <option> mặc định placeholder (value trống)
+        -->
+        <select id="secret_question" name="secret_question">
+          <option value="">[Chọn câu hỏi]</option>
+          <option value="pet">Tên thú cưng đầu tiên của bạn?</option>
+          <option value="school">Trường tiểu học bạn từng học?</option>
+          <option value="city">Thành phố bạn sinh ra?</option>
+          <option value="mother">Tên thời con gái của mẹ?</option>
+        </select>
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Trả lời -->
+      <div class="form-row">
+        <div class="form-label">Trả lời</div>
+        <input type="text" id="secret_answer" name="secret_answer"
+               placeholder="" />
+        <div class="form-note"></div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ═══════════════════════════════════════════
+           PHẦN 3: THÔNG TIN CÁ NHÂN
+           ═══════════════════════════════════════════ -->
+      <div class="section-label">:: Thông tin cá nhân</div>
+
+      <!-- Họ và chữ lót -->
+      <div class="form-row">
+        <div class="form-label">Họ và chữ lót</div>
+        <input type="text" id="lastname" name="lastname" />
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Tên -->
+      <div class="form-row">
+        <div class="form-label">Tên</div>
+        <input type="text" id="firstname" name="firstname" />
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Ngày sinh – dùng select + 2 input text nhỏ -->
+      <div class="form-row">
+        <div class="form-label">Ngày sinh</div>
+        <!--
+          Kỹ thuật: dùng inline-group để xếp 3 field trên 1 dòng
+          Month: select | Day: text | Year: text
+        -->
+        <div class="inline-group">
+          <select name="birth_month" id="birth_month">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <span class="sep">,</span>
+          <input type="text" name="birth_day" placeholder="DD" maxlength="2" />
+          <span class="sep">,</span>
+          <input type="text" name="birth_year" placeholder="YYYY" maxlength="4" class="year" />
+        </div>
+        <div class="form-note">(Month, DD, YYYY)</div>
+      </div>
+
+      <!-- Giới tính – radio buttons -->
+      <div class="form-row">
+        <div class="form-label">Giới tính</div>
+        <!--
+          Radio: cùng name="gender" → chỉ chọn 1
+          checked → mặc định chọn Nam
+        -->
+        <div class="radio-inline">
+          <label>
+            <input type="radio" name="gender" value="male" checked /> Nam
+          </label>
+          <label>
+            <input type="radio" name="gender" value="female" /> Nữ
+          </label>
+        </div>
+        <div class="form-note"></div>
+      </div>
+
+      <!-- Nghề nghiệp – select -->
+      <div class="form-row">
+        <div class="form-label">Nghề nghiệp liên quan</div>
+        <select name="occupation" id="occupation">
+          <option value="">[Chọn ngành nghề]</option>
+          <optgroup label="Công nghệ thông tin">
+            <option value="dev_web">Lập trình Web</option>
+            <option value="dev_mobile">Lập trình Mobile</option>
+            <option value="data">Khoa học dữ liệu</option>
+          </optgroup>
+          <optgroup label="Kinh doanh">
+            <option value="ecom">Thương mại điện tử</option>
+            <option value="mkt">Marketing</option>
+            <option value="finance">Tài chính</option>
+          </optgroup>
+          <optgroup label="Khác">
+            <option value="student">Sinh viên</option>
+            <option value="other">Khác</option>
+          </optgroup>
+        </select>
+        <div class="form-note"></div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ═══════════════════════════════════════════
+           PHẦN 4: SỞ THÍCH (tùy chọn)
+           ═══════════════════════════════════════════ -->
+      <div class="section-label">:: Sở thích (tùy chọn)</div>
+
+      <div class="form-row">
+        <div class="form-label">Sở thích</div>
+        <!--
+          Checkbox: mỗi ô có name KHÁC NHAU
+          Người dùng có thể chọn nhiều ô
+          Không bắt buộc (không có required)
+        -->
+        <div class="check-grid">
+          <label>
+            <input type="checkbox" name="hobby_music"    value="music" />    Âm nhạc
+          </label>
+          <label>
+            <input type="checkbox" name="hobby_travel"   value="travel" />   Du lịch
+          </label>
+          <label>
+            <input type="checkbox" name="hobby_research" value="research" /> Nghiên cứu
+          </label>
+          <label>
+            <input type="checkbox" name="hobby_biz"      value="business" /> Kinh doanh
+          </label>
+          <label>
+            <input type="checkbox" name="hobby_sport"    value="sport" />    Thể thao
+          </label>
+          <label>
+            <input type="checkbox" name="hobby_cooking"  value="cooking" />  Nấu ăn
+          </label>
+        </div>
+        <div class="form-note"></div>
+      </div>
+
+      <!--
+        Hidden field: gửi kèm thông tin phụ không cần user thấy
+        Ví dụ: form version, ngày tạo, source page…
+      -->
+      <input type="hidden" name="form_version" value="1.0" />
+      <input type="hidden" name="source"       value="register_page" />
+
+      <!-- ═══════════════════════════════════════════
+           NÚT GỬI
+           ═══════════════════════════════════════════ -->
+      <div class="btn-row">
+        <!--
+          submit → tự động gửi form lên action=""
+          reset  → xóa tất cả dữ liệu về mặc định
+        -->
+        <input class="btn btn-primary"   type="submit" value="Đăng ký" />
+        <input class="btn btn-secondary" type="reset"  value="Xóa" />
+      </div>
+
+    </form>
+  </div><!-- .card-body -->
+</div><!-- .card -->
+
+</body>
+</html>

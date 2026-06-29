@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>03 - CSS Box Model & Display</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #2c3e50; }
+    h2 { color: #e74c3c; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+    h3 { color: #3498db; }
+    .section { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .demo-box { padding: 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; background: #fafafa; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; color: #c0392b; }
+    pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+
+    /* ================================================
+       CSS BOX MODEL DEMO
+    ================================================ */
+    .box-model-demo {
+      width: 200px;
+      height: 100px;
+      padding: 20px;          /* bên trong: content -> padding */
+      border: 5px solid #3498db;  /* viền */
+      margin: 30px;           /* bên ngoài: border -> margin */
+      background-color: #d5f5e3;
+    }
+
+    /* Tổng width = width + 2*padding + 2*border
+       = 200 + 2*20 + 2*5 = 250px */
+
+    /* ================================================
+       BOX-SIZING: border-box (QUAN TRỌNG!)
+       Khi dùng border-box: width BÁO GỒM padding + border
+    ================================================ */
+    .box-content-box {
+      width: 200px;
+      padding: 20px;
+      border: 5px solid red;
+      background: #ffeaa7;
+      box-sizing: content-box;   /* MẶC ĐỊNH: width = content only */
+      margin: 10px;
+    }
+
+    .box-border-box {
+      width: 200px;
+      padding: 20px;
+      border: 5px solid blue;
+      background: #74b9ff;
+      box-sizing: border-box;    /* width BAO GỒM padding + border */
+      margin: 10px;
+    }
+
+    /* ================================================
+       MARGIN (Lề ngoài)
+    ================================================ */
+    .margin-demo {
+      background: #d5f5e3;
+      border: 2px solid green;
+      padding: 10px;
+    }
+
+    .margin-all    { margin: 20px; }                          /* 4 phía */
+    .margin-tb-lr  { margin: 10px 30px; }                    /* top/bottom left/right */
+    .margin-4-sides{ margin: 5px 15px 25px 35px; }           /* top right bottom left */
+    .margin-auto   { width: 300px; margin: 0 auto; }         /* căn giữa! */
+
+    /* ================================================
+       PADDING (Khoảng đệm bên trong)
+    ================================================ */
+    .padding-demo {
+      background: #d6eaf8;
+      border: 2px solid #3498db;
+    }
+
+    .padding-all     { padding: 20px; }
+    .padding-tb-lr   { padding: 10px 30px; }
+    .padding-4-sides { padding: 5px 15px 25px 35px; }
+
+    /* ================================================
+       MARGIN SHORTHAND (Viết tắt)
+       margin: top right bottom left; (chiều KIM ĐỒNG HỒ)
+       margin: top-bottom left-right;
+       margin: all;
+    ================================================ */
+
+    /* ================================================
+       CSS DISPLAY
+    ================================================ */
+
+    /* BLOCK - chiếm toàn bộ chiều rộng, xuống dòng */
+    .display-block {
+      display: block;
+      width: 200px;
+      background: #fadbd8;
+      border: 2px solid #e74c3c;
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    /* INLINE - chỉ chiếm vừa nội dung, không xuống dòng
+       KHÔNG nhận được width/height! */
+    .display-inline {
+      display: inline;
+      background: #d5f5e3;
+      border: 2px solid #27ae60;
+      padding: 4px 8px;
+      /* width: 200px; -- KHÔNG hoạt động! */
+    }
+
+    /* INLINE-BLOCK - inline nhưng nhận được width/height */
+    .display-inline-block {
+      display: inline-block;
+      width: 150px;
+      height: 60px;
+      background: #d6eaf8;
+      border: 2px solid #3498db;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    /* NONE - ẩn phần tử (không chiếm không gian) */
+    .display-none {
+      display: none;  /* ẩn hoàn toàn */
+    }
+
+    /* Khác biệt: visibility:hidden vẫn chiếm không gian */
+    .visibility-hidden {
+      visibility: hidden;  /* ẩn nhưng vẫn chiếm chỗ */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Box Model & Display</h1>
+
+  <!-- SECTION 1: BOX MODEL -->
+  <div class="section">
+    <h2>1. CSS Box Model (Mô Hình Hộp)</h2>
+
+    <p>Mỗi phần tử HTML là một "hộp" với 4 lớp từ trong ra ngoài:</p>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <!-- Minh họa Box Model bằng CSS -->
+      <div style="display: inline-block; background: #f39c12; padding: 10px; border-radius: 4px;">
+        <span style="color: white; font-weight: bold;">MARGIN (ngoài cùng)</span>
+        <div style="background: #3498db; padding: 10px; margin: 10px;">
+          <span style="color: white; font-weight: bold;">BORDER (viền)</span>
+          <div style="background: #2ecc71; padding: 10px; margin: 10px;">
+            <span style="color: white; font-weight: bold;">PADDING (đệm)</span>
+            <div style="background: #e74c3c; padding: 15px; margin: 10px; color: white; font-weight: bold;">
+              CONTENT (nội dung)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <pre>
+.box {
+    width: 200px;          /* chiều rộng CONTENT */
+    height: 100px;         /* chiều cao CONTENT */
+    padding: 20px;         /* khoảng đệm bên trong */
+    border: 5px solid blue; /* viền */
+    margin: 30px;          /* lề bên ngoài */
+}
+
+/* Tính tổng width:
+   Total width = width + padding-left + padding-right + border-left + border-right
+               = 200  + 20           + 20            + 5           + 5
+               = 250px */</pre>
+
+    <div class="demo-box">
+      <div class="box-model-demo">
+        Content (200x100px)
+        <br>Tổng width = 250px
+      </div>
+    </div>
+
+    <h3>box-sizing: content-box vs border-box</h3>
+    <pre>
+/* content-box (MẶC ĐỊNH): width = content only, padding/border CỘNG THÊM */
+.box { box-sizing: content-box; width: 200px; padding: 20px; border: 5px solid; }
+/* -> Tổng width thực tế = 250px */
+
+/* border-box: width BAO GỒM padding + border */
+.box { box-sizing: border-box; width: 200px; padding: 20px; border: 5px solid; }
+/* -> Tổng width thực tế = 200px (không đổi) */
+
+/* BEST PRACTICE: Thêm vào đầu CSS */
+* { box-sizing: border-box; }</pre>
+
+    <div class="demo-box">
+      <div class="box-content-box">content-box: padding/border CỘNG vào width → rộng hơn 200px</div>
+      <div class="box-border-box">border-box: padding/border NẰM TRONG width → vẫn 200px</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: MARGIN -->
+  <div class="section">
+    <h2>2. Margin (Lề ngoài)</h2>
+    <pre>
+/* Một phía */
+margin-top: 10px;
+margin-right: 20px;
+margin-bottom: 10px;
+margin-left: 20px;
+
+/* Shorthand */
+margin: 20px;              /* 4 phía = 20px */
+margin: 10px 30px;         /* top/bottom=10px, left/right=30px */
+margin: 5px 15px 25px 35px; /* top right bottom left (theo kim đồng hồ) */
+margin: 0 auto;            /* Căn giữa phần tử block! */</pre>
+
+    <div class="demo-box margin-demo margin-all">margin: 20px (4 phía)</div>
+    <div class="demo-box margin-demo margin-tb-lr">margin: 10px 30px</div>
+    <div class="demo-box margin-demo margin-auto">margin: 0 auto (căn giữa)</div>
+
+    <div class="demo-box" style="background: #fff3cd; border-color: orange;">
+      <strong>Lưu ý: margin: 0 auto</strong> chỉ hoạt động khi phần tử có <code>width</code> cố định và là phần tử <code>block</code>
+    </div>
+  </div>
+
+  <!-- SECTION 3: PADDING -->
+  <div class="section">
+    <h2>3. Padding (Khoảng đệm bên trong)</h2>
+    <pre>
+/* Một phía */
+padding-top: 10px;
+padding-right: 20px;
+padding-bottom: 10px;
+padding-left: 20px;
+
+/* Shorthand (giống margin) */
+padding: 20px;              /* 4 phía */
+padding: 10px 30px;         /* top/bottom left/right */
+padding: 5px 15px 25px 35px; /* top right bottom left */</pre>
+
+    <div class="padding-demo" style="padding: 5px; margin: 10px 0;">
+      padding: 5px (nhỏ)
+    </div>
+    <div class="padding-demo" style="padding: 20px; margin: 10px 0;">
+      padding: 20px (trung bình)
+    </div>
+    <div class="padding-demo" style="padding: 5px 40px; margin: 10px 0;">
+      padding: 5px 40px (top/bottom nhỏ, left/right lớn)
+    </div>
+
+    <h3>So sánh Margin vs Padding</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #3498db; color: white;">
+        <th style="padding: 8px;">Đặc điểm</th>
+        <th style="padding: 8px;">Margin</th>
+        <th style="padding: 8px;">Padding</th>
+      </tr>
+      <tr>
+        <td style="padding: 8px;">Vị trí</td>
+        <td style="padding: 8px;">Bên ngoài border</td>
+        <td style="padding: 8px;">Bên trong border</td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;">Ảnh hưởng background</td>
+        <td style="padding: 8px;">Không (trong suốt)</td>
+        <td style="padding: 8px;">Có (màu background phủ)</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;">Giá trị âm</td>
+        <td style="padding: 8px;">Được phép (kéo phần tử)</td>
+        <td style="padding: 8px;">Không được phép</td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;">auto</td>
+        <td style="padding: 8px;">Dùng để căn giữa</td>
+        <td style="padding: 8px;">Không hỗ trợ auto</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 4: DISPLAY -->
+  <div class="section">
+    <h2>4. CSS Display</h2>
+
+    <h3>display: block</h3>
+    <pre>
+display: block;
+/* - Chiếm toàn bộ chiều rộng (width: 100% mặc định)
+   - Bắt đầu trên dòng mới (xuống dòng)
+   - Nhận width và height
+   - Ví dụ thẻ block: div, p, h1-h6, ul, li, section */</pre>
+    <div class="demo-box">
+      <div class="display-block">Block 1 (chiếm toàn dòng)</div>
+      <div class="display-block">Block 2 (xuống dòng tự động)</div>
+    </div>
+
+    <h3>display: inline</h3>
+    <pre>
+display: inline;
+/* - Chỉ chiếm đúng kích thước nội dung
+   - Không xuống dòng (nằm cùng hàng)
+   - KHÔNG nhận width/height!
+   - Ví dụ thẻ inline: span, a, strong, em, img */</pre>
+    <div class="demo-box">
+      <span class="display-inline">Inline 1</span>
+      <span class="display-inline">Inline 2</span>
+      <span class="display-inline">Inline 3 (cùng hàng)</span>
+    </div>
+
+    <h3>display: inline-block</h3>
+    <pre>
+display: inline-block;
+/* - Nằm cùng hàng như inline
+   - NHẬN width/height như block
+   - Best of both worlds! */</pre>
+    <div class="demo-box">
+      <div class="display-inline-block">Inline-block 1 (150x60px)</div>
+      <div class="display-inline-block">Inline-block 2 (cùng hàng)</div>
+      <div class="display-inline-block">Inline-block 3</div>
+    </div>
+
+    <h3>display: none vs visibility: hidden</h3>
+    <pre>
+display: none;       /* ẨN hoàn toàn, KHÔNG chiếm không gian */
+visibility: hidden;  /* ẨN nhưng VẪN chiếm không gian */</pre>
+    <div class="demo-box">
+      <p>Dòng 1 (hiện)</p>
+      <p class="display-none">Dòng 2 (display:none - ẩn, không chiếm chỗ)</p>
+      <p>Dòng 3 (hiện - nằm ngay sau dòng 1)</p>
+      <hr>
+      <p>Dòng A (hiện)</p>
+      <p class="visibility-hidden">Dòng B (visibility:hidden - ẩn nhưng còn chỗ)</p>
+      <p>Dòng C (hiện - có khoảng trống bên trên)</p>
+    </div>
+
+    <!-- So sánh 3 loại display -->
+    <h3>Bảng So Sánh</h3>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
+      <tr style="background: #2c3e50; color: white;">
+        <th style="padding: 8px;">Thuộc tính</th>
+        <th style="padding: 8px;">block</th>
+        <th style="padding: 8px;">inline</th>
+        <th style="padding: 8px;">inline-block</th>
+      </tr>
+      <tr>
+        <td style="padding: 8px;">Xuống dòng</td>
+        <td style="padding: 8px; text-align: center; background: #d4edda;">✓ Có</td>
+        <td style="padding: 8px; text-align: center; background: #f8d7da;">✗ Không</td>
+        <td style="padding: 8px; text-align: center; background: #f8d7da;">✗ Không</td>
+      </tr>
+      <tr style="background: #f9f9f9;">
+        <td style="padding: 8px;">Width / Height</td>
+        <td style="padding: 8px; text-align: center; background: #d4edda;">✓ Có</td>
+        <td style="padding: 8px; text-align: center; background: #f8d7da;">✗ Không</td>
+        <td style="padding: 8px; text-align: center; background: #d4edda;">✓ Có</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px;">Chiều rộng mặc định</td>
+        <td style="padding: 8px;">100% (full)</td>
+        <td style="padding: 8px;">Theo nội dung</td>
+        <td style="padding: 8px;">Theo nội dung</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 5: TÓM TẮT -->
+  <div class="section" style="background: #e8f5e9; border-color: #4caf50;">
+    <h2 style="color: #2e7d32;">5. Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>Box Model: <strong>Content → Padding → Border → Margin</strong> (từ trong ra ngoài)</li>
+      <li>Total width = width + 2*padding + 2*border (với content-box)</li>
+      <li><code>box-sizing: border-box</code> → width đã bao gồm padding và border</li>
+      <li><code>margin: 0 auto</code> → căn giữa phần tử block</li>
+      <li>Margin shorthand: <strong>top right bottom left</strong> (theo kim đồng hồ)</li>
+      <li>display: <strong>block</strong> (xuống dòng, có w/h), <strong>inline</strong> (cùng hàng, không có w/h), <strong>inline-block</strong> (cùng hàng, có w/h)</li>
+      <li><code>display: none</code> vs <code>visibility: hidden</code></li>
+    </ul>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Template 01 – Tất cả kiểu &lt;input&gt;</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; background: #f0f4f8; }
+    h1 { color: #003087; font-size: 20px; margin-bottom: 6px; }
+    .subtitle { color: #5A6070; font-size: 13px; margin-bottom: 30px; }
+    .section-title {
+      font-size: 13px; font-weight: 700; color: #1565C0;
+      text-transform: uppercase; letter-spacing: .06em;
+      margin: 28px 0 12px; padding-bottom: 6px;
+      border-bottom: 2px solid #D0D7E3;
+    }
+    .field-group { background: white; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; border: 1px solid #D0D7E3; }
+    .field-group label { display: block; font-size: 13px; font-weight: 600; color: #003087; margin-bottom: 6px; }
+    .field-group input, .field-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #D0D7E3; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .field-group input:focus { outline: 2px solid #1565C0; border-color: #1565C0; }
+    .note { font-size: 12px; color: #78909C; margin-top: 6px; font-style: italic; }
+    .radio-group, .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
+    .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: normal; font-size: 14px; cursor: pointer; }
+    .radio-group input, .checkbox-group input { width: auto; }
+    .btn-row { display: flex; gap: 12px; margin-top: 16px; }
+    .btn { padding: 10px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .btn-submit { background: #1565C0; color: white; }
+    .btn-reset  { background: #eee; color: #333; }
+    .btn-custom { background: #F57C00; color: white; }
+    .tag { font-family: monospace; background: #E3F0FF; color: #003087; padding: 1px 7px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<h1>📋 Template 01 – Tất cả kiểu &lt;input&gt;</h1>
+<p class="subtitle">File mẫu có chú thích đầy đủ – Môn Phát triển Web Kinh doanh · UEL</p>
+
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  CẤU TRÚC FORM CƠ BẢN                                   ║
+  ║                                                          ║
+  ║  action="url"  → server nhận dữ liệu                     ║
+  ║  method="get"  → dữ liệu gắn vào URL (thấy được)        ║
+  ║  method="post" → dữ liệu ẩn trong body (bảo mật hơn)    ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
+<form action="#" method="post">
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 1: VĂN BẢN VÀ MẬT KHẨU
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">1 · Text &amp; Password <span class="tag">type="text"</span> <span class="tag">type="password"</span></div>
+
+  <div class="field-group">
+    <!--
+      <label for="..."> liên kết với input qua id=
+      for="username" phải KHỚP với id="username"
+    -->
+    <label for="username">Tên đăng nhập</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      value="JAJA"
+      placeholder="Nhập tên đăng nhập"
+      required
+    />
+    <!--
+      type="text"   → ô nhập văn bản thường
+      id            → để label liên kết
+      name          → KEY quan trọng – dùng để server nhận dữ liệu
+      value         → giá trị MẶC ĐỊNH được điền sẵn
+      placeholder   → chữ gợi ý (mờ, biến mất khi gõ)
+      required      → bắt buộc nhập, không gửi được nếu để trống
+    -->
+    <p class="note">💡 type="text" — nhập chuỗi bất kỳ, 1 dòng</p>
+  </div>
+
+  <div class="field-group">
+    <label for="password">Mật khẩu</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Tối thiểu 5 ký tự"
+      minlength="5"
+      required
+    />
+    <!--
+      type="password" → ký tự bị ẩn bằng dấu •••
+      minlength="5"   → không gửi nếu ít hơn 5 ký tự
+    -->
+    <p class="note">💡 type="password" — ký tự hiện bằng ●●●●</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 2: EMAIL VÀ URL (có validate tự động)
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">2 · Email &amp; URL <span class="tag">type="email"</span> <span class="tag">type="url"</span></div>
+
+  <div class="field-group">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="ten@example.com"
+    />
+    <!--
+      type="email" → browser tự kiểm tra phải có @ và định dạng email
+      Nếu sai định dạng → hiện thông báo lỗi PHÍA CLIENT trước khi gửi
+    -->
+    <p class="note">💡 type="email" — tự validate có @ trước khi submit</p>
+  </div>
+
+  <div class="field-group">
+    <label for="website">Website</label>
+    <input
+      type="url"
+      id="website"
+      name="website"
+      placeholder="https://example.com"
+    />
+    <!--
+      type="url" → browser kiểm tra phải bắt đầu bằng http:// hoặc https://
+    -->
+    <p class="note">💡 type="url" — tự validate định dạng URL</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 3: SỐ VÀ THANH TRƯỢT
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">3 · Number &amp; Range <span class="tag">type="number"</span> <span class="tag">type="range"</span></div>
+
+  <div class="field-group">
+    <label for="age">Tuổi</label>
+    <input
+      type="number"
+      id="age"
+      name="age"
+      value="20"
+      min="1"
+      max="120"
+      step="1"
+    />
+    <!--
+      type="number" → ô số, có nút ↑↓
+      min="1"       → giá trị nhỏ nhất được phép
+      max="120"     → giá trị lớn nhất được phép
+      step="1"      → bước nhảy mỗi lần bấm ↑↓ (mặc định là 1)
+    -->
+    <p class="note">💡 min/max/step là 3 thuộc tính đặc trưng của number và range</p>
+  </div>
+
+  <div class="field-group">
+    <label for="rating">Đánh giá (1–10)</label>
+    <input
+      type="range"
+      id="rating"
+      name="rating"
+      value="5"
+      min="1"
+      max="10"
+      step="1"
+    />
+    <!--
+      type="range" → thanh trượt (slider)
+      Người dùng không thấy số, chỉ thấy vị trí thanh
+      Thường kết hợp với <output> để hiện số
+    -->
+    <p class="note">💡 type="range" — thanh trượt (slider). Dùng kết hợp với &lt;output&gt; để hiện giá trị.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 4: CHECKBOX — CHỌN NHIỀU
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">4 · Checkbox – Chọn nhiều <span class="tag">type="checkbox"</span></div>
+
+  <div class="field-group">
+    <label>Sở thích của bạn</label>
+    <div class="checkbox-group">
+      <!--
+        CHECKBOX: mỗi ô có name KHÁC NHAU → gửi độc lập
+        value="..."  → giá trị server nhận nếu người dùng TÍCH ô này
+        checked      → mặc định được tích
+        
+        Nếu KHÔNG tích → field đó KHÔNG được gửi lên server
+        Nếu CÓ tích    → server nhận name=value của ô đó
+      -->
+      <label>
+        <input type="checkbox" name="hobby_music"    value="music"    /> Âm nhạc
+      </label>
+      <label>
+        <input type="checkbox" name="hobby_travel"   value="travel"   /> Du lịch
+      </label>
+      <label>
+        <input type="checkbox" name="hobby_research" value="research" checked /> Nghiên cứu
+      </label>
+      <label>
+        <input type="checkbox" name="hobby_business" value="business" /> Kinh doanh
+      </label>
+    </div>
+    <p class="note">💡 Mỗi checkbox có name KHÁC nhau. Tích ô nào → gửi ô đó.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 5: RADIO — CHỌN MỘT
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">5 · Radio – Chọn một <span class="tag">type="radio"</span></div>
+
+  <div class="field-group">
+    <label>Giới tính</label>
+    <div class="radio-group">
+      <!--
+        RADIO: tất cả trong cùng nhóm phải có name GIỐNG NHAU
+        name="gender" → cùng name = chỉ chọn được 1
+        value="..."   → giá trị gửi lên server khi chọn
+        checked       → mặc định được chọn
+      -->
+      <label>
+        <input type="radio" name="gender" value="male"   checked /> Nam
+      </label>
+      <label>
+        <input type="radio" name="gender" value="female" /> Nữ
+      </label>
+      <label>
+        <input type="radio" name="gender" value="other"  /> Khác
+      </label>
+    </div>
+    <p class="note">💡 Radio cùng name → chỉ chọn được 1. Khác nhau với checkbox!</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 6: FILE VÀ HIDDEN
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">6 · File &amp; Hidden <span class="tag">type="file"</span> <span class="tag">type="hidden"</span></div>
+
+  <div class="field-group">
+    <label for="avatar">Ảnh đại diện</label>
+    <input
+      type="file"
+      id="avatar"
+      name="avatar"
+      accept="image/*"
+    />
+    <!--
+      type="file"    → hiện nút "Choose File"
+      accept="image/*" → chỉ cho chọn file ảnh (jpg, png, gif, webp...)
+      accept=".pdf"    → chỉ cho chọn file PDF
+    -->
+    <p class="note">💡 accept giới hạn loại file được chọn. Cần enctype="multipart/form-data" trên form khi upload thật.</p>
+  </div>
+
+  <!--
+    type="hidden" → KHÔNG hiển thị trên giao diện người dùng
+    Dùng để gửi kèm thông tin "ngầm" lên server
+    Ví dụ: user ID, session token, CSRF token...
+  -->
+  <input type="hidden" name="userId"    value="42" />
+  <input type="hidden" name="pageSource" value="homepage" />
+
+  <!-- ════════════════════════════════════════════════
+       MỤC 7: NÚT BẤM
+       ════════════════════════════════════════════════ -->
+  <div class="section-title">7 · Nút bấm <span class="tag">type="submit"</span> <span class="tag">type="reset"</span> <span class="tag">type="button"</span></div>
+
+  <div class="btn-row">
+    <!--
+      submit → TỰ ĐỘNG gửi form lên action=""
+      reset  → đưa TẤT CẢ về giá trị mặc định ban đầu
+      button → KHÔNG làm gì, cần xử lý bằng JavaScript (onclick)
+    -->
+    <input class="btn btn-submit" type="submit"  value="🚀 Gửi (submit)" />
+    <input class="btn btn-reset"  type="reset"   value="🔄 Xóa (reset)" />
+    <input class="btn btn-custom" type="button"  value="⚙ Tùy chỉnh (JS)"
+           onclick="alert('Xử lý bằng JavaScript!')" />
+  </div>
+
+</form>
+
+</body>
+</html>

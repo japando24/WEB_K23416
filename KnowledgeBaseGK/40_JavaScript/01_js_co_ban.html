@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>01 - JS Cơ Bản & Biến</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { color: #f7971e; font-size: 2em; margin-bottom: 5px; }
+    .back { color: #ffd200; text-decoration: none; font-size: 0.9em; display: inline-block; margin-bottom: 20px; }
+    .back:hover { text-decoration: underline; }
+    h2 { color: #ffd200; font-size: 1.3em; margin: 25px 0 10px; border-left: 4px solid #f7971e; padding-left: 10px; }
+    h3 { color: #f0a500; font-size: 1.05em; margin: 15px 0 8px; }
+    p { line-height: 1.7; margin-bottom: 8px; font-size: 0.95em; }
+    .code-block {
+      background: #0d0d1a;
+      border: 1px solid #333;
+      border-left: 4px solid #f7971e;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .demo {
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .demo button {
+      background: #f7971e;
+      color: #1a0000;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 4px;
+      font-size: 0.9em;
+    }
+    .demo button:hover { background: #ffd200; }
+    #output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #0d0d1a;
+      border-radius: 4px;
+      font-family: monospace;
+      min-height: 30px;
+      font-size: 0.9em;
+      color: #00ff88;
+    }
+    .note {
+      background: rgba(247,151,30,0.1);
+      border-left: 3px solid #f7971e;
+      padding: 10px 15px;
+      border-radius: 0 6px 6px 0;
+      margin: 8px 0;
+      font-size: 0.9em;
+    }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    th { background: #f7971e; color: #1a0000; padding: 8px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid #333; }
+    tr:nth-child(even) td { background: #16213e; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; }
+    .tag-y { background: #27ae60; color: white; }
+    .tag-n { background: #e74c3c; color: white; }
+    .tag-b { background: #3498db; color: white; }
+    .summary {
+      background: linear-gradient(135deg, #f7971e, #ffd200);
+      color: #1a0000;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .summary h2 { color: #1a0000; border-left-color: #1a0000; }
+    .summary ul { padding-left: 20px; line-height: 2.2; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="00_INDEX.html">← Về Index</a>
+  <h1>⚡ 01 — JS Cơ Bản & Biến</h1>
+  <p>JavaScript là ngôn ngữ lập trình <strong>client-side</strong>, tạo bởi Brendan Eich năm 1995. Chuẩn: <strong>ECMAScript</strong> (ES6, ES2021...).</p>
+
+  <!-- ===== SCRIPT TAG ===== -->
+  <h2>1. Thẻ &lt;script&gt;</h2>
+
+  <h3>Vị trí đặt script</h3>
+  <div class="code-block">
+&lt;!-- Đặt trong &lt;head&gt; (cần defer/async để không block HTML) --&gt;
+&lt;head&gt;
+  &lt;script src="app.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;!-- Đặt trước &lt;/body&gt; (phổ biến nhất — HTML đã load xong) --&gt;
+&lt;body&gt;
+  ...nội dung...
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;!-- Inline (viết JS trực tiếp) --&gt;
+&lt;script&gt;
+  console.log("Hello World");
+&lt;/script&gt;</div>
+
+  <h3>async vs defer</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Thuộc tính</th><th>Tải file JS</th><th>Chạy khi nào</th><th>Dùng khi</th></tr>
+      <tr><td><strong>bình thường</strong></td><td>Block HTML</td><td>Ngay lập tức</td><td>Hiếm dùng</td></tr>
+      <tr><td><strong>async</strong></td><td>Song song với HTML</td><td>Xong là chạy ngay (không theo thứ tự)</td><td>Script độc lập (analytics)</td></tr>
+      <tr><td><strong>defer</strong></td><td>Song song với HTML</td><td>Sau khi HTML parse xong (theo thứ tự)</td><td>Script phụ thuộc DOM ✅</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== DISPLAY DATA ===== -->
+  <h2>2. Hiển Thị Dữ Liệu</h2>
+  <div class="code-block">
+// 1. innerHTML — thay nội dung HTML (phổ biến nhất)
+document.getElementById("myDiv").innerHTML = "&lt;b&gt;Hello!&lt;/b&gt;";
+
+// 2. innerText — thay nội dung TEXT (không parse HTML)
+document.getElementById("myDiv").innerText = "Hello &lt;b&gt;World&lt;/b&gt;"; // hiển thị như text thô
+
+// 3. document.write() — ghi vào trang (chỉ dùng khi đang load!)
+document.write("&lt;h1&gt;Chào!&lt;/h1&gt;");
+
+// 4. window.alert() — hộp thoại thông báo
+alert("Bạn đã click!");           // hoặc window.alert()
+
+// 5. console.log() — in ra console (F12)
+console.log("Debug:", myVariable);
+
+// 6. window.print() — in trang
+window.print();</div>
+
+  <div class="demo">
+    <p><strong>Demo — Các cách hiển thị:</strong></p>
+    <button onclick="demo1()">innerHTML</button>
+    <button onclick="demo2()">innerText</button>
+    <button onclick="demo3()">alert()</button>
+    <button onclick="demo4()">console.log()</button>
+    <div id="output">Kết quả hiển thị ở đây...</div>
+  </div>
+
+  <!-- ===== SYNTAX ===== -->
+  <h2>3. Cú Pháp JavaScript</h2>
+  <div class="code-block">
+// Câu lệnh (Statement) — kết thúc bằng ; (tuỳ chọn, nên có)
+let x = 5;
+let y = 10;
+let z = x + y;  // z = 15
+
+// Code block — dùng {}
+if (x > 0) {
+  console.log("x dương");  // block của if
+}
+
+// Case-sensitive (phân biệt hoa thường)
+let myName = "An";   // ✅
+let MyName = "Bình"; // khác biến trên!
+
+// Comment
+// Đây là comment 1 dòng
+/* Đây là comment
+   nhiều dòng */
+
+// Naming convention: lowerCamelCase
+let firstName = "An";       // ✅ biến
+let totalPrice = 100;       // ✅ biến
+function calculateTax() {}  // ✅ hàm
+const MAX_SIZE = 100;       // ✅ hằng số (UPPER_SNAKE_CASE)</div>
+
+  <h3>Từ Khóa (Keywords)</h3>
+  <div class="code-block">
+var, let, const    // khai báo biến
+if, else           // điều kiện
+switch, case       // rẽ nhánh
+for, while         // vòng lặp
+function, return   // hàm
+try, catch, finally // xử lý lỗi
+class, new         // class và object
+import, export     // module
+break, continue    // điều khiển vòng lặp</div>
+
+  <!-- ===== VARIABLES ===== -->
+  <h2>4. Biến: var, let, const</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Đặc điểm</th><th>var</th><th>let</th><th>const</th></tr>
+      <tr>
+        <td>Scope (phạm vi)</td>
+        <td>Function scope</td>
+        <td>Block scope {}</td>
+        <td>Block scope {}</td>
+      </tr>
+      <tr>
+        <td>Hoisting</td>
+        <td><span class="tag tag-y">Có</span> (undefined)</td>
+        <td><span class="tag tag-n">Không dùng được</span></td>
+        <td><span class="tag tag-n">Không dùng được</span></td>
+      </tr>
+      <tr>
+        <td>Re-declaration</td>
+        <td><span class="tag tag-y">Được</span></td>
+        <td><span class="tag tag-n">Không</span></td>
+        <td><span class="tag tag-n">Không</span></td>
+      </tr>
+      <tr>
+        <td>Reassignment</td>
+        <td><span class="tag tag-y">Được</span></td>
+        <td><span class="tag tag-y">Được</span></td>
+        <td><span class="tag tag-n">Không</span></td>
+      </tr>
+      <tr>
+        <td>Khi nào dùng</td>
+        <td>Tránh dùng</td>
+        <td>Biến thay đổi ✅</td>
+        <td>Hằng số / object / array ✅</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+// --- var (function scope, hoisting) ---
+console.log(a);  // undefined (không báo lỗi vì hoisting)
+var a = 10;
+var a = 20;      // re-declare OK với var
+
+// --- let (block scope) ---
+let b = 10;
+b = 20;          // OK — reassign
+// let b = 30;  // LỖI: cannot redeclare 'b'
+
+if (true) {
+  let c = 99;   // chỉ tồn tại trong block này
+}
+// console.log(c); // LỖI: c is not defined
+
+// --- const (block scope, không đổi giá trị primitive) ---
+const PI = 3.14159;
+// PI = 3;  // LỖI: Assignment to constant variable
+
+const user = { name: "An" };
+user.name = "Bình"; // OK — thay đổi property bên trong object được!
+// user = {};       // LỖI — không thể gán lại chính biến user
+
+// --- Hoisting demo ---
+console.log(x);   // undefined (var hoisted)
+var x = 5;
+// console.log(y); // ReferenceError (let không hoisted)
+let y = 10;</div>
+
+  <div class="demo">
+    <p><strong>Demo — Scope var vs let:</strong></p>
+    <button onclick="demoScope()">Chạy demo scope</button>
+    <div id="scopeOutput">Nhấn nút để xem...</div>
+  </div>
+
+  <!-- ===== KIỂU DỮ LIỆU ===== -->
+  <h2>5. Kiểu Dữ Liệu (Data Types)</h2>
+  <div class="code-block">
+// Primitive types
+let num    = 42;           // Number
+let flt    = 3.14;         // Number (float)
+let str    = "Hello";      // String
+let bool   = true;         // Boolean (true/false)
+let nul    = null;         // Null (không có giá trị)
+let undef  = undefined;    // Undefined (chưa gán)
+
+// Reference types
+let arr    = [1, 2, 3];   // Array
+let obj    = {name: "An"}; // Object
+let fn     = function(){}; // Function
+
+// Kiểm tra kiểu
+typeof 42         // "number"
+typeof "hello"    // "string"
+typeof true       // "boolean"
+typeof null       // "object" (quirk của JS!)
+typeof undefined  // "undefined"
+typeof []         // "object"
+typeof {}         // "object"
+typeof function(){} // "function"
+
+// Type conversion
+Number("42")    // 42
+Number("abc")   // NaN
+String(42)      // "42"
+Boolean(0)      // false
+Boolean("")     // false
+Boolean(null)   // false
+Boolean("hi")   // true
+Boolean(1)      // true</div>
+
+  <div class="summary">
+    <h2>📌 Tóm Tắt Quan Trọng</h2>
+    <ul>
+      <li>Đặt script trước <code>&lt;/body&gt;</code> hoặc dùng <strong>defer</strong> trong head</li>
+      <li>Hiển thị: <strong>innerHTML</strong> (HTML), <strong>innerText</strong> (text), <strong>alert()</strong> (popup), <strong>console.log()</strong> (debug)</li>
+      <li>Dùng <strong>let</strong> cho biến thông thường, <strong>const</strong> cho hằng — tránh <strong>var</strong></li>
+      <li>Block scope: <code>let/const</code> chỉ sống trong <code>{}</code> khai báo nó</li>
+      <li>Hoisting: <code>var</code> được đưa lên đầu (giá trị = undefined), <code>let/const</code> không dùng được trước khai báo</li>
+      <li>typeof null === "object" — đây là bug lịch sử của JS, cần nhớ</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function demo1() {
+    document.getElementById("output").innerHTML = "<span style='color:#ffd200'>innerHTML: Đây là <strong>HTML</strong> được parse!</span>";
+  }
+  function demo2() {
+    document.getElementById("output").innerText = "innerText: Đây là <b>TEXT thuần</b> — thẻ HTML không được parse";
+  }
+  function demo3() {
+    alert("window.alert() — Đây là hộp thoại thông báo!");
+    document.getElementById("output").innerText = "alert() đã hiển thị!";
+  }
+  function demo4() {
+    console.log("console.log(): Mở F12 để thấy dòng này!");
+    document.getElementById("output").innerText = "console.log() đã in ra console (mở F12 để xem)";
+  }
+
+  function demoScope() {
+    var output = "";
+
+    // var scope demo
+    for (var i = 0; i < 3; i++) { /* i thoát khỏi for */ }
+    output += "var i sau vòng for: " + i + " (var thoát khỏi block!)\n";
+
+    // let scope demo
+    for (let j = 0; j < 3; j++) { /* j không thoát */ }
+    try { output += "let j: " + j; } catch(e) { output += "let j: ReferenceError (j không tồn tại bên ngoài block)\n"; }
+
+    // const demo
+    const MAX = 100;
+    output += "const MAX = " + MAX + " (không thay đổi được)\n";
+
+    document.getElementById("scopeOutput").style.color = "#00ff88";
+    document.getElementById("scopeOutput").style.whiteSpace = "pre";
+    document.getElementById("scopeOutput").innerText = output;
+  }
+</script>
+</body>
+</html>
