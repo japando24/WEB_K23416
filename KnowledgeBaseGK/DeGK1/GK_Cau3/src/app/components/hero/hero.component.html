@@ -1,0 +1,29 @@
+<!-- hero.component.html – Slider/Carousel ảnh banner -->
+
+<section class="hero-section">
+
+  <!-- Ảnh lớn đang hiển thị -->
+  <!-- [src] và [alt]: property binding – gán giá trị từ TypeScript sang HTML -->
+  <div class="hero-main-img">
+    <img [src]="slides[currentIndex].url" [alt]="slides[currentIndex].alt">
+
+    <!-- Nút điều hướng trái/phải -->
+    <button class="slide-btn prev" (click)="prevSlide()">&#10094;</button>
+    <button class="slide-btn next" (click)="nextSlide()">&#10095;</button>
+  </div>
+
+  <!-- Danh sách thumbnail bên dưới -->
+  <div class="hero-thumbnails">
+    <!-- *ngFor: vòng lặp tạo phần tử cho từng slide -->
+    <!-- [class.active]: thêm class active khi thumbnail đang được chọn -->
+    <div
+      *ngFor="let slide of slides; let i = index"
+      class="thumbnail"
+      [class.active]="i === currentIndex"
+      (click)="goToSlide(i)"
+    >
+      <img [src]="slide.url" [alt]="slide.alt">
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter App – Array Methods thực chiến</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+
+        /* ── Header ── */
+        .header { background: #1e1e1e; color: #d4d4d4; padding: 16px 24px; }
+        .header h1 { font-family: Consolas, monospace; font-size: 16px; color: #569cd6; }
+        .header p  { font-family: Consolas, monospace; font-size: 12px; color: #6a9955; margin-top: 4px; }
+
+        /* ── Bộ lọc ── */
+        .filter-bar {
+            background: white; padding: 14px 20px;
+            display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .filter-bar label { font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
+        .filter-bar input[type=text],
+        .filter-bar select { padding: 7px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+        .filter-bar input[type=range] { width: 120px; vertical-align: middle; }
+        .filter-bar .price-val { font-size: 12px; color: #1a5276; font-weight: bold; margin-left: 4px; }
+        .filter-bar .check-group { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+        .filter-bar .check-group input { width: 15px; height: 15px; }
+        .btn-reset { padding: 7px 14px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+
+        /* ── Thanh thống kê ── */
+        .stat-bar {
+            background: #1a5276; color: white;
+            padding: 8px 20px; display: flex; gap: 24px; flex-wrap: wrap;
+            font-size: 12px;
+        }
+        .stat-bar span { opacity: .8; }
+        .stat-bar strong { color: #9cdcfe; margin-left: 4px; }
+
+        /* ── Layout chính ── */
+        .main { display: flex; gap: 0; min-height: calc(100vh - 160px); }
+
+        /* ── Danh sách sản phẩm ── */
+        .product-area { flex: 1; padding: 16px 20px; }
+        .count-label { font-size: 13px; color: #555; margin-bottom: 12px; }
+        .count-label strong { color: #1a5276; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+        .card {
+            background: white; border-radius: 8px; padding: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.1); font-size: 13px;
+        }
+        .card .icon { font-size: 32px; margin-bottom: 8px; }
+        .card .name { font-weight: bold; color: #1a5276; margin-bottom: 4px; }
+        .card .brand { color: #888; font-size: 12px; margin-bottom: 6px; }
+        .card .price { color: #e74c3c; font-weight: bold; font-size: 15px; margin-bottom: 4px; }
+        .card .tags { display: flex; gap: 4px; flex-wrap: wrap; }
+        .badge { font-size: 11px; padding: 2px 6px; border-radius: 10px; }
+        .b-sale { background: #fadbd8; color: #922b21; }
+        .b-stock { background: #d5f5e3; color: #1e8449; }
+        .b-out { background: #f2f3f4; color: #aaa; }
+        .empty { text-align: center; color: #aaa; padding: 40px; grid-column: 1/-1; font-size: 14px; }
+
+        /* ── Bảng log array methods ── */
+        .log-area {
+            width: 340px; flex-shrink: 0;
+            background: #1e1e1e; color: #d4d4d4;
+            padding: 14px; overflow-y: auto;
+            font-family: Consolas, monospace; font-size: 12px;
+            border-left: 3px solid #333;
+        }
+        .log-area h3 { color: #c586c0; font-size: 12px; margin-bottom: 10px; }
+        .log-line { line-height: 1.9; padding: 1px 0; border-bottom: 1px solid #2a2a2a; }
+        .c-green  { color: #6a9955; }
+        .c-cyan   { color: #9cdcfe; }
+        .c-yellow { color: #dcdcaa; }
+        .c-orange { color: #ce9178; }
+        .c-purple { color: #c586c0; }
+    </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+    <h1>// Ứng dụng bộ lọc sản phẩm – Array Methods thực chiến</h1>
+    <p>// Dùng: filter · sort · map · reduce · find · findIndex · every · some · includes · forEach</p>
+</div>
+
+<!-- ── Bộ lọc ── -->
+<div class="filter-bar">
+    <div>
+        <label>Tìm theo tên</label>
+        <input type="text" id="txtSearch" placeholder="VD: iPhone, Sony..." oninput="render()">
+    </div>
+    <div>
+        <label>Loại</label>
+        <select id="selLoai" onchange="render()">
+            <option value="">-- Tất cả --</option>
+            <option value="Dien thoai">Điện thoại</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Tai nghe">Tai nghe</option>
+        </select>
+    </div>
+    <div>
+        <label>Hãng</label>
+        <select id="selHang" onchange="render()">
+            <option value="">-- Tất cả --</option>
+            <option value="Apple">Apple</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Sony">Sony</option>
+            <option value="Xiaomi">Xiaomi</option>
+            <option value="Dell">Dell</option>
+        </select>
+    </div>
+    <div>
+        <label>Giá tối đa: <span id="lblGia" class="price-val">50</span> triệu</label>
+        <input type="range" id="slGia" min="1" max="50" value="50" oninput="document.getElementById('lblGia').textContent=this.value; render()">
+    </div>
+    <div>
+        <label>Sắp xếp</label>
+        <select id="selSort" onchange="render()">
+            <option value="">Mặc định</option>
+            <option value="gia-asc">Giá tăng dần</option>
+            <option value="gia-desc">Giá giảm dần</option>
+            <option value="ten-az">Tên A→Z</option>
+        </select>
+    </div>
+    <div class="check-group">
+        <input type="checkbox" id="chkSale" onchange="render()">
+        <label for="chkSale">Chỉ Sale</label>
+    </div>
+    <div class="check-group">
+        <input type="checkbox" id="chkConHang" onchange="render()">
+        <label for="chkConHang">Còn hàng</label>
+    </div>
+    <button class="btn-reset" onclick="resetFilter()">Xoá lọc</button>
+</div>
+
+<!-- ── Thống kê ── -->
+<div class="stat-bar" id="statBar"></div>
+
+<!-- ── Main ── -->
+<div class="main">
+    <div class="product-area">
+        <div class="count-label" id="countLabel"></div>
+        <div class="grid" id="grid"></div>
+    </div>
+    <div class="log-area" id="logArea">
+        <h3>// Array methods log</h3>
+    </div>
+</div>
+
+
+<script>
+// ================================================================
+//  DỮ LIỆU SẢN PHẨM
+// ================================================================
+const products = [
+    { id:1,  ten:"iPhone 15 Pro",       hang:"Apple",   loai:"Dien thoai", gia:28, conHang:true,  sale:false, icon:"📱" },
+    { id:2,  ten:"Samsung Galaxy S24",  hang:"Samsung", loai:"Dien thoai", gia:22, conHang:true,  sale:true,  icon:"📱" },
+    { id:3,  ten:"Xiaomi 14",           hang:"Xiaomi",  loai:"Dien thoai", gia:14, conHang:true,  sale:false, icon:"📱" },
+    { id:4,  ten:"Samsung Galaxy A55",  hang:"Samsung", loai:"Dien thoai", gia:9,  conHang:false, sale:true,  icon:"📱" },
+    { id:5,  ten:"MacBook Air M3",      hang:"Apple",   loai:"Laptop",     gia:32, conHang:true,  sale:false, icon:"💻" },
+    { id:6,  ten:"Dell XPS 13",         hang:"Dell",    loai:"Laptop",     gia:28, conHang:true,  sale:true,  icon:"💻" },
+    { id:7,  ten:"MacBook Pro M3",      hang:"Apple",   loai:"Laptop",     gia:50, conHang:true,  sale:false, icon:"💻" },
+    { id:8,  ten:"Sony WH-1000XM5",    hang:"Sony",    loai:"Tai nghe",   gia:8,  conHang:true,  sale:false, icon:"🎧" },
+    { id:9,  ten:"Sony WF-1000XM4",    hang:"Sony",    loai:"Tai nghe",   gia:5,  conHang:true,  sale:true,  icon:"🎧" },
+    { id:10, ten:"Samsung Galaxy Buds", hang:"Samsung", loai:"Tai nghe",   gia:3,  conHang:true,  sale:false, icon:"🎧" },
+];
+
+
+// ================================================================
+//  HÀM RENDER CHÍNH – chạy mỗi khi người dùng thay đổi bộ lọc
+// ================================================================
+function render() {
+    const logs = []; // lưu log để hiển thị vào khung bên phải
+
+    // ── Đọc giá trị từ các control ──
+    const tuKhoa   = document.getElementById("txtSearch").value.toLowerCase();
+    const loai     = document.getElementById("selLoai").value;
+    const hang     = document.getElementById("selHang").value;
+    const giaMax   = +document.getElementById("slGia").value;
+    const chiSale  = document.getElementById("chkSale").checked;
+    const chiConHang = document.getElementById("chkConHang").checked;
+    const sapXep   = document.getElementById("selSort").value;
+
+
+    // ════════════════════════════════════════════════════════════
+    //  1. filter() – lọc theo tất cả tiêu chí
+    //  Callback chạy cho từng phần tử, return true → giữ lại
+    // ════════════════════════════════════════════════════════════
+    let result = products.filter(function(p) {
+        // Nếu có từ khoá → tên phải chứa từ khoá (includes kiểm tra chuỗi con)
+        if (tuKhoa && !p.ten.toLowerCase().includes(tuKhoa)) return false;
+
+        // Nếu chọn loại → phải đúng loại
+        if (loai && p.loai !== loai) return false;
+
+        // Nếu chọn hãng → phải đúng hãng
+        if (hang && p.hang !== hang) return false;
+
+        // Giá phải <= giá tối đa người dùng chọn
+        if (p.gia > giaMax) return false;
+
+        // Nếu tick "Chỉ Sale" → phải có sale
+        if (chiSale && !p.sale) return false;
+
+        // Nếu tick "Còn hàng" → phải còn hàng
+        if (chiConHang && !p.conHang) return false;
+
+        return true; // vượt qua hết điều kiện → giữ lại
+    });
+
+    logs.push(`<span class="c-green">// 1. filter()</span>`);
+    logs.push(`products.filter(...) <span class="c-orange">→ ${result.length} / ${products.length} sản phẩm</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  2. sort() – sắp xếp kết quả
+    //  [...result] tạo bản sao để không thay đổi mảng gốc
+    // ════════════════════════════════════════════════════════════
+    const sortFns = {
+        "gia-asc":  (a, b) => a.gia - b.gia,           // số âm → a trước
+        "gia-desc": (a, b) => b.gia - a.gia,           // số dương → b trước
+        "ten-az":   (a, b) => a.ten.localeCompare(b.ten)
+    };
+    if (sortFns[sapXep]) {
+        result = [...result].sort(sortFns[sapXep]);
+    }
+
+    logs.push(`<span class="c-green">// 2. sort()</span>`);
+    logs.push(`sapXep = <span class="c-orange">"${sapXep || "default"}"</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  3. reduce() – tính thống kê từ kết quả đã lọc
+    //  Tích luỹ qua từng phần tử → trả về 1 giá trị duy nhất
+    // ════════════════════════════════════════════════════════════
+    const tongGia = result.reduce((acc, p) => acc + p.gia, 0);
+    // acc = biến tích luỹ, bắt đầu từ 0
+    // mỗi vòng: acc = acc + p.gia
+
+    const min = result.length
+        ? result.reduce((m, p) => p.gia < m.gia ? p : m)
+        : null;
+    const max = result.length
+        ? result.reduce((m, p) => p.gia > m.gia ? p : m)
+        : null;
+    const avg = result.length ? (tongGia / result.length).toFixed(1) : 0;
+
+    logs.push(`<span class="c-green">// 3. reduce()</span>`);
+    logs.push(`tổng = <span class="c-cyan">${tongGia}</span>tr | tb = <span class="c-cyan">${avg}</span>tr`);
+    logs.push(`min  = <span class="c-cyan">${min ? min.ten + "(" + min.gia + "tr)" : "–"}</span>`);
+    logs.push(`max  = <span class="c-cyan">${max ? max.ten + "(" + max.gia + "tr)" : "–"}</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  4. map() – lấy danh sách tên từ kết quả
+    //  Tạo mảng mới bằng cách biến đổi từng phần tử
+    // ════════════════════════════════════════════════════════════
+    const danhSachTen = result.map(p => p.ten);
+    // → ["iPhone 15 Pro", "Samsung Galaxy S24", ...]
+
+    logs.push(`<span class="c-green">// 4. map()</span> → lấy tên`);
+    logs.push(`[${danhSachTen.slice(0,3).map(t=>`<span class="c-orange">"${t}"</span>`).join(", ")}${danhSachTen.length > 3 ? " ..." : ""}]`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  5. find() – tìm sản phẩm rẻ nhất trong kết quả
+    //  Trả về PHẦN TỬ ĐẦU TIÊN thỏa điều kiện (hoặc undefined)
+    // ════════════════════════════════════════════════════════════
+    const reNhat = result.find(p => p.gia === (min ? min.gia : -1));
+
+    logs.push(`<span class="c-green">// 5. find()</span> → rẻ nhất`);
+    logs.push(reNhat
+        ? `<span class="c-cyan">"${reNhat.ten}" (${reNhat.gia}tr)</span>`
+        : `<span class="c-orange">undefined</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  6. findIndex() – vị trí (index) của sản phẩm rẻ nhất
+    //  Trả về INDEX (số) hoặc -1 nếu không tìm thấy
+    // ════════════════════════════════════════════════════════════
+    const idxReNhat = result.findIndex(p => p.gia === (min ? min.gia : -1));
+
+    logs.push(`<span class="c-green">// 6. findIndex()</span>`);
+    logs.push(`index rẻ nhất = <span class="c-cyan">${idxReNhat}</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  7. every() – kiểm tra TẤT CẢ kết quả có thỏa không
+    //  Trả về true chỉ khi 100% phần tử thỏa điều kiện
+    // ════════════════════════════════════════════════════════════
+    const tatCaConHang = result.every(p => p.conHang === true);
+
+    logs.push(`<span class="c-green">// 7. every()</span>`);
+    logs.push(`tất cả còn hàng? <span class="c-cyan">${tatCaConHang}</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  8. some() – kiểm tra ÍT NHẤT 1 phần tử thỏa không
+    //  Trả về true ngay khi tìm thấy 1 phần tử thỏa
+    // ════════════════════════════════════════════════════════════
+    const coSaleItem = result.some(p => p.sale === true);
+
+    logs.push(`<span class="c-green">// 8. some()</span>`);
+    logs.push(`có sản phẩm sale? <span class="c-cyan">${coSaleItem}</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  9. includes() – kiểm tra hãng Apple có trong kết quả không
+    //  Dùng trên mảng đơn giản (string/number), không dùng callback
+    // ════════════════════════════════════════════════════════════
+    const danhSachHang = result.map(p => p.hang); // lấy mảng tên hãng
+    const coApple   = danhSachHang.includes("Apple");
+    const coSamsung = danhSachHang.includes("Samsung");
+
+    logs.push(`<span class="c-green">// 9. includes()</span>`);
+    logs.push(`Apple: <span class="c-cyan">${coApple}</span> | Samsung: <span class="c-cyan">${coSamsung}</span>`);
+
+
+    // ════════════════════════════════════════════════════════════
+    //  10. forEach() – render từng sản phẩm ra lưới HTML
+    //  Dùng để thực hiện side-effect (không tạo giá trị mới)
+    // ════════════════════════════════════════════════════════════
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    if (result.length === 0) {
+        grid.innerHTML = `<div class="empty">Không tìm thấy sản phẩm nào </div>`;
+    } else {
+        result.forEach(function(p, index) {
+            // Với mỗi sản phẩm p → tạo 1 card HTML
+            const card = `
+                <div class="card">
+                    <div class="icon">${p.icon}</div>
+                    <div class="name">${p.ten}</div>
+                    <div class="brand">${p.hang} · ${p.loai}</div>
+                    <div class="price">${p.gia} triệu ₫</div>
+                    <div class="tags">
+                        ${p.sale    ? '<span class="badge b-sale"> Sale</span>' : ""}
+                        ${p.conHang ? '<span class="badge b-stock"> Còn</span>' : '<span class="badge b-out">❌ Hết</span>'}
+                    </div>
+                </div>`;
+            grid.innerHTML += card;
+        });
+    }
+
+    logs.push(`<span class="c-green">// 10. forEach()</span>`);
+    logs.push(`render <span class="c-cyan">${result.length}</span> card vào #grid`);
+
+
+    // ── Cập nhật thanh thống kê ──
+    document.getElementById("statBar").innerHTML = `
+        <span>Kết quả: <strong>${result.length}</strong></span>
+        <span>Tổng giá: <strong>${tongGia} triệu ₫</strong></span>
+        <span>Trung bình: <strong>${avg} triệu ₫</strong></span>
+        <span>Rẻ nhất: <strong>${min ? min.gia + "tr (" + min.ten + ")" : "–"}</strong></span>
+        <span>Đắt nhất: <strong>${max ? max.gia + "tr (" + max.ten + ")" : "–"}</strong></span>
+    `;
+
+    // ── Cập nhật nhãn đếm ──
+    document.getElementById("countLabel").innerHTML =
+        `Hiển thị <strong>${result.length}</strong> / ${products.length} sản phẩm`;
+
+    // ── Cập nhật log bên phải ──
+    document.getElementById("logArea").innerHTML =
+        `<h3>// Array methods log</h3>` +
+        logs.map(l => `<div class="log-line">${l}</div>`).join("");
+}
+
+
+// ================================================================
+//  Xoá toàn bộ bộ lọc về mặc định
+// ================================================================
+function resetFilter() {
+    document.getElementById("txtSearch").value  = "";
+    document.getElementById("selLoai").value    = "";
+    document.getElementById("selHang").value    = "";
+    document.getElementById("slGia").value      = 50;
+    document.getElementById("lblGia").textContent = 50;
+    document.getElementById("chkSale").checked  = false;
+    document.getElementById("chkConHang").checked = false;
+    document.getElementById("selSort").value    = "";
+    render();
+}
+
+
+// Chạy lần đầu khi trang load
+render();
+</script>
+</body>
+</html>

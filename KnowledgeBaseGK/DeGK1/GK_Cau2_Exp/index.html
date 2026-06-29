@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<!-- Khai báo chuẩn HTML5 — bắt buộc phải có ở dòng đầu tiên mọi file HTML -->
+<html lang="en">
+
+<head>
+  <!-- ════════════════════════════════════════════════════════
+       HEAD: không hiển thị trên trình duyệt, chứa cấu hình trang
+       ════════════════════════════════════════════════════════ -->
+
+  <!-- Hỗ trợ hiển thị ký tự đặc biệt, tiếng Việt có dấu -->
+  <meta charset="UTF-8">
+
+  <!-- Responsive: trang tự co giãn vừa màn hình điện thoại/tablet
+       width=device-width  = chiều rộng bằng màn hình thật
+       initial-scale=1.0   = không tự zoom khi load -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tiêu đề hiện trên tab trình duyệt -->
+  <title>My Website - Products</title>
+
+  <!-- Load Font Awesome từ local (icon tim, sao, ...) — không cần internet -->
+  <link rel="stylesheet" href="../../../BootstrapCSS/fontawesome/css/all.min.css">
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       RESET — Xóa margin/padding mặc định của trình duyệt
+       box-sizing: border-box → padding & border tính VÀO trong kích thước,
+       không làm phình phần tử ra ngoài
+       ════════════════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Nền trang xám nhạt để card trắng nổi bật hơn */
+    body { font-family: Arial, sans-serif; background: #f0f0f0; }
+
+    /* ════════════════════════════════════════════════════════
+       HEADER — Thanh đầu trang màu đỏ, dính khi cuộn
+       ════════════════════════════════════════════════════════ */
+    header {
+      background: #cc0000;      /* Đỏ đậm — màu chủ đạo trang */
+      padding: 10px 24px;
+      display: flex;            /* Xếp logo + nav + search nằm ngang */
+      align-items: center;      /* Căn giữa theo trục dọc */
+      gap: 24px;                /* Khoảng cách giữa logo, nav, ô search */
+      flex-wrap: wrap;          /* Khi hẹp: tự xuống dòng */
+      position: sticky;         /* Dính ở đầu trang khi cuộn xuống */
+      top: 0;
+      z-index: 100;             /* Nằm trên tất cả nội dung phía dưới */
+    }
+
+    /* Logo "My Website" — text trắng in đậm */
+    .logo {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      white-space: nowrap; /* Không cho logo xuống dòng */
+    }
+
+    /* Nav: flex 1 = chiếm hết phần giữa còn lại */
+    nav { display: flex; gap: 20px; flex: 1; }
+
+    nav a {
+      color: white;
+      text-decoration: none; /* Bỏ gạch chân mặc định của <a> */
+      font-size: 14px;
+      padding-bottom: 2px;
+    }
+
+    /* Link đang active: gạch trắng dưới + in đậm */
+    nav a.active { border-bottom: 2px solid white; font-weight: bold; }
+    nav a:hover  { opacity: 0.85; } /* Hover: mờ nhẹ */
+
+    /* Ô search đẩy về bên phải bằng margin-left: auto */
+    .search-wrap { margin-left: auto; }
+
+    .search-wrap input {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      width: 220px;
+      outline: none; /* Bỏ viền xanh khi focus */
+    }
+
+    /* ════════════════════════════════════════════════════════
+       CONTAINER + PRODUCT GRID — Khung giới hạn + lưới sản phẩm
+       ════════════════════════════════════════════════════════ */
+    .container {
+      max-width: 1180px; /* Giới hạn chiều rộng tối đa */
+      margin: 24px auto; /* Căn giữa, khoảng cách trên dưới 24px */
+      padding: 0 16px;
+    }
+
+    /* Grid cố định 3 cột bằng nhau trên desktop
+       1fr = 1 phần bằng nhau (flexible fraction) */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; /* Khoảng cách giữa các card */
+    }
+
+    /* ════════════════════════════════════════════════════════
+       PRODUCT CARD — Thẻ sản phẩm
+       ════════════════════════════════════════════════════════ */
+    .product-card {
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;  /* Cắt phần tử con tràn ra ngoài (ảnh, badge) */
+      cursor: pointer;   /* Con trỏ tay khi hover → biết được click */
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: box-shadow .2s, transform .2s; /* Hover mượt */
+    }
+
+    /* Hover card: nổi lên 3px + bóng đổ đậm hơn */
+    .product-card:hover {
+      box-shadow: 0 6px 22px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+    }
+
+    /* Vùng chứa ảnh sản phẩm
+       position: relative → để badge và icon tim dùng absolute bên trong */
+    .card-img-wrap {
+      position: relative;
+      background: #f5f5f5; /* Nền xám nhạt cho vùng ảnh */
+      height: 200px;       /* Chiều cao cố định — ảnh không làm lệch layout */
+      display: flex;
+      align-items: center;      /* Ảnh căn giữa theo dọc */
+      justify-content: center;  /* Ảnh căn giữa theo ngang */
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
+      max-height: 160px;   /* Ảnh không vượt quá 160px chiều cao */
+      max-width: 85%;
+      object-fit: contain; /* Co ảnh vừa khung, không bị méo */
+      transition: transform .3s;
+    }
+
+    /* Hover ảnh: zoom nhẹ 6% */
+    .product-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+    /* Badge % giảm giá — góc trên trái
+       position: absolute đặt chính xác trong .card-img-wrap (relative) */
+    .discount-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: #cc0000; /* Đỏ giống header */
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* Icon tim yêu thích — góc trên phải
+       Mặc định màu xám, đỏ khi hover hoặc đã liked */
+    .btn-heart {
+      position: absolute;
+      top: 8px; right: 10px;
+      background: none; /* Không có nền */
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+      color: #bbb;      /* Xám mặc định */
+      transition: color .2s;
+      line-height: 1;
+    }
+
+    .btn-heart:hover { color: #cc0000; }  /* Hover → đỏ */
+    .btn-heart.liked { color: #cc0000; }  /* Đã click → đỏ (JS thêm class .liked) */
+
+    /* Phần thông tin dưới ảnh */
+    .card-body { padding: 12px; }
+
+    /* Tên sản phẩm — nếu quá dài: cắt và thêm "..." cuối
+       Bộ ba: white-space:nowrap + overflow:hidden + text-overflow:ellipsis */
+    .product-name {
+      font-size: 13.5px;
+      color: #222;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; /* Hiển thị "..." khi tên quá dài */
+    }
+
+    /* Giá sản phẩm — đỏ, in đậm */
+    .product-price { font-size: 15px; font-weight: 700; color: #cc0000; margin-bottom: 7px; }
+
+    /* Hàng rating + stock: 2 phần tử 2 đầu (space-between) */
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    /* Icon sao vàng */
+    .rating i { color: #f5a623; font-size: 11px; }
+
+    /* Nút Buy Now — chiếm toàn bộ chiều rộng card */
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 9px;
+      background: #111; /* Đen đậm */
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .3px;
+      transition: background .2s;
+    }
+
+    .btn-buy:hover { background: #333; } /* Hover: xám đen nhạt hơn */
+
+    /* ════════════════════════════════════════════════════════
+       MODAL POPUP — Hiện khi click vào sản phẩm
+       ════════════════════════════════════════════════════════ */
+
+    /* Lớp phủ nền mờ phủ toàn màn hình
+       display:none mặc định — JS thêm class .open để hiện */
+    .modal-overlay {
+      display: none;       /* Ẩn mặc định */
+      position: fixed;     /* Đứng yên dù cuộn trang */
+      inset: 0;            /* = top:0; right:0; bottom:0; left:0 — phủ toàn màn hình */
+      background: rgba(0,0,0,0.45); /* Nền đen mờ 45% */
+      z-index: 999;        /* Nằm trên tất cả phần tử khác */
+      align-items: center;     /* Căn modal box giữa dọc */
+      justify-content: center; /* Căn modal box giữa ngang */
+      padding: 16px;
+    }
+
+    /* Khi JS thêm class .open → display:flex để hiện modal */
+    .modal-overlay.open { display: flex; }
+
+    /* Hộp modal chính — flex 2 cột: ảnh trái | thông tin phải */
+    .modal-box {
+      background: white;
+      border-radius: 10px;
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+      animation: fadeIn .2s ease; /* Hiệu ứng xuất hiện */
+    }
+
+    /* Animation fade + scale khi modal mở
+       from: mờ 0%, thu nhỏ 95%
+       to:   hiện 100%, kích thước thật */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Phần trái modal: vùng chứa ảnh sản phẩm lớn */
+    .modal-img-side {
+      width: 220px;
+      min-width: 220px; /* Không co nhỏ hơn 220px */
+      background: #f8f8f8;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-img-side img { max-width: 100%; max-height: 210px; object-fit: contain; }
+
+    /* Phần phải modal: thông tin + nút
+       flex:1 = chiếm hết phần còn lại
+       flex-direction:column = xếp các thành phần dọc */
+    .modal-info { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .modal-name  { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 6px; }
+    .modal-price { font-size: 16px; font-weight: 700; color: #cc0000; margin-bottom: 12px; }
+
+    /* Mô tả sản phẩm: flex:1 = đẩy phần nút xuống đáy modal */
+    .modal-desc {
+      font-size: 13.5px;
+      color: #555;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    /* Hàng nút: ô số lượng + Add to cart + Close */
+    .modal-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* Ô nhập số lượng */
+    .qty-input {
+      width: 60px;
+      padding: 7px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* Nút "Add to cart" — đen đậm */
+    .btn-add-cart {
+      padding: 8px 18px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-add-cart:hover { background: #333; }
+
+    /* Nút "Close" — nền trắng, viền xám */
+    .btn-close-modal {
+      padding: 8px 14px;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-close-modal:hover { background: #f5f5f5; }
+
+    /* ════════════════════════════════════════════════════════
+       RESPONSIVE — Co layout theo kích thước màn hình
+       ════════════════════════════════════════════════════════ */
+
+    /* Tablet / điện thoại ngang (≤ 900px) */
+    @media (max-width: 900px) {
+      /* Grid 3 cột → 1 cột: sản phẩm xếp dọc */
+      .products-grid { grid-template-columns: 1fr; }
+      nav { gap: 14px; }
+    }
+
+    /* Điện thoại dọc (≤ 600px) */
+    @media (max-width: 600px) {
+      header { gap: 12px; }
+      nav    { order: 3; width: 100%; } /* Nav xuống hàng thứ 3, chiếm toàn chiều rộng */
+      .search-wrap { margin-left: 0; }
+      .search-wrap input { width: 100%; } /* Search rộng toàn màn hình */
+
+      /* Modal: từ 2 cột ngang → 1 cột dọc (ảnh trên, info dưới) */
+      .modal-box { flex-direction: column; }
+      .modal-img-side { width: 100%; min-width: unset; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER — Logo + Nav + Search
+     ════════════════════════════════════════════════════════ -->
+<header>
+  <div class="logo">My Website</div>
+
+  <nav>
+    <!-- class="active" → gạch trắng dưới link đang chọn -->
+    <a href="#" class="active">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <div class="search-wrap">
+    <!-- oninput="filterProducts()": gọi hàm lọc MỖI KHI người dùng gõ 1 ký tự
+         (khác onchange chỉ kích hoạt sau khi rời ô input) -->
+    <input type="text" placeholder="Search..." id="searchInput" oninput="filterProducts()">
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PRODUCT GRID — Nội dung được JS render vào đây
+     ════════════════════════════════════════════════════════ -->
+<div class="container">
+  <!-- id="productsGrid": JS dùng getElementById để tìm và chèn card vào đây -->
+  <div class="products-grid" id="productsGrid">
+    <!-- Hiển thị text loading trong khi chờ JS đọc XML xong -->
+    <p style="color:#999; padding:20px;">Đang tải sản phẩm...</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL POPUP — Ẩn mặc định, JS thêm class .open để hiện
+     Cấu trúc: overlay (nền mờ) > modal-box (hộp trắng)
+               > modal-img-side (ảnh) | modal-info (thông tin)
+     ════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <!-- onclick handleOverlayClick: đóng modal khi click vào nền mờ bên ngoài -->
+
+  <div class="modal-box">
+
+    <!-- Phần trái: ảnh sản phẩm lớn -->
+    <div class="modal-img-side">
+      <!-- src="" rỗng — JS sẽ gán src thật khi mở modal -->
+      <img id="modalImg" src="" alt="">
+    </div>
+
+    <!-- Phần phải: tên + giá + mô tả + nút -->
+    <div class="modal-info">
+      <!-- Các id dưới đây dùng để JS gán nội dung theo sản phẩm được click -->
+      <div class="modal-name"  id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-desc"  id="modalDesc"></div>
+
+      <div class="modal-actions">
+        <!-- Ô nhập số lượng: type="number" chỉ cho nhập số, min="1" không cho nhập 0 -->
+        <input type="number" class="qty-input" id="modalQty" value="1" min="1">
+
+        <!-- onclick alert(): giả lập thêm vào giỏ hàng (không có backend thật) -->
+        <button class="btn-add-cart" onclick="alert('Added to cart!')">Add to cart</button>
+
+        <!-- onclick closeModal(): gọi hàm JS đóng modal -->
+        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT — Toàn bộ logic của trang
+     Đặt cuối <body>: HTML đã load xong trước khi JS chạy,
+     tránh lỗi "Cannot find element"
+     ════════════════════════════════════════════════════════ -->
+<script>
+  /* Biến toàn cục lưu TẤT CẢ sản phẩm đã đọc từ XML
+     Dùng cho tính năng search — tìm kiếm không cần đọc XML lại */
+  let allProducts = [];
+
+  /* ── ĐỌC DỮ LIỆU TỪ products.xml ──────────────────────────
+     XMLHttpRequest (XHR): API cũ nhưng hoạt động tốt với file
+     local (fetch() đôi khi bị chặn bởi CORS khi mở file://)
+
+     Luồng hoạt động:
+     1. Tạo đối tượng XHR
+     2. Cấu hình: GET file "products.xml", async=true
+     3. Gán hàm xử lý khi trạng thái thay đổi
+     4. Gửi request                                           */
+  const xhr = new XMLHttpRequest();
+
+  /* open(method, url, async):
+     - method: 'GET' = chỉ đọc, không gửi dữ liệu lên server
+     - url: đường dẫn tương đối đến file XML (cùng thư mục)
+     - true: bất đồng bộ (async) = trang không bị đơ khi chờ  */
+  xhr.open('GET', 'products.xml', true);
+
+  /* onreadystatechange: hàm này chạy MỖI KHI trạng thái XHR thay đổi
+     readyState có 5 giá trị: 0(UNSENT) → 1(OPENED) → 2(HEADERS_RECEIVED)
+                              → 3(LOADING) → 4(DONE)
+     Chỉ xử lý khi readyState === 4 (đã xong)
+     status === 200: server OK | status === 0: mở file local trực tiếp */
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0)) {
+
+      /* responseXML: trình duyệt tự parse XML thành DOM object
+         (giống document của HTML, có thể dùng querySelector) */
+      const xml = xhr.responseXML;
+
+      /* Lấy tất cả thẻ <product> trong XML */
+      const nodes = xml.querySelectorAll('product');
+
+      /* Duyệt từng <product>, đọc từng thẻ con và lưu vào mảng allProducts */
+      nodes.forEach(node => {
+        allProducts.push({
+          id:       node.querySelector('id').textContent,          /* Nội dung text trong <id> */
+          name:     node.querySelector('name').textContent,
+          price:    node.querySelector('price').textContent,
+          discount: node.querySelector('discount').textContent,
+          rating:   parseFloat(node.querySelector('rating').textContent), /* Chuyển "2.56" → số 2.56 */
+          stock:    node.querySelector('stock').textContent,
+          image:    node.querySelector('image').textContent,
+          desc:     node.querySelector('description').textContent,
+        });
+      });
+
+      /* Sau khi đọc xong → hiển thị sản phẩm ra lưới */
+      renderProducts(allProducts);
+    }
+  };
+
+  xhr.send(); /* Gửi request — bắt đầu đọc file XML */
+
+
+  /* ── HIỂN THỊ SẢN PHẨM RA GRID ────────────────────────────
+     list: mảng các object sản phẩm cần hiển thị
+     (có thể là allProducts hoặc kết quả đã lọc từ search)   */
+  function renderProducts(list) {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = ''; /* Xóa nội dung cũ (text "Đang tải..." hoặc kết quả search trước) */
+
+    /* Nếu không có sản phẩm nào → hiện thông báo và dừng */
+    if (list.length === 0) {
+      grid.innerHTML = '<p style="color:#999;padding:20px;">Không tìm thấy sản phẩm.</p>';
+      return; /* return = thoát hàm, không chạy tiếp */
+    }
+
+    /* Duyệt từng sản phẩm → tạo card HTML → chèn vào grid */
+    list.forEach(p => {
+      /* createElement('div'): tạo thẻ <div> mới trong bộ nhớ
+         (chưa hiển thị trên trang) */
+      const card = document.createElement('div');
+      card.className = 'product-card';
+
+      /* innerHTML = template literal (`) cho phép nhúng biến ${...}
+         Tương đương viết HTML nhưng dynamic (thay đổi theo dữ liệu)  */
+      card.innerHTML = `
+        <div class="card-img-wrap">
+
+          <!-- Badge giảm giá: ${p.discount}% được thay bằng giá trị thật -->
+          <span class="discount-badge">${p.discount}%</span>
+
+          <!-- loading="lazy": ảnh chỉ load khi sắp xuất hiện trong viewport
+               Tối ưu performance, trang load nhanh hơn                 -->
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+
+          <!-- Icon tim: onclick="toggleHeart(event, this)"
+               event = đối tượng sự kiện click
+               this  = chính button đang được click               -->
+          <button class="btn-heart" title="Wishlist" onclick="toggleHeart(event, this)">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">$${p.price}</div>
+          <div class="product-meta">
+            <span class="rating">
+              <i class="fa-solid fa-star"></i> ${p.rating}
+            </span>
+            <span>Stock: ${p.stock}</span>
+          </div>
+
+          <!-- onclick nút Buy Now:
+               event.stopPropagation(): ngăn click lan ra thẻ cha (.product-card)
+               vì .product-card cũng có listener click → sẽ mở modal 2 lần
+               JSON.stringify(p): chuyển object p thành chuỗi JSON để truyền vào hàm -->
+          <button class="btn-buy" onclick="event.stopPropagation(); openModal(${JSON.stringify(p)})">
+            Buy Now
+          </button>
+        </div>
+      `;
+
+      /* addEventListener('click', ...): click bất kỳ đâu trên card → mở modal
+         Khác onclick trên button Buy Now ở chỗ: bắt toàn bộ card */
+      card.addEventListener('click', () => openModal(p));
+
+      /* appendChild: chèn card vào cuối grid trên trang */
+      grid.appendChild(card);
+    });
+  }
+
+
+  /* ── TOGGLE ICON TIM YÊU THÍCH ─────────────────────────────
+     e   = event object của click
+     btn = button tim được click                              */
+  function toggleHeart(e, btn) {
+    /* stopPropagation: ngăn click từ button tim lan ra thẻ card cha
+       Nếu không có dòng này → click tim = click card → mở modal   */
+    e.stopPropagation();
+
+    /* toggle('liked'): thêm nếu chưa có, xóa nếu đã có
+       CSS: .btn-heart.liked { color: #cc0000 } → tim đỏ          */
+    btn.classList.toggle('liked');
+
+    /* Đổi icon giữa rỗng (fa-regular) và đặc (fa-solid)
+       fa-regular fa-heart = ♡ (tim rỗng)
+       fa-solid fa-heart   = ♥ (tim đặc đỏ)                       */
+    const icon = btn.querySelector('i');
+    icon.classList.toggle('fa-regular'); /* Xóa regular nếu có, thêm nếu không */
+    icon.classList.toggle('fa-solid');   /* Thêm solid nếu không có, xóa nếu có */
+  }
+
+
+  /* ── MỞ MODAL POPUP ────────────────────────────────────────
+     p = object sản phẩm { id, name, price, image, desc, ... }
+     Gán dữ liệu vào các phần tử HTML trong modal rồi hiển thị */
+  function openModal(p) {
+    /* Gán src ảnh, tên, giá, mô tả vào các thẻ trong modal */
+    document.getElementById('modalImg').src              = p.image;
+    document.getElementById('modalName').textContent     = p.name;
+    document.getElementById('modalPrice').textContent    = '$' + p.price;
+    document.getElementById('modalDesc').textContent     = p.desc;
+    document.getElementById('modalQty').value            = 1; /* Reset số lượng về 1 */
+
+    /* Thêm class 'open' → CSS: .modal-overlay.open { display: flex } → hiện modal */
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+
+  /* ── ĐÓNG MODAL ─────────────────────────────────────────────
+     Xóa class 'open' → CSS: display:none → ẩn modal          */
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+
+  /* ── ĐÓNG MODAL KHI CLICK NGOÀI HỘP ────────────────────────
+     e.target: phần tử người dùng thực sự click vào
+     Chỉ đóng nếu click vào chính overlay (nền mờ),
+     KHÔNG đóng nếu click vào bên trong .modal-box            */
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) {
+      closeModal();
+    }
+  }
+
+
+  /* ── ĐÓNG MODAL BẰNG PHÍM ESCAPE ───────────────────────────
+     addEventListener trên document = lắng nghe toàn trang
+     e.key === 'Escape': kiểm tra phím vừa nhấn               */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+
+  /* ── LỌC SẢN PHẨM THEO TỪ KHÓA TÌM KIẾM ──────────────────
+     Gọi mỗi khi người dùng gõ vào ô Search (oninput)        */
+  function filterProducts() {
+    /* Lấy text trong ô search, chuyển về chữ thường để so sánh không phân biệt hoa/thường */
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
+
+    /* filter(): duyệt allProducts, giữ lại sản phẩm có tên chứa keyword
+       includes(keyword): trả về true nếu chuỗi CÓ CHỨA keyword   */
+    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
+
+    /* Render lại grid chỉ với sản phẩm phù hợp */
+    renderProducts(filtered);
+  }
+</script>
+
+</body>
+</html>

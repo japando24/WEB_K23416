@@ -1,0 +1,98 @@
+<!-- product-list.component.html – Grid sản phẩm + Modal -->
+
+<section class="product-section">
+  <div class="product-container">
+
+    <!-- Trạng thái đang tải -->
+    <!-- *ngIf: hiện/ẩn element theo điều kiện -->
+    <div class="loading-state" *ngIf="loading">
+      <p>⏳ Đang tải sản phẩm từ API...</p>
+    </div>
+
+    <!-- Thông báo lỗi nếu API thất bại -->
+    <div class="error-state" *ngIf="!loading && errorMsg">
+      <p>{{ errorMsg }}</p>
+    </div>
+
+    <!-- Lưới sản phẩm – hiện khi đã tải xong và không có lỗi -->
+    <div class="products-grid" *ngIf="!loading && !errorMsg">
+
+      <!-- *ngFor: lặp qua mảng filtered, tạo card cho từng sản phẩm -->
+      <div
+        class="product-card"
+        *ngFor="let product of filtered"
+        (click)="openModal(product)"
+      >
+
+        <!-- Ảnh + badge + tim -->
+        <div class="card-img-wrap">
+          <img [src]="product.image" [alt]="product.title" loading="lazy">
+
+          <!-- Overlay "Hover" khi di chuột vào -->
+          <div class="card-overlay"><span>Hover</span></div>
+
+          <!-- Badge giảm giá – gọi hàm getDiscount(id) -->
+          <span class="badge-discount">-{{ getDiscount(product.id) }}%</span>
+
+          <!-- Nút tim – stopPropagation ngăn sự kiện click nổi lên card -->
+          <button class="btn-wishlist" (click)="$event.stopPropagation()">♡</button>
+        </div>
+
+        <!-- Thông tin sản phẩm -->
+        <div class="card-body">
+
+          <!-- Cắt tên dài: hiển thị tối đa 2 dòng (CSS line-clamp) -->
+          <div class="card-name">{{ product.title }}</div>
+
+          <div class="card-price">${{ product.price.toFixed(2) }}</div>
+
+          <!-- Rating + Count -->
+          <div class="card-meta">
+            <span class="rating-stars">
+              <!-- *ngFor trên mảng string sao -->
+              <span *ngFor="let star of getStars(product.rating.rate)"
+                    [class.filled]="star === '★'">{{ star }}</span>
+              &nbsp;{{ product.rating.rate }}
+            </span>
+            <span>Count: {{ product.rating.count }}</span>
+          </div>
+
+          <button class="btn-buy" (click)="$event.stopPropagation(); openModal(product)">
+            Buy Now
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     MODAL POPUP – *ngIf chỉ render khi selectedProduct != null
+============================================================ -->
+<div class="modal-backdrop" *ngIf="selectedProduct" (click)="closeModal()">
+
+  <!-- Ngăn click trong modal-box lan ra backdrop -->
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <div class="modal-img">
+      <img [src]="selectedProduct.image" [alt]="selectedProduct.title">
+    </div>
+
+    <div class="modal-info">
+      <div class="modal-title">{{ selectedProduct.title }}</div>
+      <div class="modal-price">${{ selectedProduct.price.toFixed(2) }}</div>
+      <div class="modal-desc">{{ selectedProduct.description }}</div>
+
+      <div class="modal-actions">
+        <!-- [(ngModel)] two-way binding: cập nhật modalQty khi user thay đổi -->
+        <input type="number" class="qty-input" [(ngModel)]="modalQty" min="1">
+        <button class="btn-add-cart" (click)="addToCart()">Add to cart</button>
+        <button class="btn-close"    (click)="closeModal()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<!-- Khai báo chuẩn HTML5 — bắt buộc phải có ở dòng đầu tiên -->
+<html lang="vi">
+<!-- lang="vi": khai báo ngôn ngữ tiếng Việt, giúp trình duyệt/công cụ dịch nhận biết đúng -->
+
+<head>
+  <!-- ════════════════════════════════════════════════════════
+       HEAD: không hiển thị trên màn hình, chứa cấu hình trang
+       ════════════════════════════════════════════════════════ -->
+
+  <!-- Hỗ trợ hiển thị ký tự tiếng Việt có dấu (ă, ơ, ư, â...) -->
+  <meta charset="UTF-8">
+
+  <!-- Responsive: trang tự co giãn vừa khít màn hình thiết bị
+       width=device-width: chiều rộng bằng màn hình thật
+       initial-scale=1.0: không zoom khi load -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tiêu đề hiện trên tab trình duyệt -->
+  <title>GreenTech Expo 2025 – Công nghệ vì Trái Đất Xanh</title>
+
+  <!-- Load thư viện Font Awesome (các icon: lá cây, lịch, check...) từ local, không cần internet -->
+  <link rel="stylesheet" href="../../../BootstrapCSS/fontawesome/css/all.min.css">
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       RESET CSS — Xóa margin/padding mặc định của trình duyệt
+       * = áp dụng cho TẤT CẢ phần tử
+       box-sizing: border-box → padding & border tính VÀO trong
+       kích thước phần tử, không làm phình ra ngoài
+       ════════════════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ════════════════════════════════════════════════════════
+       CSS VARIABLES — Khai báo biến màu sắc dùng chung toàn trang
+       Cách dùng: var(--tên-biến)
+       Muốn đổi màu chủ đạo → chỉ cần sửa tại đây là đổi khắp trang
+       ════════════════════════════════════════════════════════ */
+    :root {
+      --green:     #2d7a3a;  /* Xanh lá đậm — màu chủ đạo (header, viền, nút) */
+      --green-lt:  #4caf50;  /* Xanh lá sáng — số liệu hero, giá vé, hover */
+      --blue:      #1a56a0;  /* Xanh dương đậm — badge Keynote */
+      --blue-lt:   #2979c2;  /* Xanh dương sáng — gradient timeline */
+      --purple:    #6a1b9a;  /* Tím — badge Workshop */
+      --white:     #ffffff;
+      --bg-soft:   #f5f9f5;  /* Trắng xanh nhạt — nền section xen kẽ */
+      --dark:      #111c13;  /* Đen xanh đậm — header, section đăng ký */
+      --text:      #1e2e1f;  /* Màu chữ chính */
+      --text-muted:#5a705c;  /* Màu chữ phụ (xám xanh) */
+    }
+
+    /* ════════════════════════════════════════════════════════
+       BODY — Cài đặt kiểu chữ và màu nền mặc định
+       ════════════════════════════════════════════════════════ */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif; /* Ưu tiên Segoe UI (Windows) */
+      color: var(--text);       /* Màu chữ lấy từ biến */
+      background: var(--white);
+      line-height: 1.65;        /* Khoảng cách dòng 1.65× — dễ đọc hơn */
+    }
+
+    /* ════════════════════════════════════════════════════════
+       .container — Khung căn giữa giới hạn chiều rộng nội dung
+       Các section dùng class này để nội dung không tràn quá rộng
+       ════════════════════════════════════════════════════════ */
+    .container {
+      max-width: 1180px; /* Tối đa 1180px */
+      margin: 0 auto;    /* auto 2 bên = căn giữa màn hình */
+      padding: 0 24px;   /* Khoảng cách 2 bên tránh sát mép */
+    }
+
+    /* ════════════════════════════════════════════════════════
+       HEADER — Thanh điều hướng dính ở đầu trang
+       ════════════════════════════════════════════════════════ */
+    header {
+      position: sticky; /* Dính theo khi cuộn trang (khác fixed: không đẩy nội dung) */
+      top: 0;           /* Dính sát mép trên */
+      z-index: 999;     /* Nằm trên tất cả phần tử (số càng lớn càng trên) */
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.07); /* Đường kẻ trắng mờ phân cách */
+    }
+
+    /* Flex container bên trong header: logo bên trái, nav bên phải */
+    .header-inner {
+      display: flex;
+      align-items: center;            /* Căn giữa theo trục dọc */
+      justify-content: space-between; /* Logo trái, nav phải */
+      padding: 13px 24px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* Logo = thẻ <a> bọc icon + text, flex để xếp ngang */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;           /* Khoảng cách giữa icon và text */
+      text-decoration: none; /* Bỏ gạch chân mặc định của <a> */
+    }
+
+    /* Hộp vuông chứa icon lá cây */
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: var(--green);
+      border-radius: 10px; /* Bo góc */
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 18px;
+    }
+
+    .logo-text {
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px; /* Nén chữ nhẹ */
+    }
+
+    /* <em> trong logo: chữ "Tech" màu xanh sáng, font-style: normal bỏ in nghiêng */
+    .logo-text em { color: var(--green-lt); font-style: normal; }
+
+    /* Danh sách menu: hiển thị ngang, bỏ bullet */
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2px;
+    }
+
+    /* Từng link trong menu */
+    nav ul li a {
+      color: rgba(255,255,255,0.72); /* Trắng mờ 72% */
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: background .2s, color .2s; /* Hover chuyển màu mượt 0.2s */
+    }
+
+    nav ul li a:hover { background: rgba(255,255,255,0.08); color: white; }
+
+    /* Nút "Đăng ký ngay" — nổi bật hơn các link thường
+       !important ghi đè các style khác có thể xung đột */
+    .nav-cta {
+      background: var(--green) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      padding: 7px 16px !important;
+    }
+
+    .nav-cta:hover { background: #3a9443 !important; }
+
+    /* Nút hamburger 3 gạch — ẩn mặc định, chỉ hiện ở mobile (xem @media) */
+    .hamburger {
+      display: none;         /* Ẩn trên desktop */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    /* Mỗi <span> là 1 gạch ngang trong icon hamburger */
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       HERO — Banner chính, màn hình đầu tiên người dùng thấy
+       ════════════════════════════════════════════════════════ */
+    .hero {
+      min-height: 88vh; /* Chiếm ít nhất 88% chiều cao cửa sổ */
+      background:
+        /* Lớp 1: Gradient tối phủ toàn bộ để text đọc được trên nền */
+        linear-gradient(160deg, rgba(10,22,12,0.93) 0%, rgba(18,50,90,0.80) 100%),
+        /* Lớp 2: Vệt sáng xanh lá góc trái dưới */
+        radial-gradient(ellipse at 20% 70%, #1b5e20 0%, transparent 52%),
+        /* Lớp 3: Vệt sáng xanh dương góc phải trên */
+        radial-gradient(ellipse at 78% 18%, #0d47a1 0%, transparent 48%),
+        /* Lớp 4: Màu nền đáy (đen xanh) */
+        #0b1a0d;
+      display: flex;
+      align-items: center;      /* Căn nội dung giữa theo chiều dọc */
+      padding: 90px 24px 70px;
+      position: relative;       /* Để ::after định vị tuyệt đối bên trong */
+      overflow: hidden;         /* Cắt phần tử con tràn ra ngoài */
+    }
+
+    /* Lưới chấm mờ phủ lên hero — tạo cảm giác kỹ thuật số/công nghệ */
+    .hero::after {
+      content: '';          /* Phần tử giả không có nội dung thật */
+      position: absolute;
+      inset: 0;             /* = top:0; right:0; bottom:0; left:0 — phủ toàn bộ hero */
+      background-image: radial-gradient(circle, rgba(76,175,80,0.14) 1px, transparent 1px);
+      background-size: 48px 48px; /* Mỗi chấm cách nhau 48px */
+      pointer-events: none; /* Không chặn click của phần tử phía dưới */
+    }
+
+    /* Wrapper nội dung hero — flex 2 cột: trái (text) | phải (stats) */
+    .hero-inner {
+      position: relative;
+      z-index: 2;      /* Nằm trên lớp ::after */
+      display: flex;
+      align-items: center;
+      gap: 56px;       /* Khoảng cách giữa 2 cột */
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+      flex-wrap: wrap; /* Khi màn hình hẹp: tự xuống dòng */
+    }
+
+    /* Cột trái — co giãn, tối thiểu 300px */
+    .hero-content { flex: 1; min-width: 300px; }
+
+    /* Badge nhỏ "16-18/11/2025 · Hà Nội" */
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(76,175,80,0.18);          /* Nền xanh bán trong suốt */
+      border: 1px solid rgba(76,175,80,0.38);     /* Viền xanh mờ */
+      color: #88d98a;
+      padding: 5px 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;  /* Giãn chữ */
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    /* Tiêu đề H1 lớn
+       clamp(min, preferred, max): font tự scale theo viewport
+       min=2rem, preferred=4.8vw (4.8% chiều rộng màn hình), max=3.2rem */
+    .hero h1 {
+      font-size: clamp(2rem, 4.8vw, 3.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.18;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    /* Span highlight trong H1 — "Công nghệ vì Trái Đất Xanh" màu xanh lá */
+    .hero h1 .hl { color: var(--green-lt); }
+
+    /* Đoạn mô tả ngắn dưới H1 */
+    .hero-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.62); /* Trắng mờ 62% — phụ hơn tiêu đề */
+      margin-bottom: 36px;
+      max-width: 520px;
+      line-height: 1.8;
+    }
+
+    /* Hàng 2 nút CTA — flex để đặt cạnh nhau */
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* Nút chính — nền xanh đặc */
+    .btn-primary {
+      background: var(--green);
+      color: white;
+      padding: 13px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .97rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background .2s, transform .2s;
+    }
+
+    /* Hover: màu đậm hơn + nổi lên 2px */
+    .btn-primary:hover { background: #3a9443; transform: translateY(-2px); }
+
+    /* Nút phụ — viền trắng mờ, nền trong suốt */
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,0.32);
+      color: rgba(255,255,255,0.82);
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-outline:hover { border-color: white; color: white; }
+
+    /* Cột phải hero — 4 thẻ số liệu xếp dọc */
+    .hero-stats { display: flex; flex-direction: column; gap: 12px; }
+
+    /* Mỗi thẻ số liệu — glass effect (nền trắng rất mờ) */
+    .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 12px;
+      padding: 16px 26px;
+      text-align: center;
+      min-width: 148px;
+    }
+
+    /* Con số lớn: "200+", "3", "50+"... */
+    .stat-num { font-size: 1.9rem; font-weight: 800; color: var(--green-lt); }
+
+    /* Nhãn nhỏ dưới số */
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION CHUNG — padding và heading dùng chung cho mọi section
+       ════════════════════════════════════════════════════════ */
+    section { padding: 80px 0; } /* Khoảng trống trên/dưới mỗi section */
+
+    /* Khối heading section — căn giữa */
+    .section-hd { text-align: center; margin-bottom: 52px; }
+
+    /* Tiêu đề H2 cũng dùng clamp để scale theo màn hình */
+    .section-hd h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    /* Phần <span> trong h2 — in màu xanh để nhấn từ khóa */
+    .section-hd h2 span { color: var(--green); }
+
+    .section-hd p { color: var(--text-muted); max-width: 560px; margin: 0 auto; font-size: .97rem; }
+
+    /* Thanh gạch xanh trang trí dưới tiêu đề section */
+    .title-bar {
+      width: 44px; height: 3px;
+      background: var(--green);
+      margin: 10px auto 14px; /* auto 2 bên = căn giữa */
+      border-radius: 2px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION GIỚI THIỆU (#gioi-thieu)
+       ════════════════════════════════════════════════════════ */
+    #gioi-thieu { background: var(--bg-soft); } /* Nền xanh trắng nhạt */
+
+    /* Grid 3 thẻ — tự động co từ 3→2→1 cột khi hẹp màn hình
+       repeat(auto-fit, minmax(280px, 1fr)):
+       - auto-fit: tự điền số cột vừa đủ
+       - minmax(280px, 1fr): mỗi cột tối thiểu 280px, tối đa chia đều */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 14px;
+      padding: 28px 24px;
+      border-left: 4px solid var(--green); /* Viền xanh bên trái — điểm nhận diện */
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    /* Hover: thẻ nổi lên + bóng đổ đậm hơn */
+    .info-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+    /* Hộp vuông chứa icon */
+    .info-icon {
+      width: 46px; height: 46px;
+      background: var(--bg-soft);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green);
+      font-size: 19px;
+      margin-bottom: 16px;
+    }
+
+    .info-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .info-card p  { color: var(--text-muted); font-size: .93rem; line-height: 1.75; }
+
+    /* Hàng các tag nhỏ — flex để wrap xuống dòng khi hết chỗ */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+    /* Mỗi tag nhỏ (label đối tượng tham dự) */
+    .tag {
+      background: var(--bg-soft);
+      color: var(--green);
+      padding: 3px 11px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border: 1px solid rgba(45,122,58,.18);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION LỊCH TRÌNH (#lich-trinh) — Tab 3 ngày + Timeline
+       ════════════════════════════════════════════════════════ */
+    #lich-trinh { background: white; }
+
+    /* Hàng 3 nút tab Day 1 / Day 2 / Day 3 */
+    .day-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .day-tab {
+      padding: 9px 26px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(45,122,58,.3);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit; /* Dùng font của trang, không dùng font mặc định của <button> */
+      display: inline-flex; align-items: center; gap: 7px;
+    }
+
+    /* Tab đang chọn hoặc hover → nền xanh đặc */
+    .day-tab.active,
+    .day-tab:hover { background: var(--green); color: white; border-color: var(--green); }
+
+    /* Nội dung mỗi ngày — ẩn mặc định bằng display:none */
+    .day-content { display: none; max-width: 820px; margin: 0 auto; }
+    /* Chỉ hiện khi có class .active (JS thêm vào khi click tab) */
+    .day-content.active { display: block; }
+
+    /* ── Timeline dọc ── */
+    .timeline { position: relative; padding-left: 36px; }
+
+    /* Đường dọc gradient chạy từ trên xuống dưới, ở giữa trái */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 9px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--green), var(--blue-lt));
+      opacity: .35; /* Mờ 35% */
+    }
+
+    /* Mỗi sự kiện trong timeline */
+    .tl-item { position: relative; margin-bottom: 28px; }
+
+    /* Chấm tròn nằm trên đường dọc */
+    .tl-dot {
+      position: absolute;
+      left: -29px; top: 5px; /* Căn vào đường dọc */
+      width: 12px; height: 12px;
+      border-radius: 50%;       /* Thành hình tròn */
+      background: var(--green-lt);
+      border: 2px solid white;
+      box-shadow: 0 0 0 3px rgba(76,175,80,.22); /* Vòng sáng hào quang quanh chấm */
+    }
+
+    .tl-time  { font-size: 11.5px; font-weight: 700; color: var(--green); letter-spacing: .4px; margin-bottom: 4px; }
+    .tl-title { font-size: 1rem;   font-weight: 700; color: var(--text);  margin-bottom: 5px; }
+    .tl-desc  { font-size: .9rem;  color: var(--text-muted); }
+
+    /* Badge loại phiên — 3 màu khác nhau */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 9px;
+      border-radius: 4px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .4px;
+      margin-bottom: 6px;
+    }
+
+    .badge-keynote  { background: rgba(26,86,160,.1);  color: var(--blue);   } /* Xanh dương */
+    .badge-workshop { background: rgba(106,27,154,.1); color: var(--purple); } /* Tím */
+    .badge-panel    { background: rgba(45,122,58,.1);  color: var(--green);  } /* Xanh lá */
+
+    /* ════════════════════════════════════════════════════════
+       SECTION DIỄN GIẢ (#dien-gia)
+       ════════════════════════════════════════════════════════ */
+    #dien-gia { background: var(--bg-soft); }
+
+    /* Grid 4 thẻ diễn giả — tự wrap khi hẹp */
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .speaker-card {
+      background: white;
+      border-radius: 16px;
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .speaker-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,0,0,.1); }
+
+    /* Hình tròn gradient chứa chữ tắt tên diễn giả (SN, ML...)
+       Dùng chữ tắt vì không có ảnh thật */
+    .speaker-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--blue-lt));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; font-weight: 700; color: white;
+      margin: 0 auto 14px; /* auto 2 bên = căn giữa ngang */
+    }
+
+    /* Badge tên công ty (Siemens, Tesla...) */
+    .speaker-badge {
+      display: inline-block;
+      background: rgba(26,86,160,.09);
+      color: var(--blue);
+      padding: 3px 12px; border-radius: 4px;
+      font-size: 11.5px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .speaker-card h3  { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .speaker-role     { font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+    /* Hộp chứa chủ đề bài nói — nền xám nhạt, in nghiêng */
+    .speaker-topic {
+      font-size: 12.5px;
+      color: var(--text);
+      font-style: italic;
+      background: var(--bg-soft);
+      padding: 10px 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION ĐĂNG KÝ / GIÁ VÉ (#dang-ky)
+       ════════════════════════════════════════════════════════ */
+    #dang-ky { background: var(--dark); color: white; } /* Nền tối để tạo contrast */
+
+    /* Ghi đè màu heading vì nền tối */
+    #dang-ky .section-hd h2      { color: white; }
+    #dang-ky .section-hd h2 span { color: var(--green-lt); }
+    #dang-ky .section-hd p       { color: rgba(255,255,255,.5); }
+    #dang-ky .title-bar           { background: var(--green-lt); }
+
+    /* Grid 2 thẻ giá vé — căn giữa, tối đa 720px */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+      gap: 22px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      border-radius: 16px;
+      padding: 34px 24px;
+      text-align: center;
+      position: relative; /* Để .hot-ribbon dùng absolute bên trong */
+      overflow: hidden;   /* Cắt ribbon tràn ra ngoài góc card */
+    }
+
+    .card-std { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+    .card-vip { background: rgba(45,122,58,.18);   border: 1.5px solid rgba(76,175,80,.42); }
+
+    /* Dải "HOT" góc trên phải card VIP
+       Dùng position:absolute + rotate(45deg) tạo ribbon chéo */
+    .hot-ribbon {
+      position: absolute;
+      top: 16px; right: -26px; /* Đẩy ra góc ngoài */
+      background: var(--green-lt);
+      color: #0b1a0d;
+      padding: 4px 38px;
+      font-size: 11px; font-weight: 800;
+      transform: rotate(45deg); /* Xoay 45° → dải chéo góc */
+      width: 110px;
+    }
+
+    .pricing-card h3 { font-size: 1.15rem; font-weight: 700; color: white; margin-bottom: 6px; }
+
+    /* Giá tiền to — màu xanh sáng nổi bật */
+    .price-val { font-size: 2.8rem; font-weight: 900; color: var(--green-lt); margin: 14px 0; line-height: 1; }
+
+    /* Danh sách quyền lợi — căn trái */
+    .pricing-list { list-style: none; text-align: left; margin: 16px 0 24px; }
+
+    .pricing-list li {
+      padding: 7px 0;
+      color: rgba(255,255,255,.7);
+      font-size: 13.5px;
+      border-bottom: 1px solid rgba(255,255,255,.06); /* Đường kẻ phân cách mờ */
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* Icon check xanh trước mỗi quyền lợi */
+    .pricing-list li i { color: var(--green-lt); font-size: 12px; flex-shrink: 0; }
+
+    /* Nút đăng ký vé */
+    .btn-buy {
+      display: block; width: 100%; /* Chiếm toàn chiều rộng card */
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14.5px; font-weight: 700;
+      cursor: pointer; border: none;
+      font-family: inherit;
+      transition: transform .2s, opacity .2s;
+    }
+
+    .btn-buy:hover { transform: translateY(-2px); opacity: .9; }
+
+    /* Nút Vé Thường — nền trắng mờ */
+    .btn-buy.std { background: rgba(255,255,255,.1); color: white; border: 1.5px solid rgba(255,255,255,.22); }
+    /* Nút Vé VIP — nền xanh lá đặc */
+    .btn-buy.vip { background: var(--green-lt); color: #0b1a0d; }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION FAQ (#faq) — Accordion mở/đóng câu hỏi
+       ════════════════════════════════════════════════════════ */
+    #faq { background: var(--bg-soft); }
+
+    .faq-wrap { max-width: 780px; margin: 0 auto; }
+
+    .faq-item {
+      background: white; border-radius: 10px; margin-bottom: 8px;
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+      overflow: hidden; /* Cắt .faq-a tràn khi max-height: 0 */
+    }
+
+    /* Dòng câu hỏi — click để toggle */
+    .faq-q {
+      display: flex;
+      justify-content: space-between; /* Câu hỏi trái, mũi tên phải */
+      align-items: center;
+      padding: 17px 20px;
+      cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--text);
+      transition: background .2s;
+      user-select: none; /* Không cho bôi đen text khi click */
+    }
+
+    .faq-q:hover { background: var(--bg-soft); }
+
+    /* Mũi tên chevron — xoay 180° khi mở */
+    .faq-arrow { color: var(--green); font-size: 13px; transition: transform .3s; flex-shrink: 0; }
+
+    /* Khi .faq-item có class .open → xoay mũi tên thành mũi tên lên */
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+    /* Phần trả lời — ẩn bằng max-height: 0 (KHÔNG dùng display:none vì không animate được)
+       Trick: max-height: 0 + overflow:hidden = ẩn hoàn toàn
+       Khi .open: max-height: 200px + transition = trượt xuống mượt mà */
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .faq-item.open .faq-a { max-height: 200px; }
+
+    .faq-a p { padding: 0 20px 16px; color: var(--text-muted); font-size: 13.5px; line-height: 1.75; }
+
+    /* ════════════════════════════════════════════════════════
+       FOOTER — Grid 4 cột: brand rộng + 3 cột menu
+       ════════════════════════════════════════════════════════ */
+    footer { background: #0a1209; color: rgba(255,255,255,.38); padding: 56px 24px 26px; }
+
+    /* 2fr: cột brand rộng gấp đôi, 3 cột 1fr chia đều nhau */
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 36px;
+      max-width: 1180px;
+      margin: 0 auto 36px;
+    }
+
+    .footer-brand p { font-size: 13px; line-height: 1.7; margin-top: 8px; }
+
+    .footer-logo { display: flex; align-items: center; gap: 9px; color: white; font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+    .footer-logo i { color: var(--green-lt); }
+
+    /* Hàng 4 icon mạng xã hội */
+    .social-links { display: flex; gap: 8px; margin-top: 16px; }
+
+    .social-link {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: rgba(255,255,255,.07);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.5);
+      text-decoration: none; font-size: 14px;
+      transition: background .2s, color .2s;
+    }
+
+    /* Hover icon mạng xã hội → nền xanh lá */
+    .social-link:hover { background: var(--green); color: white; }
+
+    .footer-col h4 { color: rgba(255,255,255,.75); font-size: 13px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .6px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 9px; }
+
+    .footer-col ul li a { color: rgba(255,255,255,.38); text-decoration: none; font-size: 13px; transition: color .2s; display: inline-flex; align-items: center; gap: 7px; }
+    .footer-col ul li a:hover { color: var(--green-lt); }
+    .footer-col ul li a i { font-size: 12px; width: 14px; }
+
+    /* Dòng copyright cuối footer */
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-top: 20px; text-align: center; font-size: 12.5px;
+      max-width: 1180px; margin: 0 auto;
+    }
+
+    .footer-bottom a { color: rgba(255,255,255,.3); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--green-lt); }
+
+    /* ════════════════════════════════════════════════════════
+       RESPONSIVE — Điều chỉnh layout theo kích thước màn hình
+       @media (max-width: Xpx): CSS chỉ áp dụng khi màn hình ≤ X
+       ════════════════════════════════════════════════════════ */
+
+    /* Tablet / điện thoại ngang (≤ 900px) */
+    @media (max-width: 900px) {
+      nav { display: none; }        /* Ẩn nav ngang */
+      .hamburger { display: flex; } /* Hiện nút 3 gạch */
+
+      /* Khi JS thêm class .open → menu hiện dạng dropdown dọc */
+      nav.open {
+        display: block;
+        position: absolute;          /* Đè lên nội dung phía dưới */
+        top: 66px; left: 0; right: 0;
+        background: #111c13;
+        padding: 10px 16px;
+        z-index: 998;
+        border-bottom: 1px solid rgba(255,255,255,.07);
+      }
+
+      nav.open ul { flex-direction: column; } /* Menu xếp dọc */
+      nav.open ul li a { display: block; padding: 11px 14px; }
+
+      /* Stats hero: từ cột dọc → hàng ngang */
+      .hero-stats { flex-direction: row; flex-wrap: wrap; }
+      .stat-card  { flex: 1; min-width: 120px; }
+
+      /* Footer: 4 cột → 2 cột */
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Điện thoại dọc (≤ 600px) */
+    @media (max-width: 600px) {
+      section { padding: 52px 0; }          /* Bớt padding */
+      .hero   { padding: 72px 18px 40px; }
+      .hero-btns { flex-direction: column; } /* Nút xếp dọc */
+      .footer-grid   { grid-template-columns: 1fr; } /* Footer 1 cột */
+      .pricing-grid  { grid-template-columns: 1fr; } /* Pricing 1 cột */
+      .hero-stats    { flex-direction: column; }     /* Stats dọc lại */
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER — Thanh điều hướng sticky (dính khi cuộn trang)
+     ════════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+
+    <!-- Logo = thẻ <a> nhấn vào cuộn về đầu trang (#hero) -->
+    <a href="#hero" class="logo">
+      <!-- Icon lá cây từ Font Awesome (fa-solid fa-leaf) -->
+      <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
+      <!-- <em>Tech</em>: hiển thị màu xanh sáng, font-style:normal bỏ in nghiêng -->
+      <span class="logo-text">Green<em>Tech</em> Expo</span>
+    </a>
+
+    <!-- Nav desktop — ẩn khi màn hình < 900px, id dùng cho JS toggle -->
+    <nav id="main-nav">
+      <ul>
+        <!-- Mỗi href="#id" là anchor link cuộn đến section tương ứng -->
+        <li><a href="#hero">Trang chủ</a></li>
+        <li><a href="#gioi-thieu">Giới thiệu</a></li>
+        <li><a href="#lich-trinh">Lịch trình</a></li>
+        <li><a href="#dien-gia">Diễn giả</a></li>
+        <li><a href="#dang-ky">Đăng ký</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <!-- Nút CTA nổi bật — class nav-cta cho nền xanh -->
+        <li><a href="#dang-ky" class="nav-cta">Đăng ký ngay</a></li>
+      </ul>
+    </nav>
+
+    <!-- Nút hamburger 3 gạch (chỉ hiện ở mobile)
+         onclick gọi hàm toggleMenu() ở phần JavaScript cuối file -->
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Mở menu">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════════════
+     HERO — Banner chính, màn hình đầu tiên người dùng thấy
+     ════════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+
+    <!-- Cột trái: badge + tiêu đề + mô tả + 2 nút -->
+    <div class="hero-content">
+
+      <!-- Badge nhỏ hiển thị ngày và địa điểm -->
+      <div class="hero-label">
+        <i class="fa-regular fa-calendar"></i>
+        16–18 / 11 / 2025 &nbsp;·&nbsp; Hà Nội
+        <!-- &nbsp; = khoảng trắng không xuống dòng (non-breaking space) -->
+      </div>
+
+      <!-- Tiêu đề H1: <span class="hl"> in màu xanh lá -->
+      <h1>
+        GreenTech Expo 2025<br>
+        <span class="hl">Công nghệ vì Trái Đất Xanh</span>
+      </h1>
+
+      <!-- Mô tả: <strong> in đậm các từ khóa quan trọng -->
+      <p class="hero-desc">
+        Khám phá giải pháp <strong>năng lượng tái tạo</strong>,
+        <strong>đô thị thông minh</strong>, <strong>vật liệu bền vững</strong>
+        và <strong>kinh tế tuần hoàn</strong>.
+        Hơn 200 chuyên gia, startup và doanh nghiệp tiên phong.
+      </p>
+
+      <!-- 2 nút kêu gọi hành động -->
+      <div class="hero-btns">
+        <!-- Nút chính: nền xanh đặc -->
+        <a href="#dang-ky" class="btn-primary">
+          <i class="fa-solid fa-ticket"></i> Đăng ký tham dự
+        </a>
+        <!-- Nút phụ: viền trắng mờ -->
+        <a href="#lich-trinh" class="btn-outline">
+          Xem lịch trình <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cột phải: 4 thẻ số liệu thống kê -->
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Diễn giả</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Ngày hội nghị</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Workshop</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5K+</div>
+        <div class="stat-label">Người tham dự</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     GIỚI THIỆU — 3 thẻ thông tin tổng quan sự kiện
+     ════════════════════════════════════════════════════════ -->
+<section id="gioi-thieu">
+  <div class="container">
+
+    <!-- Heading section — cấu trúc này dùng lại ở mọi section -->
+    <div class="section-hd">
+      <h2>Về <span>Sự kiện</span></h2>
+      <div class="title-bar"></div> <!-- Thanh gạch xanh trang trí -->
+      <p>Hội nghị thường niên hàng đầu về công nghệ xanh tại Việt Nam</p>
+    </div>
+
+    <!-- Grid tự wrap: 3 thẻ trên desktop → 1 thẻ trên mobile -->
+    <div class="info-grid">
+
+      <!-- Thẻ 1: Thời gian & Địa điểm -->
+      <div class="info-card">
+        <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <h3>Thời gian &amp; Địa điểm</h3>
+        <!-- &amp; = ký hiệu & trong HTML (viết & thẳng có thể lỗi) -->
+        <p>
+          <strong>16–18 tháng 11, 2025</strong><br>
+          Trung tâm Hội nghị Quốc gia<br>
+          Đường Phạm Hùng, Mỹ Đình, Hà Nội
+        </p>
+      </div>
+
+      <!-- Thẻ 2: Đối tượng tham gia — dùng tag nhỏ thay danh sách thường -->
+      <div class="info-card">
+        <div class="info-icon"><i class="fa-solid fa-users"></i></div>
+        <h3>Đối tượng tham gia</h3>
+        <p>Hội nghị mở cho tất cả:</p>
+        <div class="tag-row">
+          <span class="tag">Doanh nghiệp xanh</span>
+          <span class="tag">Startup cleantech</span>
+          <span class="tag">Kỹ sư &amp; Dev</span>
+          <span class="tag">Nhà đầu tư</span>
+          <span class="tag">Sinh viên MT–CNTT</span>
+        </div>
+      </div>
+
+      <!-- Thẻ 3: Mục tiêu -->
+      <div class="info-card">
+        <div class="info-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Mục tiêu</h3>
+        <p>
+          <strong>Kết nối</strong> hệ sinh thái công nghệ xanh trong nước và quốc tế.<br><br>
+          <strong>Chia sẻ</strong> tri thức và giải pháp bền vững tiên tiến.<br><br>
+          <strong>Thúc đẩy</strong> đổi mới sáng tạo vì tương lai xanh hơn.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     LỊCH TRÌNH — Tab 3 ngày + Timeline dọc
+     ════════════════════════════════════════════════════════ -->
+<section id="lich-trinh">
+  <div class="container">
+
+    <div class="section-hd">
+      <h2><span>Lịch trình</span> Sự kiện</h2>
+      <div class="title-bar"></div>
+      <p>Chương trình chi tiết 3 ngày hội nghị</p>
+    </div>
+
+    <!-- 3 nút tab — onclick="showDay(n, this)"
+         'this' truyền chính nút đang click vào hàm JS để đổi màu active -->
+    <div class="day-tabs">
+      <button class="day-tab active" onclick="showDay(1,this)">
+        <i class="fa-regular fa-calendar-days"></i> Day 1 – 16/11
+      </button>
+      <button class="day-tab" onclick="showDay(2,this)">
+        <i class="fa-regular fa-calendar-days"></i> Day 2 – 17/11
+      </button>
+      <button class="day-tab" onclick="showDay(3,this)">
+        <i class="fa-regular fa-calendar-days"></i> Day 3 – 18/11
+      </button>
+    </div>
+
+    <!-- Day 1: mặc định hiển thị (class="day-content active")
+         Các day khác không có active → display:none -->
+    <div class="day-content active" id="day-1">
+      <div class="timeline">
+
+        <!-- Mỗi .tl-item = 1 sự kiện trong ngày -->
+        <div class="tl-item">
+          <div class="tl-dot"></div>         <!-- Chấm tròn trên đường dọc -->
+          <div class="tl-time">08:00 – 09:00</div>
+          <!-- Badge màu xanh lá = Panel/Khai mạc -->
+          <span class="badge badge-panel"><i class="fa-solid fa-flag"></i> Khai mạc</span>
+          <div class="tl-title">Lễ khai mạc GreenTech Expo 2025</div>
+          <div class="tl-desc">Phát biểu khai mạc từ Ban tổ chức và Khách mời danh dự cấp quốc tế</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">09:00 – 11:30</div>
+          <!-- Badge màu xanh dương = Keynote -->
+          <span class="badge badge-keynote"><i class="fa-solid fa-microphone"></i> Keynote</span>
+          <div class="tl-title">Net-Zero &amp; Lộ trình khử Carbon cho doanh nghiệp</div>
+          <div class="tl-desc">Cam kết ESG, khung pháp lý quốc tế và hành trình chuyển đổi Net-Zero đến năm 2050</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">14:00 – 16:00</div>
+          <!-- Badge màu tím = Workshop -->
+          <span class="badge badge-workshop"><i class="fa-solid fa-screwdriver-wrench"></i> Workshop</span>
+          <div class="tl-title">Lập kế hoạch năng lượng mặt trời cho toà nhà</div>
+          <div class="tl-desc">Thực hành tính tải điện, thiết kế hệ thống solar panel và phân tích ROI thực tế</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">16:30 – 18:00</div>
+          <span class="badge badge-panel"><i class="fa-solid fa-handshake"></i> Networking</span>
+          <div class="tl-title">Phiên Networking chiều – Kết nối hệ sinh thái Xanh</div>
+          <div class="tl-desc">Gặp gỡ chuyên gia, startup và nhà đầu tư trong không gian triển lãm</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Day 2: ẩn mặc định (không có class active) -->
+    <div class="day-content" id="day-2">
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">09:00 – 11:00</div>
+          <span class="badge badge-keynote"><i class="fa-solid fa-microphone"></i> Keynote</span>
+          <div class="tl-title">Hạ tầng dữ liệu cho đô thị thông minh</div>
+          <div class="tl-desc">Kiến trúc IoT – Edge – Cloud, nền tảng dữ liệu đô thị và bảo mật trong Smart City</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">11:30 – 13:00</div>
+          <span class="badge badge-panel"><i class="fa-solid fa-comments"></i> Panel</span>
+          <div class="tl-title">Startup Cleantech: Từ Ý tưởng đến Thị trường</div>
+          <div class="tl-desc">Kinh nghiệm gọi vốn, scale-up và hợp tác quốc tế từ các startup nổi bật khu vực ASEAN</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">14:00 – 16:00</div>
+          <span class="badge badge-workshop"><i class="fa-solid fa-screwdriver-wrench"></i> Workshop</span>
+          <div class="tl-title">IoT giám sát chất lượng không khí</div>
+          <div class="tl-desc">Lập trình sensor AQI, kết nối MQTT và dashboard giám sát thời gian thực bằng Node-RED</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Day 3: ẩn mặc định -->
+    <div class="day-content" id="day-3">
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">09:00 – 11:00</div>
+          <span class="badge badge-keynote"><i class="fa-solid fa-microphone"></i> Keynote</span>
+          <div class="tl-title">Vật liệu tái chế &amp; Thiết kế tuần hoàn</div>
+          <div class="tl-desc">Xu hướng vật liệu xanh toàn cầu và nguyên tắc thiết kế Cradle-to-Cradle trong sản xuất</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">11:30 – 12:30</div>
+          <span class="badge badge-workshop"><i class="fa-solid fa-screwdriver-wrench"></i> Workshop</span>
+          <div class="tl-title">Tính toán carbon cho sản phẩm</div>
+          <div class="tl-desc">Phương pháp LCA (Life Cycle Assessment), công cụ và báo cáo carbon footprint chuẩn quốc tế</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">15:00 – 16:30</div>
+          <span class="badge badge-panel"><i class="fa-solid fa-trophy"></i> Bế mạc</span>
+          <div class="tl-title">Lễ bế mạc &amp; Trao giải Innovation Award 2025</div>
+          <div class="tl-desc">Vinh danh giải pháp xuất sắc. Thông báo GreenTech Expo 2026</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     DIỄN GIẢ — Grid 4 thẻ, avatar dùng chữ tắt thay ảnh thật
+     ════════════════════════════════════════════════════════ -->
+<section id="dien-gia">
+  <div class="container">
+
+    <div class="section-hd">
+      <h2><span>Diễn giả</span> Nổi bật</h2>
+      <div class="title-bar"></div>
+      <p>Các CEO, chuyên gia hàng đầu trong lĩnh vực công nghệ xanh</p>
+    </div>
+
+    <div class="speakers-grid">
+
+      <!-- Mỗi .speaker-card = 1 diễn giả -->
+      <div class="speaker-card">
+        <!-- Avatar: hình tròn gradient, chứa chữ tắt tên (Stefan Nguyen → SN) -->
+        <div class="speaker-avatar">SN</div>
+        <span class="speaker-badge">Siemens</span>   <!-- Badge tên công ty -->
+        <h3>Dr. Stefan Nguyen</h3>
+        <div class="speaker-role">VP Global Energy Solutions</div>
+        <!-- Hộp chủ đề bài nói — in nghiêng, nền xám nhạt -->
+        <div class="speaker-topic">"Chuyển đổi năng lượng thông minh: Mô hình Grid 2.0 cho thị trường ASEAN"</div>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-avatar">ML</div>
+        <span class="speaker-badge">Schneider Electric</span>
+        <h3>Marie Laurent</h3>
+        <div class="speaker-role">Chief Sustainability Officer</div>
+        <div class="speaker-topic">"EcoStruxure và lộ trình Net-Zero cho tòa nhà thương mại"</div>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-avatar">JC</div>
+        <span class="speaker-badge">Tesla Energy</span>
+        <h3>James Chen</h3>
+        <div class="speaker-role">Director APAC Business</div>
+        <div class="speaker-topic">"Hệ thống lưu trữ năng lượng Megapack và tương lai lưới điện tái tạo"</div>
+      </div>
+
+      <div class="speaker-card">
+        <div class="speaker-avatar">HA</div>
+        <span class="speaker-badge">VNG Cloud</span>
+        <h3>Trần Hoàng Anh</h3>
+        <div class="speaker-role">CTO Smart City Division</div>
+        <div class="speaker-topic">"Kiến trúc dữ liệu đô thị thông minh: thực tiễn triển khai tại Việt Nam"</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     ĐĂNG KÝ — 2 gói vé: Thường ($49) và VIP ($99)
+     ════════════════════════════════════════════════════════ -->
+<section id="dang-ky">
+  <div class="container">
+
+    <div class="section-hd">
+      <h2>Gói vé &amp; <span>Đăng ký</span></h2>
+      <div class="title-bar"></div>
+      <p>Chọn gói phù hợp – tham dự GreenTech Expo 2025</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- Thẻ Vé Thường -->
+      <div class="pricing-card card-std">
+        <h3><i class="fa-solid fa-ticket"></i> Vé Thường</h3>
+        <div class="price-val">$49</div>
+        <!-- Danh sách quyền lợi — icon check từ Font Awesome -->
+        <ul class="pricing-list">
+          <li><i class="fa-solid fa-check"></i> Toàn bộ phiên Keynote chính</li>
+          <li><i class="fa-solid fa-check"></i> Tham dự triển lãm công nghệ</li>
+          <li><i class="fa-solid fa-check"></i> Tài liệu hội nghị (kỹ thuật số)</li>
+          <li><i class="fa-solid fa-check"></i> Lunch &amp; coffee breaks</li>
+          <li><i class="fa-solid fa-check"></i> Certificate tham dự</li>
+        </ul>
+        <!-- onclick dùng alert() để giả lập bước thanh toán (không có backend) -->
+        <button class="btn-buy std"
+          onclick="alert('Đăng ký Vé Thường – $49\nVui lòng điền form thanh toán.')">
+          Đăng ký ngay
+        </button>
+      </div>
+
+      <!-- Thẻ Vé VIP — có dải HOT góc trên phải -->
+      <div class="pricing-card card-vip">
+        <!-- .hot-ribbon: absolute + rotate(45deg) = dải chéo góc -->
+        <div class="hot-ribbon">HOT</div>
+        <h3><i class="fa-solid fa-star"></i> Vé VIP</h3>
+        <div class="price-val">$99</div>
+        <ul class="pricing-list">
+          <li><i class="fa-solid fa-check"></i> Tất cả quyền lợi Vé Thường</li>
+          <li><i class="fa-solid fa-check"></i> Truy cập khu Networking Lounge</li>
+          <li><i class="fa-solid fa-check"></i> Gặp gỡ riêng với diễn giả</li>
+          <li><i class="fa-solid fa-check"></i> Bàn doanh nghiệp ưu tiên</li>
+          <li><i class="fa-solid fa-check"></i> Workshop độc quyền VIP</li>
+          <li><i class="fa-solid fa-check"></i> Tài liệu in ấn cao cấp</li>
+        </ul>
+        <button class="btn-buy vip"
+          onclick="alert('Đăng ký Vé VIP – $99\nVui lòng điền form thanh toán.')">
+          Đăng ký VIP
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     FAQ — Accordion: click câu hỏi để mở/đóng câu trả lời
+     ════════════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="container">
+
+    <div class="section-hd">
+      <h2>Câu hỏi <span>Thường gặp</span></h2>
+      <div class="title-bar"></div>
+      <p>Giải đáp những thắc mắc phổ biến về sự kiện</p>
+    </div>
+
+    <div class="faq-wrap">
+
+      <!-- Mỗi .faq-item = 1 cặp câu hỏi + câu trả lời
+           JS toggleFaq(this) thêm/xóa class .open trên .faq-item -->
+      <div class="faq-item">
+        <!-- onclick="toggleFaq(this)": 'this' = chính thẻ .faq-q được click -->
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Vé có thể hoàn trả không?</span>
+          <!-- Mũi tên xoay 180° khi .faq-item có class .open (CSS xử lý) -->
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </div>
+        <!-- .faq-a: max-height:0 = ẩn; max-height:200px khi .open = hiện (slide down) -->
+        <div class="faq-a">
+          <p>Hoàn 100% trước 01/11/2025. Hoàn 50% từ 01/11–10/11. Sau 10/11 không hoàn vé nhưng có thể chuyển nhượng cho người khác bằng cách liên hệ BTC.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Di chuyển xanh đến hội nghị như thế nào?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </div>
+        <div class="faq-a">
+          <p>BTC khuyến khích Metro (tuyến số 5 – trạm Mỹ Đình) hoặc xe buýt BRT. Có shuttle bus miễn phí từ ga Hà Nội và sân bay Nội Bài vào buổi sáng các ngày hội nghị.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Quy định đăng ký booth demo như thế nào?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </div>
+        <div class="faq-a">
+          <p>Booth tiêu chuẩn 3×3m (bàn, 2 ghế, banner, điện 220V). Hạn đăng ký: 30/10/2025. Liên hệ sponsor@greentech-expo.vn để biết thêm chi tiết và bảng giá.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Chương trình tình nguyện viên?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </div>
+        <div class="faq-a">
+          <p>Tuyển 50 tình nguyện viên sinh viên CNTT/Môi trường. Quyền lợi: vé miễn phí, áo đồng phục, giấy chứng nhận và cơ hội networking. Đăng ký: volunteer@greentech-expo.vn.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Workshop có cần đăng ký riêng không?</span>
+          <i class="fa-solid fa-chevron-down faq-arrow"></i>
+        </div>
+        <div class="faq-a">
+          <p>Vé VIP đã bao gồm tất cả Workshop. Vé Thường đăng ký workshop riêng (miễn phí, tối đa 30 chỗ/phiên, ưu tiên theo thứ tự đăng ký sớm).</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER — Grid 4 cột: brand (2fr) + 3 cột menu (1fr mỗi cột)
+     ════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+
+    <!-- Cột 1: Brand — rộng gấp đôi (2fr) -->
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <i class="fa-solid fa-leaf"></i> GreenTech Expo 2025
+      </div>
+      <p>Hội nghị thường niên về công nghệ xanh, năng lượng tái tạo và phát triển bền vững tại Việt Nam.</p>
+      <!-- 4 icon mạng xã hội — hover nền xanh lá -->
+      <div class="social-links">
+        <a class="social-link" href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a class="social-link" href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a class="social-link" href="#" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a class="social-link" href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- Cột 2: Sự kiện -->
+    <div class="footer-col">
+      <h4>Sự kiện</h4>
+      <ul>
+        <li><a href="#gioi-thieu"><i class="fa-solid fa-circle-info"></i> Giới thiệu</a></li>
+        <li><a href="#lich-trinh"><i class="fa-regular fa-calendar"></i> Lịch trình</a></li>
+        <li><a href="#dien-gia"><i class="fa-solid fa-user-tie"></i> Diễn giả</a></li>
+        <li><a href="#dang-ky"><i class="fa-solid fa-ticket"></i> Đăng ký</a></li>
+      </ul>
+    </div>
+
+    <!-- Cột 3: Hỗ trợ -->
+    <div class="footer-col">
+      <h4>Hỗ trợ</h4>
+      <ul>
+        <li><a href="#faq"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+        <li><a href="#"><i class="fa-solid fa-rotate-left"></i> Chính sách hoàn vé</a></li>
+        <li><a href="#"><i class="fa-solid fa-train-subway"></i> Di chuyển xanh</a></li>
+        <li><a href="#"><i class="fa-solid fa-hand-holding-heart"></i> Tình nguyện viên</a></li>
+      </ul>
+    </div>
+
+    <!-- Cột 4: Liên hệ -->
+    <div class="footer-col">
+      <h4>Liên hệ BTC</h4>
+      <ul>
+        <li><a href="#"><i class="fa-solid fa-envelope"></i> info@greentech-expo.vn</a></li>
+        <li><a href="#"><i class="fa-solid fa-phone"></i> (024) 3578 9000</a></li>
+        <li><a href="#"><i class="fa-solid fa-building"></i> Trung tâm HN Quốc gia</a></li>
+        <li><a href="#"><i class="fa-solid fa-map-pin"></i> Phạm Hùng, Mỹ Đình, HN</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Dòng copyright cuối trang -->
+  <div class="footer-bottom">
+    <p>© 2025 GreenTech Expo. All rights reserved. &nbsp;|&nbsp;
+      <a href="#">Điều khoản sử dụng</a> &nbsp;|&nbsp;
+      <a href="#">Chính sách bảo mật</a>
+    </p>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT — 3 hàm tương tác + 1 khối smooth scroll
+     Đặt cuối <body>: HTML load xong mới chạy JS, tránh lỗi
+     "Cannot find element" khi JS chạy trước HTML
+     ════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Hàm 1: Toggle menu mobile ─────────────────────────────
+     Gọi khi click nút hamburger 3 gạch
+     classList.toggle('open'):
+       - Chưa có class "open" → thêm vào = mở menu
+       - Đã có class "open"   → xóa đi  = đóng menu
+     CSS xử lý phần hiển thị khi có class .open              */
+  function toggleMenu() {
+    document.getElementById('main-nav').classList.toggle('open');
+  }
+
+  /* ── Hàm 2: Chuyển tab lịch trình ──────────────────────────
+     n   = số ngày (1, 2 hoặc 3)
+     btn = nút tab vừa được click (truyền bằng 'this' ở HTML) */
+  function showDay(n, btn) {
+    // Bước 1: Xóa "active" khỏi TẤT CẢ khối nội dung → ẩn hết
+    document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+    // Bước 2: Xóa "active" khỏi TẤT CẢ nút tab → bỏ màu xanh
+    document.querySelectorAll('.day-tab').forEach(el => el.classList.remove('active'));
+    // Bước 3: Thêm "active" vào nội dung ngày được chọn → hiện ra
+    document.getElementById('day-' + n).classList.add('active');
+    // Bước 4: Thêm "active" vào nút tab được click → đổi màu xanh
+    btn.classList.add('active');
+  }
+
+  /* ── Hàm 3: Toggle FAQ accordion ───────────────────────────
+     q = thẻ .faq-q vừa được click (truyền bằng 'this' ở HTML)
+     q.parentElement = thẻ .faq-item bọc cả câu hỏi + trả lời
+     CSS: .faq-item.open .faq-a { max-height: 200px } → trượt xuống */
+  function toggleFaq(q) {
+    q.parentElement.classList.toggle('open');
+  }
+
+  /* ── Smooth scroll cho tất cả link anchor (#...) ────────────
+     Thay vì nhảy tức thì → cuộn mượt đến đúng section       */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    // 'a[href^="#"]' = chọn tất cả <a> có href bắt đầu bằng #
+    link.addEventListener('click', function(e) {
+      // Lấy giá trị href, tìm phần tử có id tương ứng
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault(); // Chặn hành vi nhảy trang mặc định
+        target.scrollIntoView({
+          behavior: 'smooth', // Cuộn mượt (thay vì nhảy tức thì)
+          block: 'start'      // Căn phần tử về đầu viewport
+        });
+        // Đóng menu mobile sau khi click link (nếu đang mở)
+        document.getElementById('main-nav').classList.remove('open');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Array Methods – Slide 51-63</title>
+    <style>
+        body  { font-family: Consolas, monospace; background: #1e1e1e; color: #d4d4d4; padding: 20px; }
+        h1    { color: #569cd6; font-size: 18px; margin-bottom: 4px; }
+        h2    { color: #c586c0; font-size: 14px; margin: 28px 0 6px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        pre   { background: #252526; border-left: 3px solid #569cd6; padding: 14px; margin: 6px 0 16px;
+                border-radius: 4px; font-size: 13px; line-height: 1.9; overflow-x: auto; white-space: pre-wrap; }
+        .out  { background: #1a2b1a; border-left: 3px solid #4ec94e; padding: 10px 14px;
+                margin: -10px 0 16px; border-radius: 0 0 4px 4px; font-size: 13px; line-height: 1.8; color: #9cdcfe; }
+        .out::before { content: "▶ OUTPUT"; color: #4ec94e; font-size: 11px; display: block; margin-bottom: 4px; }
+        p     { color: #888; font-size: 12px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>// JavaScript Array Methods – Slide 51-63</h1>
+<p>// Mở DevTools (F12 → Console) để xem log. Kết quả cũng hiện ngay bên dưới mỗi đoạn code.</p>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 51 – Khai báo Array & kiểm tra kiểu</h2>
+<pre id="s51"></pre><div class="out" id="o51"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 52 – toString() và join()</h2>
+<pre id="s52"></pre><div class="out" id="o52"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 53 – pop() và shift() – xóa phần tử</h2>
+<pre id="s53"></pre><div class="out" id="o53"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 54 – push() và unshift() – thêm phần tử</h2>
+<pre id="s54"></pre><div class="out" id="o54"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 55 – splice() – xóa / chèn tại vị trí bất kỳ</h2>
+<pre id="s55"></pre><div class="out" id="o55"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 56 – concat() và slice()</h2>
+<pre id="s56"></pre><div class="out" id="o56"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 57 – sort() và reverse()</h2>
+<pre id="s57"></pre><div class="out" id="o57"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 58 – forEach() và map()</h2>
+<pre id="s58"></pre><div class="out" id="o58"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 59 – reduce() và reduceRight()</h2>
+<pre id="s59"></pre><div class="out" id="o59"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 60 – every() và some()</h2>
+<pre id="s60"></pre><div class="out" id="o60"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 61 – indexOf() và lastIndexOf()</h2>
+<pre id="s61"></pre><div class="out" id="o61"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 62 – find() và filter()</h2>
+<pre id="s62"></pre><div class="out" id="o62"></div>
+
+<!-- ============================================================ -->
+<h2>// SLIDE 63 – includes() và findIndex()</h2>
+<pre id="s63"></pre><div class="out" id="o63"></div>
+
+<script>
+// ================================================================
+// TIỆN ÍCH: hiển thị code + output lên trang
+// ================================================================
+function demo(slideId, fn) {
+    const lines = [];
+    const orig = console.log;
+    console.log = (...args) => {
+        orig(...args);
+        lines.push(args.map(a => JSON.stringify(a) ?? String(a)).join(" "));
+    };
+    const src = fn.toString()
+        .replace(/^function\s*\(\)\s*\{/, "")
+        .replace(/\}$/, "")
+        .split("\n").slice(1, -1)          // bỏ dòng đầu/cuối rỗng
+        .map(l => l.replace(/^    /, ""))  // bỏ 4 spaces indent
+        .join("\n");
+    document.getElementById(slideId).textContent = src;
+    fn();
+    document.getElementById("o" + slideId.slice(1)).innerHTML = lines.join("<br>");
+    console.log = orig;
+}
+
+
+// ================================================================
+// SLIDE 51 – Khai báo Array & kiểm tra kiểu
+// ================================================================
+demo("s51", function () {
+
+    // Cách 1: dùng literal []
+    var beers = ["Heineken", "Tiger", "Sapporo"];
+
+    // Cách 2: dùng constructor (ít dùng hơn)
+    var beers2 = new Array("Heineken", "Tiger", "Sapporo");
+
+    // typeof trả về "object" cho cả Array lẫn Object thường → KHÔNG phân biệt được!
+    console.log(typeof beers);           // "object"
+    console.log(typeof {});              // "object"
+
+    // Cách đúng để kiểm tra: dùng Array.isArray()
+    console.log(Array.isArray(beers));   // true  ← đây là Array
+    console.log(Array.isArray({}));      // false ← đây là Object thường
+
+    // Hoặc dùng instanceof
+    console.log(beers instanceof Array); // true
+
+});
+
+
+// ================================================================
+// SLIDE 52 – toString() và join()
+// ================================================================
+demo("s52", function () {
+
+    const beers = ["Heineken", "Tiger", "Sapporo"];
+
+    // toString(): chuyển array → chuỗi, phần tử cách nhau bằng dấu ","
+    console.log(beers.toString());       // "Heineken,Tiger,Sapporo"
+
+    // join(sep): giống toString nhưng tự chọn ký tự phân cách
+    console.log(beers.join(" - "));      // "Heineken - Tiger - Sapporo"
+    console.log(beers.join(" | "));      // "Heineken | Tiger | Sapporo"
+    console.log(beers.join(""));         // "HeinekenTigerSapporo"
+
+});
+
+
+// ================================================================
+// SLIDE 53 – pop() và shift()  [XÓA phần tử – biến đổi mảng gốc]
+// ================================================================
+demo("s53", function () {
+
+    // pop(): xóa phần tử CUỐI, trả về phần tử đã xóa
+    const a = ["Heineken", "Tiger", "Sapporo"];
+    console.log(a.pop());    // "Sapporo"   ← phần tử bị xóa
+    console.log(a);          // ["Heineken", "Tiger"]
+
+    // shift(): xóa phần tử ĐẦU, trả về phần tử đã xóa
+    const b = ["Heineken", "Tiger", "Sapporo"];
+    console.log(b.shift());  // "Heineken"  ← phần tử bị xóa
+    console.log(b);          // ["Tiger", "Sapporo"]
+
+    // Ghi nhớ: pop/shift đều THAY ĐỔI mảng gốc!
+
+});
+
+
+// ================================================================
+// SLIDE 54 – push() và unshift()  [THÊM phần tử – biến đổi mảng gốc]
+// ================================================================
+demo("s54", function () {
+
+    // push(): thêm vào CUỐI, trả về số lượng phần tử mới
+    const a = ["Heineken", "Tiger", "Sapporo"];
+    console.log(a.push("Corona Extra")); // 4  ← độ dài mới
+    console.log(a);  // ["Heineken", "Tiger", "Sapporo", "Corona Extra"]
+
+    // unshift(): thêm vào ĐẦU, trả về số lượng phần tử mới
+    const b = ["Heineken", "Tiger", "Sapporo"];
+    console.log(b.unshift("Corona Extra")); // 4
+    console.log(b);  // ["Corona Extra", "Heineken", "Tiger", "Sapporo"]
+
+});
+
+
+// ================================================================
+// SLIDE 55 – splice(start, deleteCount, ...items)
+// Dùng để: xóa, thêm, hoặc thay thế phần tử tại vị trí bất kỳ
+// ================================================================
+demo("s55", function () {
+
+    // Chỉ XÓA: splice(vị_trí_bắt_đầu, số_phần_tử_xóa)
+    const a = ["Heineken", "Tiger", "Sapporo"];
+    console.log(a.splice(1, 1)); // ["Tiger"]  ← mảng các phần tử bị xóa
+    console.log(a);              // ["Heineken", "Sapporo"]
+
+    // XÓA rồi THÊM: splice(vị_trí, số_xóa, phần_tử_mới...)
+    const b = ["Heineken", "Tiger", "Sapporo"];
+    console.log(b.splice(1, 1, "Corona")); // ["Tiger"]
+    console.log(b);  // ["Heineken", "Corona", "Sapporo"]  ← Tiger bị thay bằng Corona
+
+    // Chỉ THÊM (deleteCount = 0): splice(vị_trí, 0, phần_tử_mới...)
+    const c = ["Heineken", "Tiger", "Sapporo"];
+    console.log(c.splice(1, 0, "Corona", "Strongbow")); // []  ← không xóa gì
+    console.log(c);  // ["Heineken", "Corona", "Strongbow", "Tiger", "Sapporo"]
+
+});
+
+
+// ================================================================
+// SLIDE 56 – concat() và slice()
+// ================================================================
+demo("s56", function () {
+
+    // concat(): nối nhiều mảng → trả về mảng MỚI (không thay đổi mảng gốc)
+    const list1 = ["Heineken", "Tiger", "Sapporo"];
+    const list2 = ["Corona", "Strongbow"];
+    console.log(list1.concat(list2));
+    // ["Heineken", "Tiger", "Sapporo", "Corona", "Strongbow"]
+
+    // slice(start, end): cắt mảng từ index start đến TRƯỚC index end
+    // → trả về mảng MỚI, mảng gốc KHÔNG thay đổi
+    const beerList = ["Heineken", "Tiger", "Sapporo"];
+
+    console.log(beerList.slice(1, 2));   // ["Tiger"]      ← index 1 đến trước 2
+    console.log(beerList.slice(0, 2));   // ["Heineken", "Tiger"]
+    console.log(beerList.slice(-2, -1)); // ["Tiger"]      ← số âm = đếm từ cuối
+    console.log(beerList.slice(-1));     // ["Sapporo"]    ← phần tử cuối cùng
+    console.log(beerList.slice(1));      // ["Tiger", "Sapporo"]  ← từ index 1 đến hết
+
+});
+
+
+// ================================================================
+// SLIDE 57 – sort() và reverse()
+// ================================================================
+demo("s57", function () {
+
+    // sort() với CHUỖI: sắp xếp theo thứ tự chữ cái (Unicode)
+    const beers = ["Heineken", "Tiger", "Sapporo"];
+    beers.sort();
+    console.log(beers); // ["Heineken", "Sapporo", "Tiger"]
+
+    // reverse(): đảo ngược mảng (thay đổi mảng gốc)
+    beers.reverse();
+    console.log(beers); // ["Tiger", "Sapporo", "Heineken"]
+
+    // sort() với SỐ: PHẢI truyền hàm so sánh!
+    // Nếu không → sort theo chuỗi → SAI!
+    const marks = [4, 2, 10, 8, 15];
+    marks.sort();
+    console.log(marks); // [10, 15, 2, 4, 8]  ← SAI! (10 < 2 theo chuỗi)
+
+    // Cách đúng: truyền hàm (a, b) => a - b
+    // Nguyên tắc: return âm → a trước b | return dương → b trước a | return 0 → giữ nguyên
+    const marks2 = [4, 2, 10, 8, 15];
+    marks2.sort((a, b) => a - b);         // tăng dần
+    console.log(marks2); // [2, 4, 8, 10, 15]  ← ĐÚNG
+
+    marks2.sort((a, b) => b - a);         // giảm dần
+    console.log(marks2); // [15, 10, 8, 4, 2]
+
+});
+
+
+// ================================================================
+// SLIDE 58 – forEach() và map()
+// ================================================================
+demo("s58", function () {
+
+    // forEach(): duyệt qua từng phần tử, KHÔNG tạo mảng mới
+    // Callback nhận: (value, index, array)
+    const numbers = [36, 6, 9, 18, 22];
+    numbers.forEach(function(value, index) {
+        console.log(index + ": " + value);
+    });
+    // 0: 36  |  1: 6  |  2: 9  |  3: 18  |  4: 22
+
+    // map(): tạo MẢNG MỚI bằng cách biến đổi từng phần tử
+    // Mảng gốc KHÔNG thay đổi
+    const arr1 = [36, 6, 9, 18, 22];
+    const arr2 = arr1.map(value => value ** 2);  // bình phương từng phần tử
+    console.log(arr2);  // [1296, 36, 81, 324, 484]
+    console.log(arr1);  // [36, 6, 9, 18, 22]  ← mảng gốc vẫn vậy
+
+    // So sánh nhanh:
+    // forEach → duyệt / in ra / thao tác side-effect → không cần return
+    // map     → biến đổi dữ liệu sang mảng mới       → phải return giá trị
+
+});
+
+
+// ================================================================
+// SLIDE 59 – reduce() và reduceRight()
+// ================================================================
+demo("s59", function () {
+
+    // reduce(callback, initialValue):
+    // Duyệt từng phần tử, tích luỹ vào 1 biến → trả về 1 GIÁ TRỊ DUY NHẤT
+    // Callback nhận: (total/accumulator, value, index, array)
+
+    const numbers = [3, 2, 4, 1, 6, 8];
+
+    // Cách 1: không có giá trị khởi tạo → total ban đầu = phần tử đầu tiên
+    const sum1 = numbers.reduce(function(total, value) {
+        return total + value;
+    });
+    console.log(sum1); // 24
+
+    // Cách 2: có giá trị khởi tạo = 0 (nên dùng để tránh lỗi với mảng rỗng)
+    const sum2 = numbers.reduce((total, value) => total + value, 0);
+    console.log(sum2); // 24
+
+    // Ví dụ khác: tìm giá trị lớn nhất bằng reduce
+    const max = numbers.reduce((biggest, value) => value > biggest ? value : biggest, 0);
+    console.log(max); // 8
+
+    // reduceRight(): giống reduce nhưng duyệt từ PHẢI sang TRÁI
+    const words = ["World", "Hello"];
+    const sentence = words.reduceRight((acc, word) => acc + " " + word, "");
+    console.log(sentence.trim()); // "Hello World"
+
+});
+
+
+// ================================================================
+// SLIDE 60 – every() và some()
+// ================================================================
+demo("s60", function () {
+
+    const numbers = [36, 3, 11, 16, 19, 22];
+
+    // every(): trả về TRUE nếu TẤT CẢ phần tử thỏa điều kiện
+    //          trả về FALSE ngay khi gặp 1 phần tử KHÔNG thỏa
+    const allOver20 = numbers.every(value => value > 20);
+    console.log(allOver20); // false  ← vì 3, 11, 16, 19 không > 20
+
+    const allPositive = numbers.every(value => value > 0);
+    console.log(allPositive); // true  ← tất cả đều > 0
+
+    // some(): trả về TRUE nếu ÍT NHẤT MỘT phần tử thỏa điều kiện
+    //         trả về FALSE nếu KHÔNG CÓ phần tử nào thỏa
+    const someOver20 = numbers.some(value => value > 20);
+    console.log(someOver20); // true  ← 36 và 22 đều > 20
+
+    const someOver100 = numbers.some(value => value > 100);
+    console.log(someOver100); // false  ← không có phần tử nào > 100
+
+    // Mẹo nhớ:
+    // every() → như AND: tất cả phải đúng mới là true
+    // some()  → như OR:  chỉ cần 1 đúng là true
+
+});
+
+
+// ================================================================
+// SLIDE 61 – indexOf() và lastIndexOf()
+// ================================================================
+demo("s61", function () {
+
+    const numbers = [3, 2, 4, 3, 2, 8];
+    //               0  1  2  3  4  5   ← index
+
+    // indexOf(value): tìm lần XUẤT HIỆN ĐẦU TIÊN → trả về index
+    //                 không tìm thấy → trả về -1
+    console.log(numbers.indexOf(2));    // 1  ← số 2 đầu tiên ở index 1
+    console.log(numbers.indexOf(3));    // 0
+    console.log(numbers.indexOf(99));   // -1  ← không tồn tại
+
+    // indexOf(value, fromIndex): tìm từ vị trí fromIndex trở đi
+    console.log(numbers.indexOf(2, 2)); // 4  ← bắt đầu tìm từ index 2
+
+    // lastIndexOf(value): tìm lần XUẤT HIỆN CUỐI CÙNG → trả về index
+    console.log(numbers.lastIndexOf(2)); // 4  ← số 2 cuối cùng ở index 4
+    console.log(numbers.lastIndexOf(3)); // 3
+
+    // Cách dùng thực tế: kiểm tra tồn tại
+    if (numbers.indexOf(4) !== -1) {
+        console.log("Tìm thấy số 4!"); // in ra dòng này
+    }
+
+});
+
+
+// ================================================================
+// SLIDE 62 – find() và filter()
+// ================================================================
+demo("s62", function () {
+
+    // find(): tìm và trả về PHẦN TỬ ĐẦU TIÊN thỏa điều kiện
+    //         không tìm thấy → trả về undefined
+    const beers = ["Heineken", "Tiger", "Sapporo"];
+    const found = beers.find(value => value === "Tiger");
+    console.log(found); // "Tiger"
+
+    const numbers = [36, 3, 11, 16, 19, 22];
+    const firstOver15 = numbers.find(value => value > 15);
+    console.log(firstOver15); // 36  ← phần tử đầu tiên > 15
+
+    const notFound = numbers.find(value => value > 100);
+    console.log(notFound); // undefined
+
+    // filter(): tạo MẢNG MỚI gồm TẤT CẢ phần tử thỏa điều kiện
+    //           không có phần tử nào thỏa → trả về []
+    const over20 = numbers.filter(value => value > 20);
+    console.log(over20); // [36, 22]
+
+    const over100 = numbers.filter(value => value > 100);
+    console.log(over100); // []  ← mảng rỗng
+
+    // So sánh find vs filter:
+    // find()   → 1 phần tử (phần tử đầu tiên)
+    // filter() → mảng mới (tất cả phần tử thỏa)
+
+});
+
+
+// ================================================================
+// SLIDE 63 – includes() và findIndex()
+// ================================================================
+demo("s63", function () {
+
+    // includes(): kiểm tra phần tử có TỒN TẠI trong mảng không → true/false
+    const beers = ["Heineken", "Tiger", "Sapporo"];
+    console.log(beers.includes("Tiger"));      // true
+    console.log(beers.includes("Corona"));     // false
+
+    // includes(value, fromIndex): tìm từ index chỉ định
+    const s = "No Pain No Gain!";
+    console.log(s.includes("No", 3));  // true  ← "No" thứ 2 bắt đầu ở index 7, tìm từ index 3
+
+    // findIndex(): trả về INDEX của phần tử đầu tiên thỏa điều kiện
+    //              không tìm thấy → trả về -1
+    const numbers = [1, 3, 11, 16, 19, 22];
+    //               0  1   2   3   4   5  ← index
+
+    const idx = numbers.findIndex(value => value > 15);
+    console.log(idx); // 3  ← 16 ở index 3 là số đầu tiên > 15
+
+    const notFound = numbers.findIndex(value => value > 100);
+    console.log(notFound); // -1
+
+    // Bảng so sánh các phương thức tìm kiếm:
+    // includes(v)    → true/false         | không dùng callback
+    // indexOf(v)     → index hoặc -1      | không dùng callback | so sánh ===
+    // find(fn)       → phần tử hoặc undef | dùng callback (linh hoạt hơn)
+    // findIndex(fn)  → index hoặc -1      | dùng callback (linh hoạt hơn)
+
+});
+</script>
+</body>
+</html>

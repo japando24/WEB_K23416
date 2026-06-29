@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+  <product>
+    <id>1</id>
+    <name>Essence Mascara Lash Princess</name>
+    <price>9.99</price>
+    <discount>-10.48</discount>
+    <rating>2.56</rating>
+    <stock>99</stock>
+    <image>https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png</image>
+    <description>The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting formula.</description>
+  </product>
+  <product>
+    <id>2</id>
+    <name>Eyeshadow Palette with Mirror</name>
+    <price>19.99</price>
+    <discount>-18.19</discount>
+    <rating>2.86</rating>
+    <stock>34</stock>
+    <image>https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png</image>
+    <description>The Eyeshadow Palette with Mirror offers a versatile range of eyeshadow shades for creating stunning eye looks. With a built-in mirror, it is convenient for on-the-go makeup application.</description>
+  </product>
+  <product>
+    <id>3</id>
+    <name>Powder Canister</name>
+    <price>14.99</price>
+    <discount>-9.84</discount>
+    <rating>4.64</rating>
+    <stock>89</stock>
+    <image>https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png</image>
+    <description>The Powder Canister is a finely milled setting powder that helps control shine and set makeup for a long-lasting finish. Suitable for all skin tones.</description>
+  </product>
+  <product>
+    <id>4</id>
+    <name>Red Lipstick</name>
+    <price>12.99</price>
+    <discount>-12.16</discount>
+    <rating>4.36</rating>
+    <stock>91</stock>
+    <image>https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png</image>
+    <description>The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish.</description>
+  </product>
+  <product>
+    <id>5</id>
+    <name>Red Nail Polish</name>
+    <price>8.99</price>
+    <discount>-11.44</discount>
+    <rating>4.32</rating>
+    <stock>79</stock>
+    <image>https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/1.png</image>
+    <description>The Red Nail Polish offers a vibrant and long-lasting color for your nails. The quick-drying formula ensures a smooth and glossy finish that lasts for days.</description>
+  </product>
+  <product>
+    <id>6</id>
+    <name>Calvin Klein CK One</name>
+    <price>49.99</price>
+    <discount>-1.89</discount>
+    <rating>4.37</rating>
+    <stock>29</stock>
+    <image>https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/1.png</image>
+    <description>CK One by Calvin Klein is a classic unisex fragrance known for its fresh and clean scent. A versatile everyday fragrance loved worldwide.</description>
+  </product>
+  <product>
+    <id>7</id>
+    <name>Chanel Coco Noir Eau De</name>
+    <price>129.99</price>
+    <discount>-16.51</discount>
+    <rating>4.10</rating>
+    <stock>41</stock>
+    <image>https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png</image>
+    <description>Coco Noir by Chanel is an elegant and mysterious fragrance featuring notes of grapefruit, rose, and sandalwood. Perfect for evening wear.</description>
+  </product>
+  <product>
+    <id>8</id>
+    <name>Dior J'adore</name>
+    <price>89.99</price>
+    <discount>-14.72</discount>
+    <rating>4.20</rating>
+    <stock>55</stock>
+    <image>https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/1.png</image>
+    <description>J'adore by Dior is a luxurious floral fragrance blending ylang-ylang, rose, and jasmine. It embodies femininity and timeless elegance.</description>
+  </product>
+  <product>
+    <id>9</id>
+    <name>Dolce Shine Eau de</name>
+    <price>69.99</price>
+    <discount>-0.62</discount>
+    <rating>3.90</rating>
+    <stock>64</stock>
+    <image>https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/1.png</image>
+    <description>Dolce Shine by Dolce and Gabbana is a vibrant fruity fragrance with notes of mango, jasmine, and vanilla. It captures the essence of joy and femininity.</description>
+  </product>
+</products>

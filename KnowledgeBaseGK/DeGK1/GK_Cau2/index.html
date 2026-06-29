@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website - Products</title>
+  <link rel="stylesheet" href="../../../BootstrapCSS/fontawesome/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { font-family: Arial, sans-serif; background: #f0f0f0; }
+
+    /* ── HEADER ── */
+    header {
+      background: #cc0000;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    nav { display: flex; gap: 20px; flex: 1; }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding-bottom: 2px;
+    }
+
+    nav a.active { border-bottom: 2px solid white; font-weight: bold; }
+    nav a:hover  { opacity: 0.85; }
+
+    .search-wrap { margin-left: auto; }
+
+    .search-wrap input {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      width: 220px;
+      outline: none;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .container {
+      max-width: 1180px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* ── PRODUCT CARD ── */
+    .product-card {
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 6px 22px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+    }
+
+    /* Image wrapper */
+    .card-img-wrap {
+      position: relative;
+      background: #f5f5f5;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
+      max-height: 160px;
+      max-width: 85%;
+      object-fit: contain;
+      transition: transform .3s;
+    }
+
+    .product-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+    /* Discount badge – top left */
+    .discount-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: #cc0000;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* Heart – top right */
+    .btn-heart {
+      position: absolute;
+      top: 8px; right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+      color: #bbb;
+      transition: color .2s;
+      line-height: 1;
+    }
+
+    .btn-heart:hover       { color: #cc0000; }
+    .btn-heart.liked       { color: #cc0000; }
+
+    /* Card body */
+    .card-body { padding: 12px; }
+
+    .product-name {
+      font-size: 13.5px;
+      color: #222;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: #cc0000;
+      margin-bottom: 7px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .rating i { color: #f5a623; font-size: 11px; }
+
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 9px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .3px;
+      transition: background .2s;
+    }
+
+    .btn-buy:hover { background: #333; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: white;
+      border-radius: 10px;
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+      animation: fadeIn .2s ease;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
+
+    .modal-img-side {
+      width: 220px;
+      min-width: 220px;
+      background: #f8f8f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-img-side img { max-width: 100%; max-height: 210px; object-fit: contain; }
+
+    .modal-info { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .modal-name  { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 6px; }
+
+    .modal-price { font-size: 16px; font-weight: 700; color: #cc0000; margin-bottom: 12px; }
+
+    .modal-desc  {
+      font-size: 13.5px;
+      color: #555;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .modal-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .qty-input {
+      width: 60px;
+      padding: 7px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .btn-add-cart {
+      padding: 8px 18px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-add-cart:hover { background: #333; }
+
+    .btn-close-modal {
+      padding: 8px 14px;
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-close-modal:hover { background: #f5f5f5; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .products-grid { grid-template-columns: 1fr; }
+      nav { gap: 14px; }
+    }
+
+    @media (max-width: 600px) {
+      header { gap: 12px; }
+      nav    { order: 3; width: 100%; }
+      .search-wrap { margin-left: 0; }
+      .search-wrap input { width: 100%; }
+
+      .modal-box { flex-direction: column; }
+      .modal-img-side { width: 100%; min-width: unset; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">My Website</div>
+  <nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </nav>
+  <div class="search-wrap">
+    <input type="text" placeholder="Search..." id="searchInput" oninput="filterProducts()">
+  </div>
+</header>
+
+<!-- PRODUCT GRID -->
+<div class="container">
+  <div class="products-grid" id="productsGrid">
+    <p style="color:#999; padding:20px;">Đang tải sản phẩm...</p>
+  </div>
+</div>
+
+<!-- MODAL POPUP -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-img-side">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-info">
+      <div class="modal-name"  id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-desc"  id="modalDesc"></div>
+      <div class="modal-actions">
+        <input type="number" class="qty-input" id="modalQty" value="1" min="1">
+        <button class="btn-add-cart" onclick="alert('Added to cart!')">Add to cart</button>
+        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Lưu toàn bộ sản phẩm để dùng cho tìm kiếm
+  let allProducts = [];
+
+  // ── Load products.xml bằng XMLHttpRequest ──
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'products.xml', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0)) {
+      const xml = xhr.responseXML;
+      const nodes = xml.querySelectorAll('product');
+      nodes.forEach(node => {
+        allProducts.push({
+          id:       node.querySelector('id').textContent,
+          name:     node.querySelector('name').textContent,
+          price:    node.querySelector('price').textContent,
+          discount: node.querySelector('discount').textContent,
+          rating:   parseFloat(node.querySelector('rating').textContent),
+          stock:    node.querySelector('stock').textContent,
+          image:    node.querySelector('image').textContent,
+          desc:     node.querySelector('description').textContent,
+        });
+      });
+      renderProducts(allProducts);
+    }
+  };
+  xhr.send();
+
+  // ── Render danh sách sản phẩm ra grid ──
+  function renderProducts(list) {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+
+    if (list.length === 0) {
+      grid.innerHTML = '<p style="color:#999;padding:20px;">Không tìm thấy sản phẩm.</p>';
+      return;
+    }
+
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          <span class="discount-badge">${p.discount}%</span>
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <button class="btn-heart" title="Wishlist" onclick="toggleHeart(event, this)">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">$${p.price}</div>
+          <div class="product-meta">
+            <span class="rating">
+              <i class="fa-solid fa-star"></i> ${p.rating}
+            </span>
+            <span>Stock: ${p.stock}</span>
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation(); openModal(${JSON.stringify(p)})">
+            Buy Now
+          </button>
+        </div>
+      `;
+      // Click cả card → mở modal
+      card.addEventListener('click', () => openModal(p));
+      grid.appendChild(card);
+    });
+  }
+
+  // ── Toggle heart icon ──
+  function toggleHeart(e, btn) {
+    e.stopPropagation();
+    btn.classList.toggle('liked');
+    const icon = btn.querySelector('i');
+    icon.classList.toggle('fa-regular');
+    icon.classList.toggle('fa-solid');
+  }
+
+  // ── Mở modal với dữ liệu sản phẩm ──
+  function openModal(p) {
+    document.getElementById('modalImg').src   = p.image;
+    document.getElementById('modalName').textContent  = p.name;
+    document.getElementById('modalPrice').textContent = '$' + p.price;
+    document.getElementById('modalDesc').textContent  = p.desc;
+    document.getElementById('modalQty').value = 1;
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  // ── Đóng modal ──
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  // Đóng modal khi click ra ngoài box
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  // Đóng modal bằng phím Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── Lọc sản phẩm theo ô tìm kiếm ──
+  function filterProducts() {
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
+    renderProducts(filtered);
+  }
+</script>
+
+</body>
+</html>

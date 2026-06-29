@@ -1,0 +1,36 @@
+<!-- navbar.component.html – Thanh điều hướng theo mẫu đề bài -->
+
+<header class="navbar">
+  <div class="navbar-inner">
+
+    <!-- Logo -->
+    <a href="#" class="navbar-logo">MyShop</a>
+
+    <!-- Menu chính – dùng [class.open] để thêm class khi menuOpen = true -->
+    <nav class="navbar-nav" [class.open]="menuOpen">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">Shop</a>
+      <a href="#" class="nav-link">About</a>
+    </nav>
+
+    <!-- Ô tìm kiếm – [(ngModel)] two-way binding với searchKeyword -->
+    <div class="search-group">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search..."
+        [(ngModel)]="searchKeyword"
+        (keyup.enter)="onSearch()"
+      >
+      <button class="search-btn" (click)="onSearch()">Search</button>
+    </div>
+
+    <!-- Hamburger – hiện trên mobile, ẩn trên desktop (CSS) -->
+    <button class="hamburger" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+</header>

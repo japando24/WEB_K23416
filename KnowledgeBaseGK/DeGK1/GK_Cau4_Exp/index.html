@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<!-- Khai báo chuẩn HTML5 — bắt buộc ở dòng đầu tiên -->
+<html lang="vi">
+<head>
+  <!-- Hỗ trợ ký tự tiếng Việt và ký tự đặc biệt -->
+  <meta charset="UTF-8">
+
+  <!-- Responsive: trang vừa với mọi kích thước màn hình
+       initial-scale=1.0 = không zoom khi load trên di động -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyShop – Danh sách sản phẩm</title>
+
+  <!-- Font Awesome từ local — icon hamburger, mũi tên slider, sao, giỏ hàng, tim, ... -->
+  <link rel="stylesheet" href="../../../BootstrapCSS/fontawesome/css/all.min.css">
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       CSS RESET — Xóa margin/padding mặc định trình duyệt
+       box-sizing: border-box → padding & border tính VÀO trong
+       kích thước phần tử, không bị tràn ra ngoài
+       ════════════════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif; /* Segoe UI: font Windows đẹp, fallback Arial */
+      background: #f5f5f5; /* Nền xám nhạt — card trắng sẽ nổi bật hơn */
+      color: #222;
+      line-height: 1.6; /* Khoảng cách dòng 1.6× font-size — dễ đọc */
+    }
+
+    /* Reset toàn cục cho img, a, button */
+    img { max-width: 100%; display: block; } /* block để không có khoảng trống dưới ảnh */
+    a   { text-decoration: none; color: inherit; } /* Bỏ gạch chân, kế thừa màu chữ cha */
+    button { cursor: pointer; font-family: inherit; } /* Con trỏ tay, dùng font của body */
+
+
+    /* ════════════════════════════════════════════════════════
+       NAVBAR — Thanh điều hướng trắng, dính đầu trang
+       ════════════════════════════════════════════════════════ */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #eee; /* Đường kẻ mờ ngăn cách navbar và content */
+      position: sticky; /* Dính ở đầu trang khi cuộn xuống */
+      top: 0;
+      z-index: 200;     /* Nằm trên mọi nội dung phía dưới (slider z-index thấp hơn) */
+      box-shadow: 0 2px 8px rgba(0,0,0,.08); /* Bóng mờ phía dưới navbar */
+    }
+
+    /* Wrapper bên trong navbar: giới hạn chiều rộng + căn giữa */
+    .navbar-inner {
+      display: flex;
+      align-items: center; /* Logo, nav, search cùng căn giữa theo dọc */
+      gap: 20px;
+      padding: 12px 20px;
+      max-width: 1100px; /* Giới hạn 1100px, trang rộng hơn thì content cũng không rộng hơn */
+      margin: 0 auto;   /* Căn giữa ngang */
+    }
+
+    /* Logo "MyShop" — đậm đen */
+    .navbar-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #222;
+      white-space: nowrap; /* Logo không xuống dòng */
+    }
+
+    /* Nav chứa các link Home/Shop/About */
+    .navbar-nav { display: flex; gap: 4px; }
+
+    .nav-link {
+      padding: 6px 14px;
+      border-radius: 4px;
+      color: #555;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background .18s, color .18s; /* Hover mượt */
+    }
+
+    /* Hover hoặc active: nền xám nhạt + chữ đậm hơn */
+    .nav-link:hover, .nav-link.active { background: #f0f0f0; color: #111; }
+
+    /* Ô tìm kiếm: input + button Search ghép sát nhau trong 1 khung viền
+       overflow: hidden → viền của .search-group cắt góc 2 phần tử con */
+    .search-group {
+      margin-left: auto; /* Đẩy search sang cực phải */
+      display: flex;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .search-input {
+      padding: 7px 12px;
+      border: none;
+      outline: none; /* Bỏ viền xanh khi focus */
+      font-size: 13px;
+      width: 200px;
+      color: #333;
+    }
+
+    /* Nút Search — vàng #ffc200 (Amazon-style) */
+    .search-btn {
+      padding: 7px 14px;
+      background: #ffc200;
+      color: #111;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background .18s;
+    }
+
+    .search-btn:hover { background: #e6ae00; } /* Hover: vàng đậm hơn */
+
+    /* Nút hamburger (☰) — ẩn mặc định, hiện khi ≤768px
+       3 đường kẻ ngang: tạo bằng 3 <span> thay vì text */
+    .hamburger {
+      display: none; /* Ẩn trên desktop */
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    /* Mỗi <span> = 1 đường kẻ ngang của icon ☰ */
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: #333;
+      border-radius: 2px;
+    }
+
+
+    /* ════════════════════════════════════════════════════════
+       HERO SLIDER — Banner slide ảnh lớn có dots + thumbnail
+       ════════════════════════════════════════════════════════ */
+    .hero-section {
+      max-width: 1100px;
+      margin: 26px auto 0;
+      padding: 0 16px;
+    }
+
+    /* Vùng ảnh chính — chiều cao cố định 400px, ảnh sẽ cover toàn bộ
+       overflow: hidden → cắt phần tử con tràn (ảnh, nút prev/next) */
+    .hero-main {
+      position: relative; /* Để nút prev/next và dots dùng absolute bên trong */
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ddd; /* Màu chờ khi ảnh chưa load */
+    }
+
+    .hero-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ảnh phủ toàn khung, không méo, cắt phần thừa */
+      transition: opacity .4s ease; /* Fade khi đổi slide */
+    }
+
+    /* Class thêm bằng JS khi đổi slide — làm ảnh mờ đi trong lúc chuyển */
+    .hero-main img.fade-out { opacity: 0; }
+
+    /* Nút mũi tên Prev/Next — tròn, nền đen mờ, căn giữa dọc bằng translateY */
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%); /* Trừ đi một nửa chiều cao button để căn giữa */
+      background: rgba(0,0,0,.42);
+      color: white;
+      border: none;
+      font-size: 1.2rem;
+      width: 42px; height: 42px;
+      border-radius: 50%; /* Hình tròn */
+      display: flex; align-items: center; justify-content: center;
+      transition: background .18s;
+      z-index: 2; /* Nằm trên ảnh */
+    }
+
+    .slide-btn:hover { background: rgba(0,0,0,.65); } /* Hover: đen đặc hơn */
+    .slide-btn.prev  { left: 14px; }   /* Nút prev: góc trái */
+    .slide-btn.next  { right: 14px; }  /* Nút next: góc phải */
+
+    /* Chấm tròn indicator (dots) — căn giữa ngang dưới ảnh
+       left:50% + translateX(-50%) = căn giữa chính xác */
+    .slide-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 2;
+    }
+
+    /* Mỗi dot = button hình tròn nhỏ */
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.55); /* Trắng mờ khi chưa active */
+      border: none;
+      padding: 0;
+      transition: background .2s, transform .2s;
+    }
+
+    /* Dot đang active: trắng đặc + to hơn 25% */
+    .dot.active { background: white; transform: scale(1.25); }
+
+    /* Thumbnails — hàng ảnh nhỏ bên dưới slider chính */
+    .hero-thumbs {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* Mỗi thumb: flex:1 = chia đều chiều rộng cho tất cả thumbnail */
+    .thumb {
+      flex: 1;
+      height: 72px;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: .58;                      /* Mờ khi chưa active */
+      border: 2px solid transparent;    /* Viền trong suốt — sẽ đổi thành vàng khi active */
+      transition: opacity .2s, border-color .2s;
+    }
+
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Thumbnail đang active: sáng hơn + viền vàng */
+    .thumb.active {
+      opacity: 1;
+      border-color: #ffc200;
+    }
+
+
+    /* ════════════════════════════════════════════════════════
+       PRODUCT SECTION — Tiêu đề + lưới sản phẩm
+       ════════════════════════════════════════════════════════ */
+    .product-section {
+      max-width: 1100px;
+      margin: 32px auto 40px;
+      padding: 0 16px;
+    }
+
+    /* Header của section: tiêu đề bên trái, số lượng bên phải */
+    .section-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-hd h2 { font-size: 1.3rem; font-weight: 700; color: #111; }
+    .product-count { font-size: 13px; color: #888; }
+
+    /* Ba trạng thái hiển thị thay thế grid:
+       loading = đang tải | error = lỗi API | empty = không có kết quả */
+    .loading-state,
+    .error-state,
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+      font-size: 15px;
+    }
+
+    /* Icon trạng thái — to + có khoảng cách với text bên dưới */
+    .loading-state i { font-size: 2rem; margin-bottom: 12px; display: block; }
+    .error-state  i  { font-size: 2rem; margin-bottom: 12px; display: block; color: #e74c3c; }
+    .empty-state  i  { font-size: 2rem; margin-bottom: 12px; display: block; }
+
+    /* Grid 4 cột trên desktop
+       1fr = mỗi cột chiếm 1 phần bằng nhau của chiều rộng */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+
+    /* ════════════════════════════════════════════════════════
+       PRODUCT CARD — Thẻ sản phẩm
+       ════════════════════════════════════════════════════════ */
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden; /* Cắt badge/overlay tràn ra ngoài */
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+      cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    /* Hover card: nổi lên 3px + bóng đổ đậm hơn */
+    .product-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,.13);
+      transform: translateY(-3px);
+    }
+
+    /* Vùng ảnh — position:relative để badge/overlay/tim dùng absolute */
+    .card-img-wrap {
+      position: relative;
+      height: 190px;
+      background: #fafafa;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
+      max-height: 160px;
+      max-width: 86%;
+      object-fit: contain; /* Không méo ảnh */
+      transition: transform .3s;
+    }
+
+    /* Hover ảnh: zoom 6% */
+    .product-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+    /* Overlay mờ đen phủ lên ảnh khi hover card
+       Mặc định opacity:0 (ẩn) → hover: opacity:1 (hiện icon mắt) */
+    .card-overlay {
+      position: absolute;
+      inset: 0; /* = top:0; right:0; bottom:0; left:0 — phủ toàn vùng ảnh */
+      background: rgba(0,0,0,.4);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity .22s;
+    }
+
+    .product-card:hover .card-overlay { opacity: 1; } /* Hover card → hiện overlay */
+    .card-overlay i { color: white; font-size: 1.7rem; } /* Icon mắt trắng to */
+
+    /* Badge % giảm giá — góc trên trái
+       Giá trị tính bằng JS: 10 + (id % 20) để mỗi sản phẩm có % khác nhau */
+    .badge-discount {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: #e74c3c; /* Đỏ */
+      color: white;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+
+    /* Nút tim yêu thích — góc trên phải
+       Mặc định xám, đỏ khi hover hoặc đã liked */
+    .btn-wishlist {
+      position: absolute;
+      top: 7px; right: 8px;
+      background: none;
+      border: none;
+      font-size: 17px;
+      color: #ccc;
+      transition: color .18s, transform .18s;
+      padding: 2px;
+      line-height: 1;
+    }
+
+    .btn-wishlist:hover        { color: #e74c3c; transform: scale(1.2); } /* Hover: đỏ + to nhẹ */
+    .btn-wishlist.liked        { color: #e74c3c; }                        /* Đã click: đỏ */
+
+    /* Phần thông tin dưới ảnh */
+    .card-body { padding: 11px 13px; }
+
+    /* Tên sản phẩm — tối đa 2 dòng, phần dư cắt thành "..."
+       -webkit-line-clamp: 2 cần đi kèm -webkit-box-orient và display:-webkit-box */
+    .card-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;           /* Giới hạn 2 dòng */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 36px; /* Giữ chiều cao cố định kể cả tên ngắn → grid đều nhau */
+    }
+
+    /* Giá — đỏ, đậm */
+    .card-price {
+      font-size: .95rem;
+      font-weight: 700;
+      color: #e74c3c;
+      margin-bottom: 5px;
+    }
+
+    /* Hàng rating sao + số đánh giá: 2 phần tử 2 đầu */
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 9px;
+    }
+
+    /* Sao rating: vàng #f39c12 — flex để sao và số điểm cùng hàng */
+    .rating { color: #f39c12; display: flex; align-items: center; gap: 2px; }
+    .rating .score { color: #888; margin-left: 3px; font-size: 10.5px; } /* Số điểm: xám nhạt */
+
+    /* Nút Buy Now — flex để icon giỏ và text cùng hàng, căn giữa */
+    .btn-buy {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%;
+      padding: 8px;
+      background: #2c3e50; /* Xanh đen đậm */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: background .18s;
+    }
+
+    .btn-buy:hover { background: #1a252f; } /* Hover: đậm hơn */
+
+
+    /* ════════════════════════════════════════════════════════
+       MODAL — Popup chi tiết sản phẩm
+       ════════════════════════════════════════════════════════ */
+
+    /* Lớp phủ nền mờ toàn màn hình
+       display:none mặc định — JS thêm class .show để hiện */
+    .modal-backdrop {
+      display: none;    /* Ẩn mặc định */
+      position: fixed;  /* Đứng yên dù trang cuộn */
+      inset: 0;         /* Phủ toàn màn hình */
+      background: rgba(0,0,0,.56); /* Đen mờ 56% */
+      z-index: 500;     /* Nằm trên slider (z-index 2) và navbar (200) */
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+
+    /* JS thêm class .show → display:flex để hiện modal */
+    .modal-backdrop.show { display: flex; }
+
+    /* Hộp trắng chứa nội dung modal: ảnh trái | info phải
+       position: relative → để nút X dùng absolute */
+    .modal-box {
+      background: white;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      display: flex;
+      gap: 24px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      animation: popIn .2s ease; /* Xuất hiện có animation */
+    }
+
+    /* Animation modal: scale từ 95% → 100% + fade in
+       Tạo cảm giác "pop" khi mở */
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Nút X đóng modal — góc trên phải của .modal-box (relative) */
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: none;
+      border: none;
+      font-size: 17px;
+      color: #aaa;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color .18s, background .18s;
+    }
+
+    .modal-close:hover { color: #333; background: #f0f0f0; }
+
+    /* Phần ảnh bên trái modal */
+    .modal-img {
+      width: 220px;
+      min-width: 220px; /* Không co nhỏ hơn 220px trên desktop */
+      display: flex; align-items: center; justify-content: center;
+      background: #f7f7f7;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .modal-img img { max-height: 220px; object-fit: contain; }
+
+    /* Phần thông tin bên phải — flex:1 = chiếm hết phần còn lại */
+    .modal-info { flex: 1; }
+
+    .modal-title    { font-size: 1.15rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+    .modal-price    { font-size: 1.1rem; font-weight: 700; color: #e74c3c; margin-bottom: 5px; }
+
+    /* Badge danh mục (electronics, jewelry, ...) — nền xám nhạt
+       text-transform: capitalize → chữ đầu tên danh mục viết hoa */
+    .modal-category {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #555;
+      font-size: 11.5px;
+      padding: 2px 10px;
+      border-radius: 3px;
+      margin-bottom: 12px;
+      text-transform: capitalize;
+    }
+
+    .modal-desc   { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 18px; }
+
+    /* Hàng đánh giá: icon sao vàng + điểm + số lượng đánh giá */
+    .modal-rating {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #888;
+      margin-bottom: 16px;
+    }
+
+    .modal-rating .stars { color: #f39c12; } /* Màu vàng cho sao */
+
+    /* Hàng nút: ô số lượng + Add to cart + Close */
+    .modal-actions { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+    /* Ô nhập số lượng */
+    .qty-input {
+      width: 62px;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+    }
+
+    /* Khi focus vào ô qty: viền đổi màu xanh đen */
+    .qty-input:focus { border-color: #2c3e50; }
+
+    /* Nút "Add to cart" — xanh đen, có icon giỏ hàng */
+    .btn-add-cart {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background .18s;
+    }
+
+    .btn-add-cart:hover { background: #1a252f; }
+
+    /* Nút "Close" — nền trắng, viền xám */
+    .btn-close-modal {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: white;
+      color: #555;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background .18s;
+    }
+
+    .btn-close-modal:hover { background: #f5f5f5; }
+
+
+    /* ════════════════════════════════════════════════════════
+       RESPONSIVE — Co layout theo kích thước màn hình
+       ════════════════════════════════════════════════════════ */
+
+    /* Tablet (≤ 900px): grid 4 cột → 3 cột */
+    @media (max-width: 900px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Màn hình nhỏ / điện thoại ngang (≤ 768px) */
+    @media (max-width: 768px) {
+      /* Hiện nút hamburger ☰ */
+      .hamburger { display: flex; }
+
+      /* Nav ẩn mặc định — JS thêm class .open để hiện
+         position:absolute tách nav ra khỏi luồng flex của navbar
+         top:56px = vừa dưới thanh navbar (chiều cao ~56px)          */
+      .navbar-nav {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0; right: 0;
+        background: white;
+        flex-direction: column; /* Nav link xếp dọc */
+        padding: 12px;
+        border-top: 1px solid #eee;
+        box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        z-index: 199; /* Dưới navbar (200) nhưng trên content */
+      }
+
+      .navbar-nav.open { display: flex; } /* JS thêm .open → hiện */
+
+      .search-input  { width: 120px; }   /* Thu nhỏ ô search */
+      .search-group  { margin-left: 0; } /* Bỏ đẩy sang phải */
+
+      .hero-main     { height: 260px; }  /* Banner thấp hơn */
+      .products-grid { grid-template-columns: repeat(2, 1fr); } /* Grid 3 → 2 cột */
+    }
+
+    /* Điện thoại nhỏ (≤ 500px) */
+    @media (max-width: 500px) {
+      .products-grid { grid-template-columns: 1fr; } /* 1 cột duy nhất */
+
+      /* Modal: từ nằm ngang (ảnh|info) → xếp dọc (ảnh trên, info dưới) */
+      .modal-box { flex-direction: column; }
+      .modal-img { width: 100%; min-width: unset; height: 180px; }
+
+      .hero-main   { height: 200px; }  /* Banner thấp hơn nữa */
+      .hero-thumbs { display: none; }  /* Ẩn thumbnails — màn hình quá nhỏ */
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER / NAVBAR
+     Logo | Nav links | Search | Hamburger (mobile)
+     ════════════════════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="navbar-inner">
+
+    <a href="#" class="navbar-logo">MyShop</a>
+
+    <!-- id="main-nav": JS dùng để toggle class .open khi click hamburger -->
+    <nav class="navbar-nav" id="main-nav">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">Shop</a>
+      <a href="#" class="nav-link">About</a>
+    </nav>
+
+    <!-- oninput: gọi searchProducts MỖI KHI gõ 1 ký tự (realtime search)
+         onkeydown Enter: cho phép nhấn Enter để search                  -->
+    <div class="search-group">
+      <input type="text" class="search-input" id="search-input"
+             placeholder="Search..."
+             oninput="searchProducts(this.value)"
+             onkeydown="if(event.key==='Enter') searchProducts(this.value)">
+
+      <!-- Click icon kính lúp: đọc giá trị ô input rồi gọi search -->
+      <button class="search-btn" onclick="searchProducts(document.getElementById('search-input').value)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <!-- Hamburger ☰: ẩn trên desktop, hiện trên mobile (CSS @media)
+         aria-label: mô tả cho screen reader (accessibility)            -->
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <!-- 3 span = 3 đường kẻ của icon ☰ -->
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════════════
+     HERO SLIDER — Banner ảnh lớn tự động chuyển
+     JS sẽ:
+     1. Tạo dots và thumbnails trong #slide-dots và #hero-thumbs
+     2. Điều khiển ảnh trong #hero-img
+     ════════════════════════════════════════════════════════ -->
+<section class="hero-section">
+
+  <div class="hero-main" id="hero-main">
+    <!-- Ảnh slider chính — src="" rỗng, JS gán src thật khi initSlider() chạy
+         loading="eager": tải ngay lập tức (không lazy) vì nằm ở đầu trang -->
+    <img id="hero-img" src="" alt="Banner" loading="eager">
+
+    <!-- Nút điều hướng Prev (◀) -->
+    <button class="slide-btn prev" onclick="prevSlide()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Nút điều hướng Next (▶) -->
+    <button class="slide-btn next" onclick="nextSlide()">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Dots indicator — JS tạo <button class="dot"> vào đây -->
+    <div class="slide-dots" id="slide-dots"></div>
+  </div>
+
+  <!-- Thumbnails bên dưới — JS tạo <div class="thumb"> vào đây -->
+  <div class="hero-thumbs" id="hero-thumbs"></div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PRODUCT SECTION — Tiêu đề + lưới sản phẩm
+     #product-area: JS thay innerHTML bằng:
+       - .loading-state khi đang fetch
+       - .error-state   khi fetch thất bại
+       - .products-grid khi có dữ liệu
+       - .empty-state   khi search không có kết quả
+     ════════════════════════════════════════════════════════ -->
+<section class="product-section">
+
+  <div class="section-hd">
+    <h2>Sản phẩm nổi bật</h2>
+    <!-- JS gán text "20 sản phẩm" vào đây sau khi fetch xong -->
+    <span class="product-count" id="product-count"></span>
+  </div>
+
+  <div id="product-area">
+    <!-- Trạng thái mặc định khi load trang: spinner xoay chờ API -->
+    <div class="loading-state">
+      <!-- fa-spin: Font Awesome class làm icon quay vòng vô hạn -->
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      Đang tải sản phẩm từ API...
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL POPUP — Chi tiết sản phẩm
+     onclick="closeModalOnBackdrop(event)": đóng khi click nền mờ
+     (chỉ đóng nếu click đúng vào .modal-backdrop, không phải .modal-box)
+     ════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal" onclick="closeModalOnBackdrop(event)">
+  <div class="modal-box">
+
+    <!-- Nút X góc trên phải — position absolute trong .modal-box (relative) -->
+    <button class="modal-close" onclick="closeModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- Phần trái: ảnh sản phẩm lớn -->
+    <div class="modal-img">
+      <!-- src="" rỗng — JS gán khi mở modal -->
+      <img id="modal-img" src="" alt="">
+    </div>
+
+    <!-- Phần phải: thông tin đầy đủ -->
+    <div class="modal-info">
+      <!-- Các id dưới đây: JS gán textContent/innerHTML khi openModal() -->
+      <div class="modal-title"    id="modal-title"></div>
+      <div class="modal-price"    id="modal-price"></div>
+      <div class="modal-category" id="modal-category"></div>
+      <div class="modal-rating"   id="modal-rating"></div>
+      <div class="modal-desc"     id="modal-desc"></div>
+
+      <div class="modal-actions">
+        <!-- type="number": chỉ nhập số, min="1": không cho nhập 0 hoặc âm -->
+        <input class="qty-input" type="number" id="modal-qty" value="1" min="1">
+
+        <button class="btn-add-cart" onclick="addToCart()">
+          <i class="fa-solid fa-cart-plus"></i> Add to cart
+        </button>
+
+        <button class="btn-close-modal" onclick="closeModal()">
+          <i class="fa-solid fa-xmark"></i> Close
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT — Toàn bộ logic: slider + fetch API +
+                  render card + modal + search + wishlist
+     Đặt cuối body: HTML đã render xong trước khi JS chạy
+     ════════════════════════════════════════════════════════ -->
+<script>
+  /* ════════════════════════════════════════════════════════
+     PHẦN 1: HERO SLIDER
+     Tự động chuyển 3s/slide, có dots + thumbnails,
+     click prev/next/dot/thumb để chuyển thủ công
+     ════════════════════════════════════════════════════════ */
+
+  /* Mảng dữ liệu slide — url: đường dẫn ảnh Unsplash, alt: mô tả */
+  var slides = [
+    { url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=500&fit=crop', alt: 'Shopping lifestyle 1' },
+    { url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=500&fit=crop', alt: 'Shopping lifestyle 2' },
+    { url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200&h=500&fit=crop',   alt: 'Shopping lifestyle 3' }
+  ];
+
+  /* Biến toàn cục của slider:
+     currentSlide = index slide đang hiển thị (0, 1, 2)
+     sliderTimer  = ID của setInterval (dùng để clearInterval khi dừng) */
+  var currentSlide = 0;
+  var sliderTimer  = null;
+
+  /* initSlider: khởi tạo slider khi trang load
+     - Tạo dots và thumbnails tương ứng với mảng slides
+     - Hiển thị slide đầu tiên
+     - Bắt đầu tự động chuyển                           */
+  function initSlider() {
+    var dotsEl   = document.getElementById('slide-dots');
+    var thumbsEl = document.getElementById('hero-thumbs');
+
+    /* Duyệt từng slide để tạo dot + thumbnail tương ứng */
+    slides.forEach(function(s, i) {
+
+      /* Tạo dot button:
+         i === 0 → class 'dot active' (slide đầu đang hiển thị)
+         onclick: goToSlide(i) — i bị "đóng gói" trong closure */
+      var dot = document.createElement('button');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick   = function() { goToSlide(i); };
+      dotsEl.appendChild(dot);
+
+      /* Tạo thumbnail div với ảnh bên trong
+         innerHTML với string ghép (không dùng template literal vì cú pháp ES5) */
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+      thumb.innerHTML = '<img src="' + s.url + '" alt="' + s.alt + '" loading="lazy">';
+      thumb.onclick   = function() { goToSlide(i); };
+      thumbsEl.appendChild(thumb);
+    });
+
+    setSlide(0);    /* Hiển thị slide đầu */
+    startAutoPlay(); /* Bắt đầu tự động chuyển */
+  }
+
+  /* setSlide: cập nhật ảnh chính + đánh dấu dot/thumb đang active
+     index = chỉ số slide cần hiển thị (0, 1, 2)              */
+  function setSlide(index) {
+    currentSlide = index;
+
+    /* Cập nhật ảnh chính */
+    var img = document.getElementById('hero-img');
+    img.src = slides[index].url;
+    img.alt = slides[index].alt;
+
+    /* classList.toggle('active', condition):
+       condition = true  → thêm class 'active'
+       condition = false → xóa class 'active'
+       Dùng forEach để cập nhật TẤT CẢ dots và thumbs một lượt */
+    document.querySelectorAll('.dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.thumb').forEach(function(t, i) {
+      t.classList.toggle('active', i === index);
+    });
+  }
+
+  /* nextSlide: chuyển đến slide tiếp theo (vòng tròn)
+     (currentSlide + 1) % slides.length:
+     slide cuối + 1 → 0 (quay về đầu)                         */
+  function nextSlide() { goToSlide((currentSlide + 1) % slides.length); }
+
+  /* prevSlide: chuyển về slide trước (vòng tròn)
+     (currentSlide - 1 + slides.length) % slides.length:
+     thêm slides.length để tránh số âm khi slide là 0          */
+  function prevSlide() { goToSlide((currentSlide - 1 + slides.length) % slides.length); }
+
+  /* goToSlide: được gọi khi click nút/dot/thumb
+     Sau khi chuyển thủ công: reset timer tự động
+     (tránh chuyển liên tục 2 lần trong ~3s)                   */
+  function goToSlide(index) {
+    setSlide(index);
+    stopAutoPlay();  /* Dừng timer cũ */
+    startAutoPlay(); /* Khởi động timer mới */
+  }
+
+  /* startAutoPlay: setInterval chạy nextSlide() mỗi 3000ms (3 giây) */
+  function startAutoPlay() {
+    sliderTimer = setInterval(function() { nextSlide(); }, 3000);
+  }
+
+  /* stopAutoPlay: clearInterval để dừng auto play
+     Kiểm tra if(sliderTimer) để tránh clearInterval(null) */
+  function stopAutoPlay() {
+    if (sliderTimer) clearInterval(sliderTimer);
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 2: FETCH SẢN PHẨM TỪ API
+     API: fakestoreapi.com/products — trả về JSON mảng 20 sản phẩm
+     Cấu trúc mỗi product: { id, title, price, category, description, image, rating:{rate,count} }
+     ════════════════════════════════════════════════════════ */
+
+  var allProducts = []; /* Lưu toàn bộ sản phẩm — dùng cho search */
+  var API_URL     = 'https://fakestoreapi.com/products';
+
+  /* loadProducts: tạo XHR request đến API, gọi renderProducts khi thành công */
+  function loadProducts() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', API_URL, true); /* GET, async */
+
+    /* onreadystatechange chạy nhiều lần — chỉ xử lý khi readyState === 4 (DONE) */
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return; /* return sớm nếu chưa xong */
+
+      if (xhr.status === 200) {
+        try {
+          /* responseText: chuỗi JSON từ API
+             JSON.parse: chuyển chuỗi → mảng object JavaScript */
+          allProducts = JSON.parse(xhr.responseText);
+          renderProducts(allProducts);
+        } catch (e) {
+          /* Nếu API trả về text không hợp lệ (không parse được) */
+          showError('Không thể đọc dữ liệu từ API.');
+        }
+      } else {
+        /* HTTP status khác 200: 404, 500, ...*/
+        showError('Không thể kết nối API (status ' + xhr.status + ').');
+      }
+    };
+
+    /* onerror: lỗi mạng hoàn toàn (không có internet, DNS thất bại, ...) */
+    xhr.onerror = function() {
+      showError('Lỗi mạng – vui lòng kiểm tra kết nối internet.');
+    };
+
+    xhr.send(); /* Gửi request */
+  }
+
+  /* showError: thay nội dung #product-area bằng thông báo lỗi */
+  function showError(msg) {
+    document.getElementById('product-area').innerHTML =
+      '<div class="error-state">' +
+        '<i class="fa-solid fa-circle-exclamation"></i>' +
+        msg +
+      '</div>';
+    document.getElementById('product-count').textContent = ''; /* Xóa số đếm */
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 3: RENDER CARD SẢN PHẨM
+     Xây chuỗi HTML bằng ghép string (concatenation)
+     Lý do không dùng createElement: nhanh hơn với nhiều phần tử,
+     chỉ cần 1 lần gán innerHTML thay vì nhiều lần appendChild
+     ════════════════════════════════════════════════════════ */
+  function renderProducts(products) {
+    var area    = document.getElementById('product-area');
+    var countEl = document.getElementById('product-count');
+
+    /* Nếu mảng rỗng (search không tìm thấy) → hiển thị empty-state */
+    if (products.length === 0) {
+      area.innerHTML =
+        '<div class="empty-state">' +
+          '<i class="fa-solid fa-box-open"></i>' +
+          'Không tìm thấy sản phẩm nào.' +
+        '</div>';
+      countEl.textContent = '';
+      return; /* Thoát hàm, không render grid */
+    }
+
+    /* Cập nhật số lượng hiển thị (ví dụ: "20 sản phẩm") */
+    countEl.textContent = products.length + ' sản phẩm';
+
+    /* Bắt đầu xây chuỗi HTML cho grid */
+    var html = '<div class="products-grid">';
+
+    for (var i = 0; i < products.length; i++) {
+      var p = products[i];
+
+      /* Tính % giảm giá giả: 10 + (id % 20)
+         → id=1: 11%, id=5: 15%, id=20: 10%, ...
+         Tạo sự đa dạng cho mỗi sản phẩm mà không cần API cung cấp */
+      var discount = 10 + (p.id % 20);
+
+      /* Tạo chuỗi icon sao dựa vào p.rating.rate
+         Math.round(2.56) = 3 → 3 sao đặc + 2 sao rỗng */
+      var stars = '';
+      var full  = Math.round(p.rating.rate);
+      for (var s = 1; s <= 5; s++) {
+        stars += s <= full
+          ? '<i class="fa-solid fa-star"></i>'  /* Sao đặc */
+          : '<i class="fa-regular fa-star"></i>'; /* Sao rỗng */
+      }
+
+      /* onclick="openModal(i)": truyền INDEX trong mảng products
+         (không truyền object p vì chuỗi HTML không thể chứa object JS) */
+      html += '<div class="product-card" onclick="openModal(' + i + ')">';
+
+      html +=   '<div class="card-img-wrap">';
+      /* escHtml(p.title): chuyển ký tự đặc biệt thành HTML entity
+         Ví dụ: & → &amp;  <→ &lt;  tránh XSS và lỗi parse HTML */
+      html +=     '<img src="' + p.image + '" alt="' + escHtml(p.title) + '" loading="lazy">';
+      /* card-overlay: lớp mờ + icon mắt hiện khi hover (CSS opacity 0→1) */
+      html +=     '<div class="card-overlay"><i class="fa-solid fa-eye"></i></div>';
+      html +=     '<span class="badge-discount">-' + discount + '%</span>';
+      /* id="wish-" + i: JS dùng getElementById('wish-'+i) để toggle wishlist */
+      /* event.stopPropagation(): ngăn click tim lan ra card → không mở modal */
+      html +=     '<button class="btn-wishlist" id="wish-' + i + '" ' +
+                    'onclick="event.stopPropagation(); toggleWishlist(' + i + ')">' +
+                    '<i class="fa-regular fa-heart"></i></button>';
+      html +=   '</div>';
+
+      html +=   '<div class="card-body">';
+      html +=     '<div class="card-name">' + escHtml(p.title) + '</div>';
+      /* p.price.toFixed(2): làm tròn 2 chữ số thập phân (ví dụ: 9.9 → "9.90") */
+      html +=     '<div class="card-price">$' + p.price.toFixed(2) + '</div>';
+      html +=     '<div class="card-meta">';
+      /* p.rating.rate.toFixed(1): điểm làm tròn 1 chữ số (ví dụ: 2.56 → "2.6") */
+      html +=       '<span class="rating">' + stars +
+                      '<span class="score">' + p.rating.rate.toFixed(1) + '</span></span>';
+      html +=       '<span>' + p.rating.count + ' đánh giá</span>';
+      html +=     '</div>';
+      /* stopPropagation ở Buy Now: ngăn click lan ra card (card cũng có onclick) */
+      html +=     '<button class="btn-buy" onclick="event.stopPropagation(); openModal(' + i + ')">' +
+                    '<i class="fa-solid fa-cart-shopping"></i> Buy Now</button>';
+      html +=   '</div>';
+
+      html += '</div>'; /* đóng .product-card */
+    }
+
+    html += '</div>'; /* đóng .products-grid */
+
+    /* Gán toàn bộ HTML vào #product-area — 1 lần duy nhất = hiệu quả */
+    area.innerHTML = html;
+  }
+
+  /* escHtml: chuyển ký tự HTML đặc biệt thành entity
+     Bắt buộc khi inject dữ liệu từ API vào innerHTML
+     Ví dụ: nếu tên sản phẩm có dấu " → chuỗi HTML bị vỡ
+     Kỹ thuật này gọi là "HTML escaping" hoặc "sanitization"   */
+  function escHtml(str) {
+    return str
+      .replace(/&/g,  '&amp;')  /* & phải escape TRƯỚC (<, >, ") */
+      .replace(/</g,  '&lt;')
+      .replace(/>/g,  '&gt;')
+      .replace(/"/g,  '&quot;');
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 4: MODAL CHI TIẾT SẢN PHẨM
+     ════════════════════════════════════════════════════════ */
+
+  /* openModal: nhận index trong mảng sản phẩm ĐANG HIỂN THỊ
+     (không dùng allProducts[index] vì khi search, danh sách đã lọc)
+     → gọi getCurrentProducts() để lấy đúng mảng đang render    */
+  function openModal(index) {
+    var current = getCurrentProducts(); /* Mảng hiện tại (đã lọc hoặc toàn bộ) */
+    var p       = current[index];
+    if (!p) return; /* Bảo vệ: nếu index không hợp lệ thì thoát */
+
+    /* Tính sao cho modal (giống trong renderProducts) */
+    var full  = Math.round(p.rating.rate);
+    var stars = '';
+    for (var s = 1; s <= 5; s++) {
+      stars += s <= full
+        ? '<i class="fa-solid fa-star"></i>'
+        : '<i class="fa-regular fa-star"></i>';
+    }
+
+    /* Gán tất cả thông tin sản phẩm vào các thẻ trong modal */
+    document.getElementById('modal-img').src              = p.image;
+    document.getElementById('modal-img').alt              = p.title;
+    document.getElementById('modal-title').textContent    = p.title;
+    document.getElementById('modal-price').textContent    = '$' + p.price.toFixed(2);
+    document.getElementById('modal-category').textContent = p.category; /* "electronics", "jewelry"... */
+    document.getElementById('modal-desc').textContent     = p.description;
+    /* Rating: chuỗi HTML ghép sao + điểm + số đánh giá
+       &nbsp;·&nbsp; = khoảng trắng không ngắt dòng + dấu chấm giữa */
+    document.getElementById('modal-rating').innerHTML =
+      '<span class="stars">' + stars + '</span> ' +
+      p.rating.rate.toFixed(1) + ' / 5 &nbsp;·&nbsp; ' + p.rating.count + ' đánh giá';
+    document.getElementById('modal-qty').value = 1; /* Reset số lượng về 1 mỗi lần mở */
+
+    /* Hiển thị modal: thêm class .show → CSS: display:flex */
+    document.getElementById('modal').classList.add('show');
+
+    /* Khóa scroll trang trong khi modal đang mở
+       (tránh cả modal + body cùng cuộn)                      */
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* closeModal: xóa class .show → CSS: display:none → ẩn modal
+     Khôi phục scroll trang (gán '' = xóa inline style)        */
+  function closeModal() {
+    document.getElementById('modal').classList.remove('show');
+    document.body.style.overflow = ''; /* Khôi phục scroll */
+  }
+
+  /* closeModalOnBackdrop: đóng modal chỉ khi click ĐÚNG VÀO nền mờ
+     event.target = phần tử người dùng click vào thực sự
+     Nếu click vào .modal-box (hộp trắng) → target không phải #modal
+     → không đóng                                               */
+  function closeModalOnBackdrop(event) {
+    if (event.target === document.getElementById('modal')) closeModal();
+  }
+
+  /* addToCart: giả lập thêm vào giỏ hàng
+     Đọc tên và số lượng từ modal rồi hiển thị alert xác nhận  */
+  function addToCart() {
+    var title = document.getElementById('modal-title').textContent;
+    var qty   = document.getElementById('modal-qty').value;
+    alert('Đã thêm ' + qty + ' × "' + title + '" vào giỏ hàng!');
+    closeModal(); /* Đóng modal sau khi thêm */
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 5: TÌM KIẾM SẢN PHẨM — CÓ DEBOUNCE
+     Debounce: không gọi filterProducts() ngay lập tức mỗi phím
+     Chờ 300ms sau lần gõ cuối cùng mới thực sự tìm
+     Lợi ích: tránh render lại 10 lần khi gõ 10 ký tự nhanh
+     ════════════════════════════════════════════════════════ */
+
+  var searchTimer = null; /* Lưu ID setTimeout để clearTimeout */
+
+  /* searchProducts: được gọi mỗi khi gõ phím (oninput)
+     keyword = nội dung ô input tại thời điểm gọi           */
+  function searchProducts(keyword) {
+    /* Hủy timer cũ (nếu đang đếm) → tránh chạy search cũ */
+    clearTimeout(searchTimer);
+
+    /* Đặt timer mới: 300ms sau khi DỪNG gõ mới thực hiện search */
+    searchTimer = setTimeout(function() {
+      var kw = keyword.toLowerCase().trim(); /* Chuẩn hóa: chữ thường + bỏ khoảng trắng đầu/cuối */
+
+      /* Nếu ô trống → hiện toàn bộ sản phẩm
+         Nếu có từ khóa → lọc theo tên                      */
+      var result = kw === ''
+        ? allProducts
+        : allProducts.filter(function(p) {
+            /* indexOf(kw) !== -1: chuỗi CÓ CHỨA kw
+               (thay cho includes() để tương thích ES5)      */
+            return p.title.toLowerCase().indexOf(kw) !== -1;
+          });
+
+      renderProducts(result);
+    }, 300); /* Đợi 300ms */
+  }
+
+  /* getCurrentProducts: trả về mảng sản phẩm ĐANG HIỂN THỊ
+     Dùng trong openModal() để lấy đúng sản phẩm theo index
+     khi search đang lọc (allProducts[i] ≠ filteredProducts[i]) */
+  function getCurrentProducts() {
+    var kw = document.getElementById('search-input').value.toLowerCase().trim();
+    if (kw === '') return allProducts; /* Không search → toàn bộ */
+    return allProducts.filter(function(p) {
+      return p.title.toLowerCase().indexOf(kw) !== -1;
+    });
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 6: WISHLIST — TOGGLE TIM YÊU THÍCH
+     ════════════════════════════════════════════════════════ */
+  function toggleWishlist(index) {
+    /* Tìm button tim theo id được gán khi render ("wish-0", "wish-1", ...) */
+    var btn  = document.getElementById('wish-' + index);
+    var icon = btn.querySelector('i'); /* Thẻ <i> (icon) bên trong button */
+
+    if (btn.classList.contains('liked')) {
+      /* Đang liked → bỏ liked: xóa class + đổi icon thành rỗng */
+      btn.classList.remove('liked');
+      icon.className = 'fa-regular fa-heart'; /* Tim rỗng ♡ */
+    } else {
+      /* Chưa liked → thêm liked: thêm class + đổi icon thành đặc */
+      btn.classList.add('liked');
+      icon.className = 'fa-solid fa-heart'; /* Tim đặc đỏ ♥ */
+    }
+    /* Ghi chú: không dùng toggle() ở đây vì cần đổi icon đồng thời */
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 7: NAVBAR MOBILE — HAMBURGER MENU
+     ════════════════════════════════════════════════════════ */
+
+  /* toggleMenu: click nút hamburger → toggle class .open trên #main-nav
+     CSS: .navbar-nav.open { display: flex } → hiện nav dọc     */
+  function toggleMenu() {
+    document.getElementById('main-nav').classList.toggle('open');
+  }
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 8: PHÍM ESC → ĐÓNG MODAL
+     addEventListener trên document = lắng nghe toàn trang
+     ════════════════════════════════════════════════════════ */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+
+  /* ════════════════════════════════════════════════════════
+     PHẦN 9: KHỞI ĐỘNG — window.onload
+     Đợi toàn bộ tài nguyên (ảnh, CSS, JS) load xong mới chạy
+     (Khác DOMContentLoaded chỉ đợi HTML parse xong)
+     ════════════════════════════════════════════════════════ */
+  window.onload = function() {
+    initSlider();    /* Bước 1: Khởi tạo slider (tạo dots, thumbs, bắt đầu autoplay) */
+    loadProducts();  /* Bước 2: Fetch sản phẩm từ fakestoreapi.com */
+  };
+</script>
+
+</body>
+</html>

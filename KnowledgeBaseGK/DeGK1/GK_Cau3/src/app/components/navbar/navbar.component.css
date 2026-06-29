@@ -1,0 +1,123 @@
+/* navbar.component.css – Style thanh điều hướng */
+
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.navbar-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Menu links */
+.navbar-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  padding: 6px 14px;
+  border-radius: 4px;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: #f0f0f0;
+  color: #111;
+}
+
+/* Nhóm Search đẩy sang phải */
+.search-group {
+  margin-left: auto;
+  display: flex;
+  gap: 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search-input {
+  padding: 7px 12px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  width: 200px;
+}
+
+.search-btn {
+  padding: 7px 18px;
+  background: #ffc200;
+  color: #111;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-btn:hover { background: #e6ae00; }
+
+/* Hamburger – ẩn trên desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #333;
+  border-radius: 2px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+
+  /* Ẩn nav mặc định, hiện khi .open */
+  .navbar-nav {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0; right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 12px;
+    border-top: 1px solid #eee;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 99;
+  }
+
+  .navbar-nav.open { display: flex; }
+
+  .search-input { width: 120px; }
+  .search-group { margin-left: 0; }
+}
